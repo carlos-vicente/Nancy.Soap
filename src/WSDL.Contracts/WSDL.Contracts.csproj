@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8B8F06C2-F499-45AD-87A8-F61A9E2BDA6A}</ProjectGuid>
+    <ProjectGuid>{B141C822-1B6D-444F-8F49-B9D971727801}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Nancy.SOAP.Tests</RootNamespace>
-    <AssemblyName>Nancy.SOAP.Tests</AssemblyName>
+    <RootNamespace>WSDL.Contracts</RootNamespace>
+    <AssemblyName>WSDL.Contracts</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,13 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Binding.cs" />
+    <Compile Include="Definition.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="PortType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\Nancy.SOAP\Nancy.SOAP.csproj">
-      <Project>{9d0766b8-71d0-4053-9656-5984bbd380b9}</Project>
-      <Name>Nancy.SOAP</Name>
-    </ProjectReference>
+    <Compile Include="Schema.cs" />
+    <Compile Include="Service.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
