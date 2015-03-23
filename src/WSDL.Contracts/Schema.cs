@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace WSDL.Contracts
 {
     public class Schema
     {
+        public IEnumerable<Element> Elements { get; set; }
+
+        public IEnumerable<SchemaType> Types { get; set; }
+
+        public Schema()
+        {
+            Elements = new List<Element>();
+            Types = new List<SchemaType>();
+        }
     }
 }
