@@ -2,7 +2,7 @@
 
 $testAssemblies = Get-ChildItem *.Tests/bin/**/*.Tests.dll
 
-$fixieConsole = Get-ChildItem "../packages/Fixie.*/lib/**/Fixie.Console.exe"
+$fixieConsole = Get-ChildItem "packages/Fixie.*/lib/**/Fixie.Console.exe"
 
 Foreach($test in $testAssemblies){
 	
