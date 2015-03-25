@@ -5,7 +5,7 @@ using WSDL.Contracts;
 
 namespace WSDL.Gen
 {
-    public class WsdlGenerator
+    public class WsdlGenerator : IWsdlGenerator
     {
         private static readonly Schema PrimitiveTypesSchema = new Schema
         {
