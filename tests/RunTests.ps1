@@ -1,6 +1,6 @@
 # Script to execute all fixie tests on projects in this directory
 
-$testAssemblies = Get-ChildItem *.Tests/bin/**/*.Tests.dll
+$testAssemblies = Get-ChildItem "tests/*.Tests/bin/**/*.Tests.dll"
 
 $fixieConsole = Get-ChildItem "packages/Fixie.*/lib/**/Fixie.Console.exe"
 
