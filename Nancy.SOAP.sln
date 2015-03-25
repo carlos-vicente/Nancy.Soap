@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nancy.SOAP", "src\Nancy.SOAP\Nancy.SOAP.csproj", "{9D0766B8-71D0-4053-9656-5984BBD380B9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CAF7AA33-0677-4063-9B60-8A377802B4C4}"
+	ProjectSection(SolutionItems) = preProject
+		tests\RunTests.ps1 = tests\RunTests.ps1
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nancy.SOAP.Tests", "tests\Nancy.SOAP.Tests\Nancy.SOAP.Tests.csproj", "{8B8F06C2-F499-45AD-87A8-F61A9E2BDA6A}"
 EndProject
@@ -24,6 +27,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfService", "samples\WcfService\WcfService.csproj", "{8FA3CFB1-12FA-4B2A-A1CD-27F3711DC3B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOAP", "src\SOAP\SOAP.csproj", "{737ECEC8-5E07-49C6-896D-6D63699D7B53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOAP.Tests", "tests\SOAP.Tests\SOAP.Tests.csproj", "{055495AD-2811-4B73-A072-B6B2BBD69E48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +68,10 @@ Global
 		{737ECEC8-5E07-49C6-896D-6D63699D7B53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{737ECEC8-5E07-49C6-896D-6D63699D7B53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{737ECEC8-5E07-49C6-896D-6D63699D7B53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{055495AD-2811-4B73-A072-B6B2BBD69E48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{055495AD-2811-4B73-A072-B6B2BBD69E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{055495AD-2811-4B73-A072-B6B2BBD69E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{055495AD-2811-4B73-A072-B6B2BBD69E48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,5 +85,6 @@ Global
 		{1C661F6F-75CA-4D73-BE26-6D0F4813BD69} = {CAF7AA33-0677-4063-9B60-8A377802B4C4}
 		{8FA3CFB1-12FA-4B2A-A1CD-27F3711DC3B8} = {EF5224E4-8080-4B02-80FB-1B2958742182}
 		{737ECEC8-5E07-49C6-896D-6D63699D7B53} = {C9E5DEE3-58A1-4308-8DAC-727908DD4F5E}
+		{055495AD-2811-4B73-A072-B6B2BBD69E48} = {CAF7AA33-0677-4063-9B60-8A377802B4C4}
 	EndGlobalSection
 EndGlobal
