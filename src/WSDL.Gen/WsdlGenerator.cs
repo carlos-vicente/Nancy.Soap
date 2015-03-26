@@ -25,8 +25,13 @@ namespace WSDL.Gen
                     "An interface must be provided to generate a WSDL",
                     "contract");
 
-            throw new NotImplementedException();
-            
+            var definition = new Definition
+            {
+                TargetNamespace = "http://carlos.vicente.org"
+            };
+            definition.Types.Add(PrimitiveTypesSchema);
+
+            return definition;
         } 
     }
 }

@@ -49,6 +49,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SOAP\SOAP.csproj">
+      <Project>{737ECEC8-5E07-49C6-896D-6D63699D7B53}</Project>
+      <Name>SOAP</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WSDL.Contracts\WSDL.Contracts.csproj">
       <Project>{b141c822-1b6d-444f-8f49-b9d971727801}</Project>
       <Name>WSDL.Contracts</Name>

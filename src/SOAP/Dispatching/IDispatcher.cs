@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Reflection;
 
 namespace SOAP.Serialization.Dispatching
 {
-    public interface IDispatcher
+    public interface IDispatcher<in T> where T : class
     {
+        void InvokeMethod(
+            T instance, 
+            MethodInfo methodInfo,
+            IDictionary<string, object> parameters);
     }
 }

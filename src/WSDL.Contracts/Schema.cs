@@ -4,9 +4,11 @@ namespace WSDL.Contracts
 {
     public class Schema
     {
-        public IEnumerable<Element> Elements { get; set; }
+        public string TargetNamespace { get; set; }
 
-        public IEnumerable<SchemaType> Types { get; set; }
+        public List<Element> Elements { get; set; }
+
+        public List<SchemaType> Types { get; set; }
 
         public Schema()
         {
