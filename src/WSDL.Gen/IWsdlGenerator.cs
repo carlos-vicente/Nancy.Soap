@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using WSDL.Contracts;
+using Type = System.Type;
 
 namespace WSDL.Gen
 {

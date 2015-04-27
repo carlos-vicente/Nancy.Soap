@@ -43,13 +43,18 @@
     <Compile Include="ComplexType.cs" />
     <Compile Include="Definition.cs" />
     <Compile Include="Element.cs" />
+    <Compile Include="List.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="PortType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Restriction.cs" />
     <Compile Include="Schema.cs" />
     <Compile Include="SchemaType.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="SimpleType.cs" />
+    <Compile Include="Type.cs" />
+    <Compile Include="Union.cs" />
+    <Compile Include="WhiteSpaceConstraint.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

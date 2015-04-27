@@ -42,7 +42,12 @@
     <Compile Include="Dispatching\Dispatcher.cs" />
     <Compile Include="Dispatching\IDispatcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization\ISerializer.cs" />
+    <Compile Include="Serialization\Binding.cs" />
+    <Compile Include="Serialization\Definition.cs" />
+    <Compile Include="Serialization\Message.cs" />
+    <Compile Include="Serialization\PortType.cs" />
+    <Compile Include="Serialization\Schema.cs" />
+    <Compile Include="Serialization\Service.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

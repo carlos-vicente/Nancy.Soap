@@ -34,10 +34,6 @@ namespace Nancy.SOAP
             var definition = await _wsdlGenerator.GetWebServiceDefinition(typeof (T));
 
             return Response.AsXml(definition);
-
-            //return Negotiate
-            //    .WithContentType("application/wsdl+xml")
-            //    .WithModel(definition);
         }
 
         protected Task<dynamic> InvokeOperation(dynamic parameters, CancellationToken token)

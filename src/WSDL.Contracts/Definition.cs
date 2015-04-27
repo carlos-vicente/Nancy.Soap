@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml;
-using System.Xml.Schema;
-using System.Xml.Serialization;
+﻿using System.Collections.Generic;
 
 namespace WSDL.Contracts
 {
-    [XmlRoot(
-        "definitions", 
-        Namespace = "http://schemas.xmlsoap.org/wsdl/")]
-    public class Definition : IXmlSerializable
+    public class Definition 
     {
         public string TargetNamespace
         {
@@ -35,36 +28,5 @@ namespace WSDL.Contracts
             Bindings = new List<Binding>();
             Services = new List<Service>();
         }
-
-        public XmlSchema GetSchema()
-        {
-            return null;
-        }
-
-        public void WriteXml(XmlWriter writer)
-        {
-            writer.WriteAttributeString("targetNamespace", this.TargetNamespace);
-
-            AddTypesElement(writer);
-        }
-
-        private void AddTypesElement(XmlWriter writer)
-        {
-            writer.WriteStartElement("types");
-            
-            foreach (var type in Types)
-            {
-                writer.WriteStartElement("xsd", "schema", "http://www.w3.org/2000/10/XMLSchema");
-                writer.WriteAttributeString("targetNamespace", type.TargetNamespace);
-
-                // write types
-
-                writer.WriteEndElement();
-            }
-
-            writer.WriteEndElement();
-        }
-
-        public void ReadXml(XmlReader reader) { throw new NotImplementedException(); }
     }
 }
