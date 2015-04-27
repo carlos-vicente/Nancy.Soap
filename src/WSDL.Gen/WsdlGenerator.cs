@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WSDL.Contracts;
-using Type = WSDL.Contracts.Type;
 
 namespace WSDL.Gen
 {
@@ -33,25 +32,25 @@ namespace WSDL.Gen
             },
             Elements = new List<Element>
             {
-                new Element { Name = "anyType", Nillable = true, Type = new Type { Name ="anyType" }},
-                new Element { Name = "anyURI", Nillable = true, Type = new Type { Name ="anyURI" }},
-                new Element { Name = "base64Binary", Nillable = true, Type = new Type { Name ="base64Binary" }},
-                new Element { Name = "boolean", Nillable = true, Type = new Type { Name ="boolean" }},
-                new Element { Name = "byte", Nillable = true, Type = new Type { Name ="byte" }},
-                new Element { Name = "dateTime", Nillable = true, Type = new Type { Name ="dateTime" }},
-                new Element { Name = "decimal", Nillable = true, Type = new Type { Name ="decimal" }},
-                new Element { Name = "double", Nillable = true, Type = new Type { Name ="double" }},
-                new Element { Name = "float", Nillable = true, Type = new Type { Name ="float" }},
-                new Element { Name = "int", Nillable = true, Type = new Type { Name ="int" }},
-                new Element { Name = "long", Nillable = true, Type = new Type { Name ="long" }},
-                new Element { Name = "QName", Nillable = true, Type = new Type { Name ="QName" }},
-                new Element { Name = "short", Nillable = true, Type = new Type { Name ="short" }},
-                new Element { Name = "string", Nillable = true, Type = new Type { Name ="string" }},
-                new Element { Name = "unsignedByte", Nillable = true, Type = new Type { Name ="unsignedByte" }},
-                new Element { Name = "unsignedInt", Nillable = true, Type = new Type { Name ="unsignedInt" }},
-                new Element { Name = "unsignedLong", Nillable = true, Type = new Type { Name ="unsignedLong" }},
-                new Element { Name = "unsignedShort", Nillable = true, Type = new Type { Name ="unsignedShort" }},
-                new Element { Name = "char", Nillable = true, Type = new Type { Name ="char" }}
+                new Element { Name = "anyType", Nillable = true, Type = new QName { Name ="anyType" }},
+                new Element { Name = "anyURI", Nillable = true, Type = new QName { Name ="anyURI" }},
+                new Element { Name = "base64Binary", Nillable = true, Type = new QName { Name ="base64Binary" }},
+                new Element { Name = "boolean", Nillable = true, Type = new QName { Name ="boolean" }},
+                new Element { Name = "byte", Nillable = true, Type = new QName { Name ="byte" }},
+                new Element { Name = "dateTime", Nillable = true, Type = new QName { Name ="dateTime" }},
+                new Element { Name = "decimal", Nillable = true, Type = new QName { Name ="decimal" }},
+                new Element { Name = "double", Nillable = true, Type = new QName { Name ="double" }},
+                new Element { Name = "float", Nillable = true, Type = new QName { Name ="float" }},
+                new Element { Name = "int", Nillable = true, Type = new QName { Name ="int" }},
+                new Element { Name = "long", Nillable = true, Type = new QName { Name ="long" }},
+                new Element { Name = "Type", Nillable = true, Type = new QName { Name ="Type" }},
+                new Element { Name = "short", Nillable = true, Type = new QName { Name ="short" }},
+                new Element { Name = "string", Nillable = true, Type = new QName { Name ="string" }},
+                new Element { Name = "unsignedByte", Nillable = true, Type = new QName { Name ="unsignedByte" }},
+                new Element { Name = "unsignedInt", Nillable = true, Type = new QName { Name ="unsignedInt" }},
+                new Element { Name = "unsignedLong", Nillable = true, Type = new QName { Name ="unsignedLong" }},
+                new Element { Name = "unsignedShort", Nillable = true, Type = new QName { Name ="unsignedShort" }},
+                new Element { Name = "char", Nillable = true, Type = new QName { Name ="char" }}
             }
         };
         #endregion
@@ -66,10 +65,7 @@ namespace WSDL.Gen
                     "An interface must be provided to generate a WSDL",
                     "contract");
 
-            var definition = new Definition
-            {
-                TargetNamespace = "http://carlos.vicente.org"
-            };
+            var definition = new Definition();
             definition.Types.Add(PrimitiveTypesSchema);
 
             return definition;

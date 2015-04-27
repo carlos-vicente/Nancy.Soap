@@ -6,7 +6,7 @@
 
         public bool Nillable { get; set; }
 
-        public Type Type { get; set; }
+        public QName Type { get; set; }
 
         public int MinimumOccurrences { get; set; }
 

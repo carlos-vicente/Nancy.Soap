@@ -1,6 +1,6 @@
 ﻿namespace WSDL.Contracts
 {
-    public class Type
+    public class QName
     {
         public string Name { get; set; }
 

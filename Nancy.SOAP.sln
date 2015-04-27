@@ -8,9 +8,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nancy.SOAP", "src\Nancy.SOAP\Nancy.SOAP.csproj", "{9D0766B8-71D0-4053-9656-5984BBD380B9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CAF7AA33-0677-4063-9B60-8A377802B4C4}"
-	ProjectSection(SolutionItems) = preProject
-		tests\RunTests.ps1 = tests\RunTests.ps1
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nancy.SOAP.Tests", "tests\Nancy.SOAP.Tests\Nancy.SOAP.Tests.csproj", "{8B8F06C2-F499-45AD-87A8-F61A9E2BDA6A}"
 EndProject

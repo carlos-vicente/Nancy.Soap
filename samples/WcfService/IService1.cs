@@ -52,9 +52,6 @@ namespace WcfService
         void OperationNoReturnNoParameters();
 
         [OperationContract]
-        void OperationNoReturnWithParameters(int p1);
-
-        [OperationContract]
         string OperationWithReturnAndParameters(int p1, string p2);
     }
 }

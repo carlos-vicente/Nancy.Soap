@@ -27,11 +27,6 @@ namespace WcfService
             throw new NotImplementedException();
         }
 
-        public void OperationNoReturnWithParameters(int p1)
-        {
-            throw new NotImplementedException();
-        }
-
         public string OperationWithReturnAndParameters(int p1, string p2)
         {
             throw new NotImplementedException();
