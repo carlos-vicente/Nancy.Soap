@@ -39,20 +39,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="All.cs" />
     <Compile Include="Binding.cs" />
+    <Compile Include="Choice.cs" />
+    <Compile Include="ComplexContent.cs" />
     <Compile Include="ComplexType.cs" />
     <Compile Include="Definition.cs" />
     <Compile Include="Element.cs" />
+    <Compile Include="ElementGrouping.cs" />
     <Compile Include="ElementMessagePart.cs" />
+    <Compile Include="Extension.cs" />
+    <Compile Include="Group.cs" />
     <Compile Include="List.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessagePart.cs" />
+    <Compile Include="Operation.cs" />
+    <Compile Include="OperationMessage.cs" />
     <Compile Include="PortType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestResponseOperation.cs" />
     <Compile Include="Restriction.cs" />
     <Compile Include="Schema.cs" />
     <Compile Include="SchemaType.cs" />
+    <Compile Include="Sequence.cs" />
     <Compile Include="Service.cs" />
+    <Compile Include="SimpleContent.cs" />
     <Compile Include="SimpleType.cs" />
     <Compile Include="QName.cs" />
     <Compile Include="TypeMessagePart.cs" />

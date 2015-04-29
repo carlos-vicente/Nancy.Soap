@@ -5,8 +5,10 @@ namespace WSDL.Contracts
     /// <summary>
     /// Holds the description of a web service. Web Services Description Language (WSDL)
     /// </summary>
-    public class Definition 
+    public class Definition
     {
+        public static readonly string DefaultNamespace = "http://tempuri.org";
+
         /// <summary>
         /// The target namespace, where the service exists and is unique.
         /// </summary>
@@ -48,7 +50,7 @@ namespace WSDL.Contracts
         /// </summary>
         public Definition()
         {
-            TargetNamespace = "http://tempuri.org";
+            TargetNamespace = DefaultNamespace;
             Types = new List<Schema>();
             Messages = new List<Message>();
             PortTypes = new List<PortType>();

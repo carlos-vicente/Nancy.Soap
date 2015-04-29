@@ -6,9 +6,9 @@ namespace WSDL.Contracts
     {
         public string TargetNamespace { get; set; }
 
-        public List<Element> Elements { get; set; }
+        public IEnumerable<Element> Elements { get; set; }
 
-        public List<SchemaType> Types { get; set; }
+        public IEnumerable<SchemaType> Types { get; set; }
 
         public Schema()
         {

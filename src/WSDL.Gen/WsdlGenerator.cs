@@ -8,7 +8,8 @@ namespace WSDL.Gen
     public class WsdlGenerator : IWsdlGenerator
     {
         #region primitives
-        private static readonly Schema PrimitiveTypesSchema = new Schema
+        // TODO: move to private
+        public static readonly Schema PrimitiveTypesSchema = new Schema
         {
             TargetNamespace = "http://schemas.microsoft.com/2003/10/Serialization/",
             Types = new List<SchemaType>
@@ -32,25 +33,25 @@ namespace WSDL.Gen
             },
             Elements = new List<Element>
             {
-                new Element { Name = "anyType", Nillable = true, Type = new QName { Name ="anyType" }},
-                new Element { Name = "anyURI", Nillable = true, Type = new QName { Name ="anyURI" }},
-                new Element { Name = "base64Binary", Nillable = true, Type = new QName { Name ="base64Binary" }},
-                new Element { Name = "boolean", Nillable = true, Type = new QName { Name ="boolean" }},
-                new Element { Name = "byte", Nillable = true, Type = new QName { Name ="byte" }},
-                new Element { Name = "dateTime", Nillable = true, Type = new QName { Name ="dateTime" }},
-                new Element { Name = "decimal", Nillable = true, Type = new QName { Name ="decimal" }},
-                new Element { Name = "double", Nillable = true, Type = new QName { Name ="double" }},
-                new Element { Name = "float", Nillable = true, Type = new QName { Name ="float" }},
-                new Element { Name = "int", Nillable = true, Type = new QName { Name ="int" }},
-                new Element { Name = "long", Nillable = true, Type = new QName { Name ="long" }},
-                new Element { Name = "Type", Nillable = true, Type = new QName { Name ="Type" }},
-                new Element { Name = "short", Nillable = true, Type = new QName { Name ="short" }},
-                new Element { Name = "string", Nillable = true, Type = new QName { Name ="string" }},
-                new Element { Name = "unsignedByte", Nillable = true, Type = new QName { Name ="unsignedByte" }},
-                new Element { Name = "unsignedInt", Nillable = true, Type = new QName { Name ="unsignedInt" }},
-                new Element { Name = "unsignedLong", Nillable = true, Type = new QName { Name ="unsignedLong" }},
-                new Element { Name = "unsignedShort", Nillable = true, Type = new QName { Name ="unsignedShort" }},
-                new Element { Name = "char", Nillable = true, Type = new QName { Name ="char" }}
+                new Element {Name = "anyType", Nillable = true, Type = new QName("anyType")},
+                new Element {Name = "anyURI", Nillable = true, Type = new QName("anyURI")},
+                new Element {Name = "base64Binary", Nillable = true, Type = new QName("base64Binary")},
+                new Element {Name = "boolean", Nillable = true, Type = new QName("boolean")},
+                new Element {Name = "byte", Nillable = true, Type = new QName("byte")},
+                new Element {Name = "dateTime", Nillable = true, Type = new QName("dateTime")},
+                new Element {Name = "decimal", Nillable = true, Type = new QName("decimal")},
+                new Element {Name = "double", Nillable = true, Type = new QName("double")},
+                new Element {Name = "float", Nillable = true, Type = new QName("float")},
+                new Element {Name = "int", Nillable = true, Type = new QName("int")},
+                new Element {Name = "long", Nillable = true, Type = new QName("long")},
+                new Element {Name = "Type", Nillable = true, Type = new QName("Type")},
+                new Element {Name = "short", Nillable = true, Type = new QName("short")},
+                new Element {Name = "string", Nillable = true, Type = new QName("string")},
+                new Element {Name = "unsignedByte", Nillable = true, Type = new QName("unsignedByte")},
+                new Element {Name = "unsignedInt", Nillable = true, Type = new QName("unsignedInt")},
+                new Element {Name = "unsignedLong", Nillable = true, Type = new QName("unsignedLong")},
+                new Element {Name = "unsignedShort", Nillable = true, Type = new QName("unsignedShort")},
+                new Element {Name = "char", Nillable = true, Type = new QName("char")}
             }
         };
         #endregion
