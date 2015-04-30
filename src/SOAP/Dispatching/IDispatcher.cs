@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace SOAP.Serialization.Dispatching
+namespace SOAP.Dispatching
 {
     public interface IDispatcher<in T> where T : class
     {

@@ -2,7 +2,7 @@
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace SOAP.Serialization.Serialization
+namespace SOAP.Serialization
 {
     public class Service : IXmlSerializable
     {
@@ -11,7 +11,10 @@ namespace SOAP.Serialization.Serialization
             return null;
         }
 
-        public void ReadXml(XmlReader reader) { throw new System.NotImplementedException(); }
+        public void ReadXml(XmlReader reader)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public void WriteXml(XmlWriter writer)
         {

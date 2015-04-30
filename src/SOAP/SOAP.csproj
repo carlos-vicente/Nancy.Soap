@@ -7,8 +7,8 @@
     <ProjectGuid>{737ECEC8-5E07-49C6-896D-6D63699D7B53}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SOAP.Serialization</RootNamespace>
-    <AssemblyName>SOAP.Serialization</AssemblyName>
+    <RootNamespace>SOAP</RootNamespace>
+    <AssemblyName>SOAP</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,15 +39,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Serialization\All.cs" />
+    <Compile Include="Serialization\Binding.cs" />
+    <Compile Include="Serialization\Choice.cs" />
+    <Compile Include="Serialization\ComplexContent.cs" />
+    <Compile Include="Serialization\ComplexType.cs" />
+    <Compile Include="Serialization\Definition.cs" />
     <Compile Include="Dispatching\Dispatcher.cs" />
     <Compile Include="Dispatching\IDispatcher.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization\Binding.cs" />
-    <Compile Include="Serialization\Definition.cs" />
+    <Compile Include="Serialization\Element.cs" />
+    <Compile Include="Serialization\ElementGrouping.cs" />
+    <Compile Include="Serialization\ElementMessagePart.cs" />
+    <Compile Include="Serialization\Extension.cs" />
+    <Compile Include="Serialization\Group.cs" />
+    <Compile Include="Serialization\List.cs" />
     <Compile Include="Serialization\Message.cs" />
+    <Compile Include="Serialization\MessagePart.cs" />
+    <Compile Include="Serialization\Operation.cs" />
+    <Compile Include="Serialization\OperationMessage.cs" />
     <Compile Include="Serialization\PortType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\QName.cs" />
+    <Compile Include="Serialization\QNamespace.cs" />
+    <Compile Include="Serialization\RequestResponseOperation.cs" />
+    <Compile Include="Serialization\Restriction.cs" />
     <Compile Include="Serialization\Schema.cs" />
+    <Compile Include="Serialization\SchemaType.cs" />
+    <Compile Include="Serialization\Sequence.cs" />
     <Compile Include="Serialization\Service.cs" />
+    <Compile Include="Serialization\SimpleContent.cs" />
+    <Compile Include="Serialization\SimpleType.cs" />
+    <Compile Include="Serialization\TypeMessagePart.cs" />
+    <Compile Include="Serialization\Union.cs" />
+    <Compile Include="Serialization\WhiteSpaceConstraint.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

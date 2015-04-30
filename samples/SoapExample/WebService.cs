@@ -1,5 +1,5 @@
 ﻿using Nancy.SOAP;
-using SOAP.Serialization.Dispatching;
+using SOAP.Dispatching;
 using WSDL.Gen;
 
 namespace SoapExample

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using SOAP.Serialization.Dispatching;
+using AutoMapper;
+using SOAP.Dispatching;
 using WSDL.Gen;
 
 namespace Nancy.SOAP
@@ -33,7 +34,12 @@ namespace Nancy.SOAP
             // invoke wsdl generator with contract
             var definition = await _wsdlGenerator.GetWebServiceDefinition(typeof (T));
 
-            return Response.AsXml(definition);
+            // TODO: create mapping profile for this and register on bootstrap
+            var serializable = Mapper
+                .Map<WSDL.Contracts.Definition, global::SOAP.Serialization.Definition>(
+                    definition);
+
+            return Response.AsXml(serializable);
         }
 
         protected Task<dynamic> InvokeOperation(dynamic parameters, CancellationToken token)

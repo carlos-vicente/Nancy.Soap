@@ -1,6 +1,6 @@
 ﻿using Nancy.Bootstrapper;
 using Nancy.TinyIoc;
-using SOAP.Serialization.Dispatching;
+using SOAP.Dispatching;
 
 namespace SoapExample
 {
