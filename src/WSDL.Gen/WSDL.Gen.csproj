@@ -39,8 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPrimitiveTypeProvider.cs" />
     <Compile Include="IWsdlGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticPrimiteTypeProvider.cs" />
     <Compile Include="WsdlGenerator.cs" />
   </ItemGroup>
   <ItemGroup>

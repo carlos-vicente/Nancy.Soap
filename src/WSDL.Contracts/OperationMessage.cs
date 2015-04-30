@@ -2,7 +2,7 @@
 {
     public class OperationMessage
     {
-        public string Name { get; set; }
+        public string Action { get; set; }
 
         public QName Message { get; set; }
     }

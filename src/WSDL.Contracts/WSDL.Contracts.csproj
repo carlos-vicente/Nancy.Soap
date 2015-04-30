@@ -57,6 +57,7 @@
     <Compile Include="OperationMessage.cs" />
     <Compile Include="PortType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QNamespace.cs" />
     <Compile Include="RequestResponseOperation.cs" />
     <Compile Include="Restriction.cs" />
     <Compile Include="Schema.cs" />

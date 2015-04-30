@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WSDL.Contracts;
 
@@ -7,56 +8,14 @@ namespace WSDL.Gen
 {
     public class WsdlGenerator : IWsdlGenerator
     {
-        #region primitives
-        // TODO: move to private
-        public static readonly Schema PrimitiveTypesSchema = new Schema
+        private readonly IPrimitiveTypeProvider _primitiveTypeProvider;
+        
+        public WsdlGenerator(IPrimitiveTypeProvider primitiveTypeProvider)
         {
-            TargetNamespace = "http://schemas.microsoft.com/2003/10/Serialization/",
-            Types = new List<SchemaType>
-            {
-                new SimpleType("char", new Restriction
-                {
-                    Base = "int"
-                }),
-                new SimpleType("duration", new Restriction
-                {
-                    Base = "duration",
-                    Pattern = @"\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?",
-                    MinimumInclusive = "-P10675199DT2H48M5.4775808S",
-                    MaximumInclusive = "P10675199DT2H48M5.4775807S"
-                }),
-                new SimpleType("guid", new Restriction
-                {
-                    Base = "string",
-                    Pattern = @"[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"
-                })
-            },
-            Elements = new List<Element>
-            {
-                new Element {Name = "anyType", Nillable = true, Type = new QName("anyType")},
-                new Element {Name = "anyURI", Nillable = true, Type = new QName("anyURI")},
-                new Element {Name = "base64Binary", Nillable = true, Type = new QName("base64Binary")},
-                new Element {Name = "boolean", Nillable = true, Type = new QName("boolean")},
-                new Element {Name = "byte", Nillable = true, Type = new QName("byte")},
-                new Element {Name = "dateTime", Nillable = true, Type = new QName("dateTime")},
-                new Element {Name = "decimal", Nillable = true, Type = new QName("decimal")},
-                new Element {Name = "double", Nillable = true, Type = new QName("double")},
-                new Element {Name = "float", Nillable = true, Type = new QName("float")},
-                new Element {Name = "int", Nillable = true, Type = new QName("int")},
-                new Element {Name = "long", Nillable = true, Type = new QName("long")},
-                new Element {Name = "Type", Nillable = true, Type = new QName("Type")},
-                new Element {Name = "short", Nillable = true, Type = new QName("short")},
-                new Element {Name = "string", Nillable = true, Type = new QName("string")},
-                new Element {Name = "unsignedByte", Nillable = true, Type = new QName("unsignedByte")},
-                new Element {Name = "unsignedInt", Nillable = true, Type = new QName("unsignedInt")},
-                new Element {Name = "unsignedLong", Nillable = true, Type = new QName("unsignedLong")},
-                new Element {Name = "unsignedShort", Nillable = true, Type = new QName("unsignedShort")},
-                new Element {Name = "char", Nillable = true, Type = new QName("char")}
-            }
-        };
-        #endregion
+            _primitiveTypeProvider = primitiveTypeProvider;
+        }
 
-        public async Task<Definition> GetWebServiceDefinition(System.Type contract)
+        public async Task<Definition> GetWebServiceDefinition(Type contract)
         {
             if (contract == null)
                 throw new ArgumentNullException("contract");
@@ -66,8 +25,142 @@ namespace WSDL.Gen
                     "An interface must be provided to generate a WSDL",
                     "contract");
 
-            var definition = new Definition();
-            definition.Types.Add(PrimitiveTypesSchema);
+            var primitiveTypesSchema = _primitiveTypeProvider.GetPrimitiveTypesSchema();
+
+            var types = new List<SchemaType>();
+            var elements = new List<Element>();
+
+            var messages = new List<Message>();
+            var operations = new List<Operation>();
+
+            foreach (var method in contract.GetMethods())
+            {
+                var inputParametersElements =
+                    (from parameter in method.GetParameters()
+                        let typeName = _primitiveTypeProvider
+                            .GetQNameForType(parameter.ParameterType)
+                        where typeName != null
+                        select new Element
+                        {
+                            Name = parameter.Name,
+                            Type = new QName(typeName.Name, "tns")
+                        })
+                        .ToList();
+
+                var inputType = new ComplexType(
+                    string.Format("{0}", method.Name),
+                    new Sequence
+                    {
+                        Elements = inputParametersElements
+                    });
+
+                var inputElement = new Element
+                {
+                    Name = inputType.Name,
+                    Type = new QName(inputType.Name, "tns")
+                };
+
+                types.Add(inputType);
+                elements.Add(inputElement);
+
+                var inputMessage = new Message
+                {
+                    Name = string.Format("{0}_{1}_InputMessage", contract.Name, method.Name),
+                    Parts = new List<MessagePart>
+                    {
+                        new ElementMessagePart("parameters", new QName(inputElement.Name, "tns"))
+                    }
+                };
+
+
+                var outputParametersElement = new Element
+                {
+                    Name = string.Format("{0}Result", method.Name),
+                    Type = _primitiveTypeProvider
+                        .GetQNameForType(method.ReturnType)
+                };
+
+                var outputType = new ComplexType(
+                    string.Format("{0}Response", method.Name),
+                    new Sequence
+                    {
+                        Elements = new List<Element> { outputParametersElement }
+                    });
+
+                var outputElement = new Element
+                {
+                    Name = outputType.Name,
+                    Type = new QName(outputType.Name, "tns")
+                };
+
+                types.Add(outputType);
+                elements.Add(outputElement);
+
+                var outputMessage = new Message
+                {
+                    Name = string.Format("{0}_{1}_OutputMessage", contract.Name, method.Name),
+                    Parts = new List<MessagePart>
+                    {
+                        new ElementMessagePart("parameters", new QName(outputElement.Name, "tns"))
+                    }
+                };
+
+                operations.Add(new RequestResponseOperation
+                {
+                    Name = method.Name,
+                    Input = new OperationMessage
+                    {
+                        Action = string.Format(
+                            "{0}/{1}/{2}",
+                            Definition.DefaultNamespace,
+                            contract.Name,
+                            method.Name),
+                        Message = new QName(inputMessage.Name, "tns")
+                    },
+                    Output = new OperationMessage
+                    {
+                        Action = string.Format(
+                            "{0}/{1}/{2}Response",
+                            Definition.DefaultNamespace,
+                            contract.Name,
+                            method.Name),
+                        Message = new QName(outputMessage.Name, "tns")
+                    }
+                });
+
+                messages.Add(inputMessage);
+                messages.Add(outputMessage);
+            }
+
+            var messageTypes = new Schema
+            {
+                TargetNamespace = Definition.DefaultNamespace,
+                QualifiedNamespaces = new List<QNamespace>
+                {
+                    new QNamespace("xs", "http://www.w3.org/2001/XMLSchema")
+                },
+                Types = types,
+                Elements = elements
+            };
+
+            var portType = new PortType
+            {
+                Name = contract.Name,
+                Operations = operations
+            };
+
+            var definition = new Definition
+            {
+                Types = new List<Schema>
+                {
+                    primitiveTypesSchema,
+                    messageTypes
+                },
+                Messages = messages,
+                PortTypes = new List<PortType> { portType },
+                Bindings = new List<Binding>(),
+                Services = new List<Service>()
+            };
 
             return definition;
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using Autofac.Extras.FakeItEasy;
+using FakeItEasy;
 using FluentAssertions;
 using WSDL.Contracts;
 
@@ -14,149 +15,170 @@ namespace WSDL.Gen.Tests
             string OperationWithReturnAndParameters(int p1, string p2);
         }
 
-        private static readonly Schema PrimitiveTypesSchema = new Schema
-        {
-            TargetNamespace = "http://schemas.microsoft.com/2003/10/Serialization/",
-            Types = new List<SchemaType>
-            {
-                new SimpleType("char", new Restriction
-                {
-                    Base = "int"
-                }),
-                new SimpleType("duration", new Restriction
-                {
-                    Base = "duration",
-                    Pattern = @"\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?",
-                    MinimumInclusive = "-P10675199DT2H48M5.4775808S",
-                    MaximumInclusive = "P10675199DT2H48M5.4775807S"
-                }),
-                new SimpleType("guid", new Restriction
-                {
-                    Base = "string",
-                    Pattern = @"[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"
-                })
-            },
-            Elements = new List<Element>
-            {
-                new Element { Name = "anyType", Nillable = true, Type = new QName("anyType")},
-                new Element { Name = "anyURI", Nillable = true, Type = new QName("anyURI")},
-                new Element { Name = "base64Binary", Nillable = true, Type = new QName("base64Binary")},
-                new Element { Name = "boolean", Nillable = true, Type = new QName("boolean")},
-                new Element { Name = "byte", Nillable = true, Type = new QName("byte")},
-                new Element { Name = "dateTime", Nillable = true, Type = new QName("dateTime" )},
-                new Element { Name = "decimal", Nillable = true, Type = new QName("decimal" )},
-                new Element { Name = "double", Nillable = true, Type = new QName("double" )},
-                new Element { Name = "float", Nillable = true, Type = new QName("float" )},
-                new Element { Name = "int", Nillable = true, Type = new QName("int" )},
-                new Element { Name = "long", Nillable = true, Type = new QName("long" )},
-                new Element { Name = "Type", Nillable = true, Type = new QName("Type" )},
-                new Element { Name = "short", Nillable = true, Type = new QName("short" )},
-                new Element { Name = "string", Nillable = true, Type = new QName("string" )},
-                new Element { Name = "unsignedByte", Nillable = true, Type = new QName("unsignedByte" )},
-                new Element { Name = "unsignedInt", Nillable = true, Type = new QName("unsignedInt" )},
-                new Element { Name = "unsignedLong", Nillable = true, Type = new QName("unsignedLong" )},
-                new Element { Name = "unsignedShort", Nillable = true, Type = new QName("unsignedShort" )},
-                new Element { Name = "char", Nillable = true, Type = new QName("char" )}
-            }
-        };
-
         private readonly WsdlGenerator _generator;
+        private readonly AutoFake _faker;
 
         public WsdlGeneratorTests()
         {
-            _generator = new WsdlGenerator();
+            _faker = new AutoFake();
+            _generator = new WsdlGenerator(_faker.Resolve<IPrimitiveTypeProvider>());
         }
 
         public void GetWebServiceDefinition_ReturnsDefinition_WhenGettingSimpleTypeInterface()
         {
             // arrange
+            var primitiveTypesSchema = new Schema();
+            var intQName = new QName("int", "tns");
+            var stringQName = new QName("string", "tns");
 
-            // TODO: get this generation code into the actual SUT and get hardcoded values in the test
+            A.CallTo(() => _faker.Resolve<IPrimitiveTypeProvider>()
+                .GetPrimitiveTypesSchema())
+                .Returns(primitiveTypesSchema);
+
+            A.CallTo(() => _faker.Resolve<IPrimitiveTypeProvider>()
+                .GetQNameForType(typeof (Int32)))
+                .Returns(intQName);
+
+            A.CallTo(() => _faker.Resolve<IPrimitiveTypeProvider>()
+                .GetQNameForType(typeof(String)))
+                .Returns(stringQName);
 
             var interfaceType = typeof (IContract);
-            var types = new List<SchemaType>();
+
             var messageTypes = new Schema
             {
                 TargetNamespace = Definition.DefaultNamespace,
-                Types = types
-            };
-
-            var messages = new List<Message>();
-            var operations = new List<Operation>();
-
-            foreach (var method in interfaceType.Methods())
-            {
-                var inputParametersElements = new List<Element>();
-
-                foreach (var parameter in method.GetParameters())
+                QualifiedNamespaces = new List<QNamespace>
                 {
-                    var paramType = parameter.ParameterType.Name;
-                    Element typeName = null; //
-
-                    if (typeName != null)
+                    new QNamespace("xs", "http://www.w3.org/2001/XMLSchema")
+                },
+                Types = new List<SchemaType>
+                {
+                    new ComplexType("OperationNoReturnNoParameters", new Sequence()),
+                    new ComplexType("OperationNoReturnNoParametersResponse", new Sequence()),
+                    new ComplexType("OperationWithReturnAndParameters", new Sequence
                     {
-                        inputParametersElements.Add(new Element
+                        Elements = new List<Element>
                         {
-                            Name = parameter.Name,
-                            Type = new QName(typeName.Name, "tns")
-                        });
+                            new Element{ Name = "p1", Type = intQName},
+                            new Element{ Name = "p2", Nillable = true, Type = stringQName}
+                        }
+                    }),
+                    new ComplexType("OperationWithReturnAndParametersResponse", new Sequence
+                    {
+                        Elements = new List<Element>
+                        {
+                            new Element
+                            { 
+                                Name = "OperationWithReturnAndParametersResult",
+                                Nillable = true,
+                                Type = stringQName
+                            }
+                        }
+                    })
+                },
+                Elements = new List<Element>
+                {
+                    new Element
+                    {
+                        Name = "OperationNoReturnNoParameters", 
+                        Type = new QName("OperationNoReturnNoParameters", "tns")
+                    },
+                    new Element
+                    {
+                        Name = "OperationNoReturnNoParametersResponse", 
+                        Type = new QName("OperationNoReturnNoParametersResponse", "tns")
+                    },
+                    new Element
+                    {
+                        Name = "OperationWithReturnAndParameters", 
+                        Type = new QName("OperationWithReturnAndParameters", "tns")
+                    },
+                    new Element
+                    {
+                        Name = "OperationWithReturnAndParametersResponse", 
+                        Type = new QName("OperationWithReturnAndParametersResponse", "tns")
                     }
                 }
+            };
 
-                var inputType = new ComplexType(
-                    string.Format("{0}", method.Name),
-                    new Sequence {Elements = inputParametersElements});
-
-                types.Add(inputType);
-
-                var inputMessage = new Message
+            var messages = new List<Message>
+            {
+                new Message
                 {
-                    Name = string.Format("{0}_InputMessage", method.Name),
+                    Name = "IContract_OperationNoReturnNoParameters_InputMessage",
                     Parts = new List<MessagePart>
                     {
-                        new TypeMessagePart
-                        {
-                            Name = "parameters",
-                            Type = new QName(inputType.Name, "tns")
-                        }
+                        new ElementMessagePart("parameters", new QName("OperationNoReturnNoParameters", "tns"))
                     }
-                };
-
-                var outputMessage = new Message
+                },
+                new Message
                 {
-                    Name = string.Format("{0}_OutputMessage", method.Name)
-                };
-
-                operations.Add(new RequestResponseOperation
-                {
-                    Name = method.Name,
-                    Input = new OperationMessage
+                    Name = "IContract_OperationNoReturnNoParameters_OutputMessage",
+                    Parts = new List<MessagePart>
                     {
-                        Name = string.Format("{0}Request", method.Name),
-                        Message = new QName(inputMessage.Name, "tns")
-                    },
-                    Output = new OperationMessage
-                    {
-                        Name = string.Format("{0}Response", method.Name),
-                        Message = new QName(outputMessage.Name, "tns")
+                        new ElementMessagePart("parameters", new QName("OperationNoReturnNoParametersResponse", "tns"))
                     }
-                });
-
-                messages.Add(inputMessage);
-                messages.Add(outputMessage);
-            }
+                },
+                new Message
+                {
+                    Name = "IContract_OperationWithReturnAndParameters_InputMessage",
+                    Parts = new List<MessagePart>
+                    {
+                        new ElementMessagePart("parameters", new QName("OperationWithReturnAndParameters", "tns"))
+                    }
+                },
+                new Message
+                {
+                    Name = "IContract_OperationWithReturnAndParameters_OutputMessage",
+                    Parts = new List<MessagePart>
+                    {
+                        new ElementMessagePart("parameters", new QName("OperationWithReturnAndParametersResponse", "tns"))
+                    }
+                }
+            };
 
             var portType = new PortType
             {
-                Name = interfaceType.Name,
-                Operations = operations
+                Name = "IContract",
+                Operations = new List<Operation>
+                {
+                    new RequestResponseOperation
+                    {
+                        Name = "OperationNoReturnNoParameters",
+                        Input = new OperationMessage
+                        {
+                            Action = "http://tempuri.org/IContract/OperationNoReturnNoParameters",
+                            Message = new QName("IContract_OperationNoReturnNoParameters_InputMessage", "tns")
+                        },
+                        Output = new OperationMessage
+                        {
+                            Action = "http://tempuri.org/IContract/OperationNoReturnNoParametersResponse",
+                            Message = new QName("IContract_OperationNoReturnNoParameters_OutputMessage", "tns")
+                        }
+                    },
+                    new RequestResponseOperation
+                    {
+                        Name = "OperationWithReturnAndParameters",
+                        Input = new OperationMessage
+                        {
+                            Action = "http://tempuri.org/IContract/OperationWithReturnAndParameters",
+                            Message = new QName("IContract_OperationWithReturnAndParameters_InputMessage", "tns")
+                        },
+                        Output = new OperationMessage
+                        {
+                            Action = "http://tempuri.org/IContract/OperationWithReturnAndParametersResponse",
+                            Message = new QName("IContract_OperationWithReturnAndParameters_OutputMessage", "tns")
+                        }
+                    }
+                }
             };
 
             var expectedDefinition = new Definition
             {
                 Types = new List<Schema>
                 {
-                    PrimitiveTypesSchema,
+                    primitiveTypesSchema,
                     messageTypes
                 },
                 Messages = messages,
