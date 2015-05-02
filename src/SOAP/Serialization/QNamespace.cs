@@ -2,13 +2,7 @@
 {
     public class QNamespace
     {
-        public string Abbreviation { get; private set; }
-        public string Namespace { get; private set; }
-
-        public QNamespace(string abbreviation, string ns)
-        {
-            Abbreviation = abbreviation;
-            Namespace = ns;
-        }
+        public string Abbreviation { get; set; }
+        public string Namespace { get; set; }
     }
 }

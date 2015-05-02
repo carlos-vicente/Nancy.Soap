@@ -11,47 +11,24 @@
         /// <summary>
         /// The simple type name
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Used when defining a constraint on some other simple type
         /// When using Restriction, can't use List nor Union
         /// </summary>
-        public Restriction Restriction { get; private set; }
+        public Restriction Restriction { get; set; }
         
         /// <summary>
         /// Used when defining a list of some simple type
         /// When using List, can't use Restriction nor Union
         /// </summary>
-        public List List { get; private set; }
+        public List List { get; set; }
 
         /// <summary>
         /// Used when defining the union of several simple types
         /// When using Union, can't use Restriction nor List
         /// </summary>
-        public Union Union { get; private set; }
-
-        private SimpleType(string name)
-        {
-            Name = name;
-        }
-
-        public SimpleType(string nameOfConstraint, Restriction constraint)
-            : this(nameOfConstraint)
-        {
-            Restriction = constraint;
-        }
-
-        public SimpleType(string nameOfList, List listOfType)
-            : this(nameOfList)
-        {
-            List = listOfType;
-        }
-
-        public SimpleType(string nameOfUnion, Union membersUnion)
-            : this(nameOfUnion)
-        {
-            Union = membersUnion;
-        }
+        public Union Union { get; set; }
     }
 }

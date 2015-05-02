@@ -10,17 +10,7 @@
     // </complexContent>
     public class ComplexContent
     {
-        public Restriction Restriction { get; private set; }
-        public Extension Extension { get; private set; }
-
-        public ComplexContent(Restriction restriction)
-        {
-            Restriction = restriction;
-        }
-
-        public ComplexContent(Extension extension)
-        {
-            Extension = extension;
-        }
+        public Restriction Restriction { get; set; }
+        public Extension Extension { get; set; }
     }
 }

@@ -56,19 +56,6 @@ namespace SOAP.Serialization
         /// </summary>
         public IEnumerable<Service> Services { get; set; }
 
-        /// <summary>
-        /// Default constructor that initializes all properties to they're default values.
-        /// </summary>
-        public Definition()
-        {
-            TargetNamespace = DefaultNamespace;
-            Types = new List<Schema>();
-            Messages = new List<Message>();
-            PortTypes = new List<PortType>();
-            Bindings = new List<Binding>();
-            Services = new List<Service>();
-        }
-
         public XmlSchema GetSchema()
         {
             return null;

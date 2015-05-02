@@ -2,7 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Nancy.Responses.Negotiation;
 using SOAP.Dispatching;
+using WSDL.Contracts;
 using WSDL.Gen;
 
 namespace Nancy.SOAP
@@ -11,17 +13,20 @@ namespace Nancy.SOAP
         : NancyModule where T : class
     {
         private readonly T _service;
+        private readonly IMappingEngine _engine;
         private readonly IWsdlGenerator _wsdlGenerator;
         private readonly IDispatcher<T> _dispatcher;
 
         protected SoapNancyModule(
             string module,
             T service,
+            IMappingEngine engine,
             IWsdlGenerator wsdlGenerator,
             IDispatcher<T> dispatcher)
             : base(module)
         {
             _service = service;
+            _engine = engine;
             _wsdlGenerator = wsdlGenerator;
             _dispatcher = dispatcher;
 
@@ -34,12 +39,12 @@ namespace Nancy.SOAP
             // invoke wsdl generator with contract
             var definition = await _wsdlGenerator.GetWebServiceDefinition(typeof (T));
 
-            // TODO: create mapping profile for this and register on bootstrap
-            var serializable = Mapper
-                .Map<WSDL.Contracts.Definition, global::SOAP.Serialization.Definition>(
-                    definition);
+            var serializable = _engine
+                .Map<Definition, global::SOAP.Serialization.Definition>(definition);
 
-            return Response.AsXml(serializable);
+            return Negotiate
+                .WithAllowedMediaRange(new MediaRange("application/xml"))
+                .WithModel(serializable);
         }
 
         protected Task<dynamic> InvokeOperation(dynamic parameters, CancellationToken token)

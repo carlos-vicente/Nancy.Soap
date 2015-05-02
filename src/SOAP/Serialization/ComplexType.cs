@@ -15,38 +15,14 @@
     // </complexType>
     public class ComplexType : SchemaType
     {
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public bool Abstract { get; private set; }
+        public bool Abstract { get; set; }
 
-        public SimpleContent SimpleContent { get; private set; }
+        public SimpleContent SimpleContent { get; set; }
 
-        public ComplexContent ComplexContent { get; private set; }
+        public ComplexContent ComplexContent { get; set; }
 
         public ElementGrouping Grouping { get; set; }
-
-        private ComplexType(string name, bool abstractType)
-        {
-            Name = name;
-            Abstract = abstractType;
-        }
-
-        public ComplexType(string name, SimpleContent simpleContent, bool abstractType = false)
-            : this(name, abstractType)
-        {
-            SimpleContent = simpleContent;
-        }
-
-        public ComplexType(string name, ComplexContent complexContent, bool abstractType = false)
-            : this(name, abstractType)
-        {
-            ComplexContent = complexContent;
-        }
-
-        public ComplexType(string name, ElementGrouping grouping, bool abstractType = false)
-            : this(name, abstractType)
-        {
-            Grouping = grouping;
-        }
     }
 }

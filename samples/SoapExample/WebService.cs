@@ -1,4 +1,5 @@
-﻿using Nancy.SOAP;
+﻿using AutoMapper;
+using Nancy.SOAP;
 using SOAP.Dispatching;
 using WSDL.Gen;
 
@@ -8,9 +9,10 @@ namespace SoapExample
     {
         public WebService(
             IService service, 
+            IMappingEngine engine,
             IWsdlGenerator wsdlGenerator, 
             IDispatcher<IService> dispatcher) 
-            : base("web", service, wsdlGenerator, dispatcher)
+            : base("web", service, engine, wsdlGenerator, dispatcher)
         {
         }
     }

@@ -11,11 +11,6 @@ namespace SOAP.Serialization
 
         public IEnumerable<MessagePart> Parts { get; set; }
 
-        public Message()
-        {
-            Parts = new List<MessagePart>();
-        }
-
         public XmlSchema GetSchema()
         {
             return null;

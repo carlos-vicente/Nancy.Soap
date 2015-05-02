@@ -15,13 +15,6 @@ namespace SOAP.Serialization
 
         public IEnumerable<SchemaType> Types { get; set; }
 
-        public Schema()
-        {
-            QualifiedNamespaces = new List<QNamespace>();
-            Elements = new List<Element>();
-            Types = new List<SchemaType>();
-        }
-
         public XmlSchema GetSchema()
         {
             return null;
@@ -34,7 +27,7 @@ namespace SOAP.Serialization
 
         public void WriteXml(XmlWriter writer)
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

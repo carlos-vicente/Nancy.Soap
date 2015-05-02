@@ -6,10 +6,5 @@
     public abstract class MessagePart
     {
         public string Name { get; set; }
-
-        protected MessagePart(string name)
-        {
-            Name = name;
-        }
     }
 }
