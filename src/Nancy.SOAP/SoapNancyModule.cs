@@ -18,12 +18,12 @@ namespace Nancy.SOAP
         private readonly IDispatcher<T> _dispatcher;
 
         protected SoapNancyModule(
-            string module,
+            string path,
             T service,
             IMappingEngine engine,
             IWsdlGenerator wsdlGenerator,
             IDispatcher<T> dispatcher)
-            : base(module)
+            : base(path)
         {
             _service = service;
             _engine = engine;
@@ -47,7 +47,7 @@ namespace Nancy.SOAP
                 .WithModel(serializable);
         }
 
-        protected Task<dynamic> InvokeOperation(dynamic parameters, CancellationToken token)
+        protected async Task<dynamic> InvokeOperation(dynamic parameters, CancellationToken token)
         {
             // get soap envelop from body
 
@@ -57,7 +57,7 @@ namespace Nancy.SOAP
 
             // return soap envelop with response and OK message
             //      if something goes wrong with the invocation then throw error back to the client
-            throw new NotImplementedException();
+            return this.Negotiate.WithStatusCode(HttpStatusCode.OK);
         }
     }
 }

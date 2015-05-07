@@ -87,10 +87,15 @@ namespace SOAP.Serialization
         {
             writer.WriteStartElement("restriction", Schema.XmlSchemaNamespace);
 
-            var prefix = writer.LookupPrefix(this.Base.Namespace);
+            string prefix = null;
+            if(this.Base.Namespace != null)
+                prefix = writer.LookupPrefix(this.Base.Namespace);
+
             writer.WriteAttributeString(
-                "base", 
-                string.Format("{0}:{1}", prefix, this.Base.Name));
+                "base",
+                prefix == null
+                    ? this.Base.Name
+                    : string.Format("{0}:{1}", prefix, this.Base.Name));
 
             if (MinimumInclusive != null)
                 WriteElementWithValue(writer, "minInclusive", MinimumInclusive);

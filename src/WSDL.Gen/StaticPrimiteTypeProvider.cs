@@ -28,23 +28,6 @@ namespace WSDL.Gen
             Base = new QName("string", XmlSchemaNamespace),
             Pattern = @"[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"
         });
-        
-        //TODO: delete this types
-        private static readonly SimpleType Test1 = new SimpleType("test1", new Restriction
-        {
-            Base = new QName("string", XmlSchemaNamespace),
-            Enumerations = new List<string>
-            {
-                "coisas1",
-                "coisas2",
-                "coisas3"
-            }
-        });
-
-        private static readonly SimpleType Test2 = new SimpleType("test2", new List
-        {
-            ItemType = new QName("int", XmlSchemaNamespace)
-        });
         #endregion
 
         #region Elements
@@ -201,16 +184,13 @@ namespace WSDL.Gen
             TargetNamespace = "http://schemas.microsoft.com/2003/10/Serialization/",
             QualifiedNamespaces = new List<QNamespace>
             {
-                //new QNamespace("xs", "http://www.w3.org/2001/XMLSchema"),
                 new QNamespace("tns", "http://schemas.microsoft.com/2003/10/Serialization/")
             },
             Types = new List<SchemaType>
             {
                 CharType, 
                 DurationType, 
-                GuidType,
-                Test1,
-                Test2
+                GuidType
             },
             Elements = new List<Element>
             {

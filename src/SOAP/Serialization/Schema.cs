@@ -23,9 +23,7 @@ namespace SOAP.Serialization
         }
 
         public void ReadXml(XmlReader reader)
-        {
-            throw new System.NotImplementedException();
-        }
+        { throw new System.NotImplementedException(); }
 
         public void WriteXml(XmlWriter writer)
         {
@@ -50,15 +48,18 @@ namespace SOAP.Serialization
 
         private void WriteElementsXml(XmlWriter writer)
         {
-            foreach (var type in Types)
+            foreach (var element in Elements)
             {
-                type.WriteXml(writer);
+                element.WriteXml(writer);
             }
         }
 
         private void WriteTypesXml(XmlWriter writer)
         {
-            
+            foreach (var type in Types)
+            {
+                type.WriteXml(writer);
+            }
         }
     }
 }

@@ -8,8 +8,13 @@
 
         public QName Type { get; set; }
 
-        public int MinimumOccurrences { get; set; }
+        public int? MinimumOccurrences { get; set; }
 
-        public int MaximumOccurrences { get; set; }
+        public int? MaximumOccurrences { get; set; }
+
+        public Element()
+        {
+            Nillable = true;
+        }
     }
 }
