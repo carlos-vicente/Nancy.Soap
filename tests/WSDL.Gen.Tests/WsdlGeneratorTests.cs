@@ -176,6 +176,10 @@ namespace WSDL.Gen.Tests
 
             var expectedDefinition = new Definition
             {
+                QualifiedNamespaces = new List<QNamespace>
+                {
+                    
+                },
                 Types = new List<Schema>
                 {
                     primitiveTypesSchema,

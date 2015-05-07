@@ -10,7 +10,7 @@ namespace WSDL.Contracts
         /// <summary>
         /// The primitive data type to apply the restriction
         /// </summary>
-        public string Base { get; set; }
+        public QName Base { get; set; }
 
         /// <summary>
         /// Specifies the lower bounds for numeric values (the value must be greater than or equal to this value)
@@ -35,7 +35,7 @@ namespace WSDL.Contracts
         /// <summary>
         /// Specifies the maximum number of decimal places allowed. Must be equal to or greater than zero
         /// </summary>
-        public int FractionDigits { get; set; }
+        public int? FractionDigits { get; set; }
 
         /// <summary>
         /// Defines a list of acceptable values
@@ -55,21 +55,21 @@ namespace WSDL.Contracts
         /// <summary>
         /// Specifies the exact number of characters or list items allowed. Must be equal to or greater than zero
         /// </summary>
-        public int Length { get; set; }
+        public int? Length { get; set; }
 
         /// <summary>
         /// Specifies the minimum number of characters or list items allowed. Must be equal to or greater than zero
         /// </summary>
-        public int MinimumLength { get; set; }
+        public int? MinimumLength { get; set; }
 
         /// <summary>
         /// Specifies the maximum number of characters or list items allowed. Must be equal to or greater than zero
         /// </summary>
-        public int MaximumLength { get; set; }
+        public int? MaximumLength { get; set; }
 
         /// <summary>
         /// Specifies the exact number of digits allowed. Must be greater than zero
         /// </summary>
-        public int TotalDigits { get; set; }
+        public int? TotalDigits { get; set; }
     }
 }

@@ -2,8 +2,8 @@
 {
     public enum WhiteSpaceConstraint
     {
-        Preserve,
-        Replace,
-        Collapse
+        preserve,
+        replace,
+        collapse
     }
 }

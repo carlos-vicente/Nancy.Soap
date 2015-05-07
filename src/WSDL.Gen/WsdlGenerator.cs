@@ -137,7 +137,7 @@ namespace WSDL.Gen
                 TargetNamespace = Definition.DefaultNamespace,
                 QualifiedNamespaces = new List<QNamespace>
                 {
-                    new QNamespace("xs", "http://www.w3.org/2001/XMLSchema")
+                    //new QNamespace("xs", "http://www.w3.org/2001/XMLSchema")
                 },
                 Types = types,
                 Elements = elements
@@ -151,6 +151,10 @@ namespace WSDL.Gen
 
             var definition = new Definition
             {
+                QualifiedNamespaces = new List<QNamespace>
+                {
+                    
+                },
                 Types = new List<Schema>
                 {
                     primitiveTypesSchema,

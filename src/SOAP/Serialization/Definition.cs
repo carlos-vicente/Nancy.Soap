@@ -13,16 +13,10 @@ namespace SOAP.Serialization
         Namespace = "http://schemas.xmlsoap.org/wsdl/")]
     public class Definition : IXmlSerializable
     {
-        public static readonly string DefaultNamespace = "http://tempuri.org";
-
         /// <summary>
         /// The target namespace, where the service exists and is unique.
         /// </summary>
-        public string TargetNamespace
-        {
-            get; // TODO: remote set and get obtains the contract namespace
-            set;
-        }
+        public string TargetNamespace { get; set; }
 
         /// <summary>
         /// The namespaces and abbreviations for the types and elements used in the definition
@@ -69,6 +63,15 @@ namespace SOAP.Serialization
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteAttributeString("targetNamespace", this.TargetNamespace);
+
+            foreach (var qualifiedNamespace in QualifiedNamespaces)
+            {
+                writer.WriteAttributeString(
+                    "xmlns",
+                    qualifiedNamespace.Abbreviation,
+                    null,
+                    qualifiedNamespace.Namespace);
+            }
 
             AddTypesElement(writer);
         }

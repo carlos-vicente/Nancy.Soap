@@ -1,4 +1,6 @@
-﻿namespace SOAP.Serialization
+﻿using System.Xml;
+
+namespace SOAP.Serialization
 {
     /// <summary>
     /// An xml simple type. 
@@ -30,5 +32,19 @@
         /// When using Union, can't use Restriction nor List
         /// </summary>
         public Union Union { get; set; }
+
+        public override void WriteXml(XmlWriter writer)
+        {
+            writer.WriteStartElement("simpleType", Schema.XmlSchemaNamespace);
+
+            writer.WriteAttributeString("name", this.Name);
+
+            // only one of this xml elements will be written on to the document
+            if (Restriction != null) Restriction.WriteXml(writer);
+            if (List != null) List.WriteXml(writer);
+            if (Union != null) Union.WriteXml(writer);
+
+            writer.WriteEndElement();
+        }
     }
 }

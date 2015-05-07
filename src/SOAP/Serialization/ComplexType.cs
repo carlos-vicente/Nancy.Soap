@@ -1,4 +1,6 @@
-﻿namespace SOAP.Serialization
+﻿using System.Xml;
+
+namespace SOAP.Serialization
 {
     // <complexType
     // id=ID
@@ -24,5 +26,10 @@
         public ComplexContent ComplexContent { get; set; }
 
         public ElementGrouping Grouping { get; set; }
+        
+        public override void WriteXml(XmlWriter writer)
+        {
+            
+        }
     }
 }
