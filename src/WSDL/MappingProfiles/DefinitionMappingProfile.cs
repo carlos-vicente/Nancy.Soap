@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Nancy.SOAP.MappingProfiles
+namespace WSDL.MappingProfiles
 {
     public class DefinitionMappingProfile : Profile
     {
