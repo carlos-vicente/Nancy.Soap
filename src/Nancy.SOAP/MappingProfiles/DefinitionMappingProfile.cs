@@ -7,155 +7,155 @@ namespace Nancy.SOAP.MappingProfiles
         protected override void Configure()
         {
             CreateMap<
-                WSDL.Contracts.Definition, 
-                global::SOAP.Serialization.Definition>();
+                WSDL.Models.Definition, 
+                WSDL.Serialization.Definition>();
 
             CreateMap<
-                WSDL.Contracts.QNamespace, 
-                global::SOAP.Serialization.QNamespace>();
+                WSDL.Models.QNamespace, 
+                WSDL.Serialization.QNamespace>();
 
             CreateMap<
-                WSDL.Contracts.Schema,
-                global::SOAP.Serialization.Schema>();
+                WSDL.Models.Schema,
+                WSDL.Serialization.Schema>();
 
             CreateMap<
-                WSDL.Contracts.Message,
-                global::SOAP.Serialization.Message>();
+                WSDL.Models.Message,
+                WSDL.Serialization.Message>();
 
             CreateMap<
-                WSDL.Contracts.PortType,
-                global::SOAP.Serialization.PortType>();
+                WSDL.Models.PortType,
+                WSDL.Serialization.PortType>();
 
             CreateMap<
-                WSDL.Contracts.Binding,
-                global::SOAP.Serialization.Binding>();
+                WSDL.Models.Binding,
+                WSDL.Serialization.Binding>();
 
             CreateMap<
-                WSDL.Contracts.Service,
-                global::SOAP.Serialization.Service>();
+                WSDL.Models.Service,
+                WSDL.Serialization.Service>();
 
             CreateMap<
-                WSDL.Contracts.Element,
-                global::SOAP.Serialization.Element>();
+                WSDL.Models.Element,
+                WSDL.Serialization.Element>();
 
             CreateMap<
-                WSDL.Contracts.QName,
-                global::SOAP.Serialization.QName>();
+                WSDL.Models.QName,
+                WSDL.Serialization.QName>();
 
             CreateMap<
-                WSDL.Contracts.SchemaType,
-                global::SOAP.Serialization.SchemaType>()
+                WSDL.Models.SchemaType,
+                WSDL.Serialization.SchemaType>()
                 .Include<
-                    WSDL.Contracts.ComplexType,
-                    global::SOAP.Serialization.ComplexType>()
+                    WSDL.Models.ComplexType,
+                    WSDL.Serialization.ComplexType>()
                 .Include<
-                    WSDL.Contracts.SimpleType,
-                    global::SOAP.Serialization.SimpleType>();
+                    WSDL.Models.SimpleType,
+                    WSDL.Serialization.SimpleType>();
 
             CreateMap<
-                WSDL.Contracts.ComplexType,
-                global::SOAP.Serialization.ComplexType>();
+                WSDL.Models.ComplexType,
+                WSDL.Serialization.ComplexType>();
 
             CreateMap<
-                WSDL.Contracts.SimpleContent,
-                global::SOAP.Serialization.SimpleContent>();
+                WSDL.Models.SimpleContent,
+                WSDL.Serialization.SimpleContent>();
 
             CreateMap<
-                WSDL.Contracts.ComplexContent,
-                global::SOAP.Serialization.ComplexContent>();
+                WSDL.Models.ComplexContent,
+                WSDL.Serialization.ComplexContent>();
 
             CreateMap<
-                WSDL.Contracts.ElementGrouping,
-                global::SOAP.Serialization.ElementGrouping>()
+                WSDL.Models.ElementGrouping,
+                WSDL.Serialization.ElementGrouping>()
                 .Include<
-                    WSDL.Contracts.All,
-                    global::SOAP.Serialization.All>()
+                    WSDL.Models.All,
+                    WSDL.Serialization.All>()
                 .Include<
-                    WSDL.Contracts.Choice,
-                    global::SOAP.Serialization.Choice>()
+                    WSDL.Models.Choice,
+                    WSDL.Serialization.Choice>()
                 .Include<
-                    WSDL.Contracts.Group,
-                    global::SOAP.Serialization.Group>()
+                    WSDL.Models.Group,
+                    WSDL.Serialization.Group>()
                 .Include<
-                    WSDL.Contracts.Sequence,
-                    global::SOAP.Serialization.Sequence>();
+                    WSDL.Models.Sequence,
+                    WSDL.Serialization.Sequence>();
 
             CreateMap<
-                WSDL.Contracts.All,
-                global::SOAP.Serialization.All>();
+                WSDL.Models.All,
+                WSDL.Serialization.All>();
 
             CreateMap<
-                WSDL.Contracts.Choice,
-                global::SOAP.Serialization.Choice>();
+                WSDL.Models.Choice,
+                WSDL.Serialization.Choice>();
 
             CreateMap<
-                WSDL.Contracts.Group,
-                global::SOAP.Serialization.Group>();
+                WSDL.Models.Group,
+                WSDL.Serialization.Group>();
 
             CreateMap<
-                WSDL.Contracts.Sequence,
-                global::SOAP.Serialization.Sequence>();
+                WSDL.Models.Sequence,
+                WSDL.Serialization.Sequence>();
 
             CreateMap<
-                WSDL.Contracts.SimpleType,
-                global::SOAP.Serialization.SimpleType>();
+                WSDL.Models.SimpleType,
+                WSDL.Serialization.SimpleType>();
 
             CreateMap<
-                WSDL.Contracts.Restriction,
-                global::SOAP.Serialization.Restriction>();
+                WSDL.Models.Restriction,
+                WSDL.Serialization.Restriction>();
 
             CreateMap<
-                WSDL.Contracts.List,
-                global::SOAP.Serialization.List>();
+                WSDL.Models.List,
+                WSDL.Serialization.List>();
 
             CreateMap<
-                WSDL.Contracts.Union,
-                global::SOAP.Serialization.Union>();
+                WSDL.Models.Union,
+                WSDL.Serialization.Union>();
 
             CreateMap<
-                WSDL.Contracts.WhiteSpaceConstraint,
-                global::SOAP.Serialization.WhiteSpaceConstraint>();
+                WSDL.Models.WhiteSpaceConstraint,
+                WSDL.Serialization.WhiteSpaceConstraint>();
 
             CreateMap<
-                WSDL.Contracts.MessagePart,
-                global::SOAP.Serialization.MessagePart>()
+                WSDL.Models.MessagePart,
+                WSDL.Serialization.MessagePart>()
                 .Include<
-                    WSDL.Contracts.TypeMessagePart,
-                    global::SOAP.Serialization.TypeMessagePart>()
+                    WSDL.Models.TypeMessagePart,
+                    WSDL.Serialization.TypeMessagePart>()
                 .Include<
-                    WSDL.Contracts.ElementMessagePart,
-                    global::SOAP.Serialization.ElementMessagePart>();
+                    WSDL.Models.ElementMessagePart,
+                    WSDL.Serialization.ElementMessagePart>();
 
             CreateMap<
-                WSDL.Contracts.TypeMessagePart,
-                global::SOAP.Serialization.TypeMessagePart>();
+                WSDL.Models.TypeMessagePart,
+                WSDL.Serialization.TypeMessagePart>();
 
             CreateMap<
-                WSDL.Contracts.ElementMessagePart,
-                global::SOAP.Serialization.ElementMessagePart>();
+                WSDL.Models.ElementMessagePart,
+                WSDL.Serialization.ElementMessagePart>();
 
             CreateMap<
-                WSDL.Contracts.Operation,
-                global::SOAP.Serialization.Operation>()
+                WSDL.Models.Operation,
+                WSDL.Serialization.Operation>()
                 .Include<
-                    WSDL.Contracts.RequestResponseOperation,
-                    global::SOAP.Serialization.RequestResponseOperation>();
+                    WSDL.Models.RequestResponseOperation,
+                    WSDL.Serialization.RequestResponseOperation>();
 
             CreateMap<
-                WSDL.Contracts.RequestResponseOperation,
-                global::SOAP.Serialization.RequestResponseOperation>();
+                WSDL.Models.RequestResponseOperation,
+                WSDL.Serialization.RequestResponseOperation>();
 
             CreateMap<
-                WSDL.Contracts.OperationMessage,
-                global::SOAP.Serialization.OperationMessage>();
+                WSDL.Models.OperationMessage,
+                WSDL.Serialization.OperationMessage>();
 
             CreateMap<
-                WSDL.Contracts.Binding,
-                global::SOAP.Serialization.Binding>();
+                WSDL.Models.Binding,
+                WSDL.Serialization.Binding>();
 
             CreateMap<
-                WSDL.Contracts.Service,
-                global::SOAP.Serialization.Service>();
+                WSDL.Models.Service,
+                WSDL.Serialization.Service>();
         }
     }
 }

@@ -60,13 +60,9 @@
       <Project>{737ecec8-5e07-49c6-896d-6d63699d7b53}</Project>
       <Name>SOAP</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WSDL.Contracts\WSDL.Contracts.csproj">
-      <Project>{b141c822-1b6d-444f-8f49-b9d971727801}</Project>
-      <Name>WSDL.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WSDL.Gen\WSDL.Gen.csproj">
-      <Project>{42E04893-97A2-4992-9E4D-88B258E091B0}</Project>
-      <Name>WSDL.Gen</Name>
+    <ProjectReference Include="..\WSDL\WSDL.csproj">
+      <Project>{7DC8BD69-715E-4115-85D9-E521D83AF482}</Project>
+      <Name>WSDL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

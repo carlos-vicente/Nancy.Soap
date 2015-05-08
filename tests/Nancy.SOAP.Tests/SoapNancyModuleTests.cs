@@ -6,7 +6,7 @@ using FluentAssertions;
 using Nancy.Responses.Negotiation;
 using Nancy.Testing;
 using SOAP.Dispatching;
-using WSDL.Gen;
+using WSDL;
 
 namespace Nancy.SOAP.Tests
 {
@@ -22,7 +22,7 @@ namespace Nancy.SOAP.Tests
             public TestingModule(
                 IContract service, 
                 IMappingEngine engine, 
-                IWsdlGenerator wsdlGenerator, 
+                IGenerator wsdlGenerator, 
                 IDispatcher<IContract> dispatcher) 
                 : base("/", service, engine, wsdlGenerator, dispatcher)
             {
@@ -42,7 +42,7 @@ namespace Nancy.SOAP.Tests
                 
                 var service = _faker.Resolve<IContract>();
                 var mappingEngine = _faker.Resolve<IMappingEngine>();
-                var generator = _faker.Resolve<IWsdlGenerator>();
+                var generator = _faker.Resolve<IGenerator>();
                 var dispatcher = _faker.Resolve<IDispatcher<IContract>>();
                 
                 config.Dependency(service);
@@ -56,15 +56,15 @@ namespace Nancy.SOAP.Tests
         {
             // arrange
             const string xmlContentType = "application/xml";
-            var definitionToMap = new WSDL.Contracts.Definition();
-            var mappedDefinition = new global::SOAP.Serialization.Definition();
+            var definitionToMap = new WSDL.Models.Definition();
+            var mappedDefinition = new global::WSDL.Serialization.Definition();
 
-            A.CallTo(() => _faker.Resolve<IWsdlGenerator>()
+            A.CallTo(() => _faker.Resolve<IGenerator>()
                 .GetWebServiceDefinition(typeof (IContract)))
                 .Returns(Task.FromResult(definitionToMap));
 
             A.CallTo(() => _faker.Resolve<IMappingEngine>()
-                .Map<WSDL.Contracts.Definition, global::SOAP.Serialization.Definition>(definitionToMap))
+                .Map<WSDL.Models.Definition, global::WSDL.Serialization.Definition>(definitionToMap))
                 .Returns(mappedDefinition);
 
             // act

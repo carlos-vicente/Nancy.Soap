@@ -1,11 +1,9 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Nancy.Responses.Negotiation;
 using SOAP.Dispatching;
-using WSDL.Contracts;
-using WSDL.Gen;
+using WSDL;
 
 namespace Nancy.SOAP
 {
@@ -14,14 +12,14 @@ namespace Nancy.SOAP
     {
         private readonly T _service;
         private readonly IMappingEngine _engine;
-        private readonly IWsdlGenerator _wsdlGenerator;
+        private readonly IGenerator _wsdlGenerator;
         private readonly IDispatcher<T> _dispatcher;
 
         protected SoapNancyModule(
             string path,
             T service,
             IMappingEngine engine,
-            IWsdlGenerator wsdlGenerator,
+            IGenerator wsdlGenerator,
             IDispatcher<T> dispatcher)
             : base(path)
         {
@@ -40,7 +38,7 @@ namespace Nancy.SOAP
             var definition = await _wsdlGenerator.GetWebServiceDefinition(typeof (T));
 
             var serializable = _engine
-                .Map<Definition, global::SOAP.Serialization.Definition>(definition);
+                .Map<WSDL.Models.Definition, WSDL.Serialization.Definition>(definition);
 
             return Negotiate
                 .WithAllowedMediaRange(new MediaRange("application/xml"))
