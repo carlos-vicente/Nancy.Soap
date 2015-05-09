@@ -29,7 +29,16 @@ namespace WSDL.Serialization
         
         public override void WriteXml(XmlWriter writer)
         {
-            
+            writer.WriteStartElement("complexType", Schema.XmlSchemaNamespace);
+
+            writer.WriteAttributeString("name", Name);
+            writer.WriteAttributeString("abstract", Abstract.ToString().ToLower());
+
+            if (SimpleContent != null) SimpleContent.WriteXml(writer);
+            if (ComplexContent != null) ComplexContent.WriteXml(writer);
+            if (Grouping != null) Grouping.WriteXml(writer);
+
+            writer.WriteEndElement();
         }
     }
 }

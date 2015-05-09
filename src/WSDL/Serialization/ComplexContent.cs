@@ -1,4 +1,8 @@
-﻿namespace WSDL.Serialization
+﻿using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
+
+namespace WSDL.Serialization
 {
     // <complexContent
     // id=ID
@@ -8,9 +12,24 @@
     // (annotation?,(restriction|extension))
     // 
     // </complexContent>
-    public class ComplexContent
+    public class ComplexContent : IXmlSerializable
     {
         public Restriction Restriction { get; set; }
         public Extension Extension { get; set; }
+        
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            
+        }
     }
 }

@@ -3,6 +3,6 @@
     public interface IService
     {
         void DoSomething();
-        int AddTwoValues(int value1, int value2);
+        int DoSomethingElse(int value1, string value2);
     }
 }

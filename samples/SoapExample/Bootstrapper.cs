@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using Nancy;
 using Nancy.Bootstrapper;
-using Nancy.SOAP.MappingProfiles;
 using Nancy.TinyIoc;
 using SOAP.Dispatching;
 using WSDL;
+using WSDL.MappingProfiles;
 
 namespace SoapExample
 {

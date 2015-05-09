@@ -7,9 +7,9 @@
             
         }
 
-        public int AddTwoValues(int value1, int value2)
+        public int DoSomethingElse(int value1, string value2)
         {
-            return value1 + value2;
+            return 0;
         }
     }
 }

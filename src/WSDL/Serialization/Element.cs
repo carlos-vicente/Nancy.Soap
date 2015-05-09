@@ -42,9 +42,10 @@ namespace WSDL.Serialization
                     ? this.Type.Name
                     : string.Format("{0}:{1}", prefix, this.Type.Name));
 
-            writer.WriteAttributeString(
-                "nillable",
-                this.Nillable.ToString().ToLower());
+            if(Nillable)
+                writer.WriteAttributeString(
+                    "nillable",
+                    this.Nillable.ToString().ToLower());
 
             if(MinimumOccurrences.HasValue)
                 writer.WriteAttributeString(

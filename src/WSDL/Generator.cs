@@ -35,6 +35,7 @@ namespace WSDL
 
             foreach (var method in contract.GetMethods())
             {
+                // getting input elements to describe parameters
                 var inputParametersElements =
                     (from parameter in method.GetParameters()
                         let typeName = _primitiveTypeProvider
@@ -43,10 +44,12 @@ namespace WSDL
                         select new Element
                         {
                             Name = parameter.Name,
-                            Type = new QName(typeName.Name, "tns")
+                            Type = typeName,
+                            Nillable = !parameter.ParameterType.IsPrimitive
                         })
                         .ToList();
-
+                
+                // getting input complex type
                 var inputType = new ComplexType(
                     string.Format("{0}", method.Name),
                     new Sequence
@@ -54,54 +57,61 @@ namespace WSDL
                         Elements = inputParametersElements
                     });
 
+                // getting element to reference input complex type
                 var inputElement = new Element
                 {
                     Name = inputType.Name,
-                    Type = new QName(inputType.Name, "tns")
+                    Type = new QName(inputType.Name, Definition.DefaultNamespace)
                 };
 
                 types.Add(inputType);
                 elements.Add(inputElement);
 
+                // getting input message to relate to input element
                 var inputMessage = new Message
                 {
                     Name = string.Format("{0}_{1}_InputMessage", contract.Name, method.Name),
                     Parts = new List<MessagePart>
                     {
-                        new ElementMessagePart("parameters", new QName(inputElement.Name, "tns"))
+                        new ElementMessagePart("parameters", new QName(inputElement.Name, Definition.DefaultNamespace))
                     }
                 };
 
+                // getting output element to describe return type
+                var outputParametersElements = new List<Element>();
+                if(method.ReturnType != typeof(void))
+                    outputParametersElements.Add(new Element
+                    {
+                        Name = string.Format("{0}Result", method.Name),
+                        Type = _primitiveTypeProvider
+                            .GetQNameForType(method.ReturnType)
+                    });
 
-                var outputParametersElement = new Element
-                {
-                    Name = string.Format("{0}Result", method.Name),
-                    Type = _primitiveTypeProvider
-                        .GetQNameForType(method.ReturnType)
-                };
-
+                // getting output complex type
                 var outputType = new ComplexType(
                     string.Format("{0}Response", method.Name),
                     new Sequence
                     {
-                        Elements = new List<Element> { outputParametersElement }
+                        Elements = outputParametersElements
                     });
 
+                // getting element to reference output complex type
                 var outputElement = new Element
                 {
                     Name = outputType.Name,
-                    Type = new QName(outputType.Name, "tns")
+                    Type = new QName(outputType.Name, Definition.DefaultNamespace)
                 };
 
                 types.Add(outputType);
                 elements.Add(outputElement);
 
+                // getting output message to relate to output element
                 var outputMessage = new Message
                 {
                     Name = string.Format("{0}_{1}_OutputMessage", contract.Name, method.Name),
                     Parts = new List<MessagePart>
                     {
-                        new ElementMessagePart("parameters", new QName(outputElement.Name, "tns"))
+                        new ElementMessagePart("parameters", new QName(outputElement.Name, Definition.DefaultNamespace))
                     }
                 };
 
@@ -115,7 +125,7 @@ namespace WSDL
                             Definition.DefaultNamespace,
                             contract.Name,
                             method.Name),
-                        Message = new QName(inputMessage.Name, "tns")
+                        Message = new QName(inputMessage.Name, Definition.DefaultNamespace)
                     },
                     Output = new OperationMessage
                     {
@@ -124,7 +134,7 @@ namespace WSDL
                             Definition.DefaultNamespace,
                             contract.Name,
                             method.Name),
-                        Message = new QName(outputMessage.Name, "tns")
+                        Message = new QName(outputMessage.Name, Definition.DefaultNamespace)
                     }
                 });
 
@@ -138,6 +148,7 @@ namespace WSDL
                 QualifiedNamespaces = new List<QNamespace>
                 {
                     //new QNamespace("xs", "http://www.w3.org/2001/XMLSchema")
+                    new QNamespace("tns", Definition.DefaultNamespace)
                 },
                 Types = types,
                 Elements = elements
