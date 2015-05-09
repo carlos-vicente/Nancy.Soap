@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace WSDL.MappingProfiles
+namespace WSDL.Serialization.MappingProfiles
 {
     public class DefinitionMappingProfile : Profile
     {

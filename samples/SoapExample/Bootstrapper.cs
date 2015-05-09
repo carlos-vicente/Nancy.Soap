@@ -4,7 +4,7 @@ using Nancy.Bootstrapper;
 using Nancy.TinyIoc;
 using SOAP.Dispatching;
 using WSDL;
-using WSDL.MappingProfiles;
+using WSDL.Serialization.MappingProfiles;
 
 namespace SoapExample
 {
