@@ -105,6 +105,10 @@
       <Project>{7DC8BD69-715E-4115-85D9-E521D83AF482}</Project>
       <Name>WSDL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\WSDL.Serialization\WSDL.Serialization.csproj">
+      <Project>{DFFF56CD-6435-4F87-818F-99A9BC9CD3C2}</Project>
+      <Name>WSDL.Serialization</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

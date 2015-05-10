@@ -47,7 +47,7 @@ namespace WSDL.Tests
 
             var messageTypes = new Schema
             {
-                TargetNamespace = Definition.DefaultNamespace,
+                TargetNamespace = Generator.DefaultNamespace,
                 QualifiedNamespaces = new List<QNamespace>
                 {
                     new QNamespace("xs", "http://www.w3.org/2001/XMLSchema")

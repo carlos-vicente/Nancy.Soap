@@ -7,8 +7,6 @@ namespace WSDL.Models
     /// </summary>
     public class Definition
     {
-        public static readonly string DefaultNamespace = "http://tempuri.org";
-
         /// <summary>
         /// The target namespace, where the service exists and is unique.
         /// </summary>
@@ -55,7 +53,6 @@ namespace WSDL.Models
         /// </summary>
         public Definition()
         {
-            TargetNamespace = DefaultNamespace;
             Types = new List<Schema>();
             Messages = new List<Message>();
             PortTypes = new List<PortType>();

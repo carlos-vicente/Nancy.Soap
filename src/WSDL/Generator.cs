@@ -8,6 +8,9 @@ namespace WSDL
 {
     public class Generator : IGenerator
     {
+        public static readonly string DefaultNamespace = "http://tempuri.org";
+        public static readonly string AddressingNamespace = "http://www.w3.org/2006/05/addressing/wsdl";
+
         private readonly IPrimitiveTypeProvider _primitiveTypeProvider;
         
         public Generator(IPrimitiveTypeProvider primitiveTypeProvider)
@@ -61,7 +64,7 @@ namespace WSDL
                 var inputElement = new Element
                 {
                     Name = inputType.Name,
-                    Type = new QName(inputType.Name, Definition.DefaultNamespace)
+                    Type = new QName(inputType.Name, DefaultNamespace)
                 };
 
                 types.Add(inputType);
@@ -73,7 +76,7 @@ namespace WSDL
                     Name = string.Format("{0}_{1}_InputMessage", contract.Name, method.Name),
                     Parts = new List<MessagePart>
                     {
-                        new ElementMessagePart("parameters", new QName(inputElement.Name, Definition.DefaultNamespace))
+                        new ElementMessagePart("parameters", new QName(inputElement.Name, DefaultNamespace))
                     }
                 };
 
@@ -84,7 +87,8 @@ namespace WSDL
                     {
                         Name = string.Format("{0}Result", method.Name),
                         Type = _primitiveTypeProvider
-                            .GetQNameForType(method.ReturnType)
+                            .GetQNameForType(method.ReturnType),
+                        Nillable = !method.ReturnType.IsPrimitive
                     });
 
                 // getting output complex type
@@ -99,7 +103,7 @@ namespace WSDL
                 var outputElement = new Element
                 {
                     Name = outputType.Name,
-                    Type = new QName(outputType.Name, Definition.DefaultNamespace)
+                    Type = new QName(outputType.Name, DefaultNamespace)
                 };
 
                 types.Add(outputType);
@@ -111,30 +115,33 @@ namespace WSDL
                     Name = string.Format("{0}_{1}_OutputMessage", contract.Name, method.Name),
                     Parts = new List<MessagePart>
                     {
-                        new ElementMessagePart("parameters", new QName(outputElement.Name, Definition.DefaultNamespace))
+                        new ElementMessagePart("parameters", new QName(outputElement.Name, DefaultNamespace))
                     }
                 };
 
+                // getting operation for port type
                 operations.Add(new RequestResponseOperation
                 {
                     Name = method.Name,
                     Input = new OperationMessage
                     {
+                        DirectionType = "Input",
                         Action = string.Format(
                             "{0}/{1}/{2}",
-                            Definition.DefaultNamespace,
+                            DefaultNamespace,
                             contract.Name,
                             method.Name),
-                        Message = new QName(inputMessage.Name, Definition.DefaultNamespace)
+                        Message = new QName(inputMessage.Name, DefaultNamespace)
                     },
                     Output = new OperationMessage
                     {
+                        DirectionType = "Output",
                         Action = string.Format(
                             "{0}/{1}/{2}Response",
-                            Definition.DefaultNamespace,
+                            DefaultNamespace,
                             contract.Name,
                             method.Name),
-                        Message = new QName(outputMessage.Name, Definition.DefaultNamespace)
+                        Message = new QName(outputMessage.Name, DefaultNamespace)
                     }
                 });
 
@@ -144,12 +151,7 @@ namespace WSDL
 
             var messageTypes = new Schema
             {
-                TargetNamespace = Definition.DefaultNamespace,
-                QualifiedNamespaces = new List<QNamespace>
-                {
-                    //new QNamespace("xs", "http://www.w3.org/2001/XMLSchema")
-                    new QNamespace("tns", Definition.DefaultNamespace)
-                },
+                TargetNamespace = DefaultNamespace,
                 Types = types,
                 Elements = elements
             };
@@ -162,9 +164,11 @@ namespace WSDL
 
             var definition = new Definition
             {
+                TargetNamespace = DefaultNamespace,
                 QualifiedNamespaces = new List<QNamespace>
                 {
-                    
+                    new QNamespace("tns", DefaultNamespace),
+                    new QNamespace("wsaw", AddressingNamespace)
                 },
                 Types = new List<Schema>
                 {

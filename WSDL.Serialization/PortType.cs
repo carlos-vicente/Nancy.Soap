@@ -23,7 +23,16 @@ namespace WSDL.Serialization
 
         public void WriteXml(XmlWriter writer)
         {
-            
+            writer.WriteStartElement("portType");
+
+            writer.WriteAttributeString("name", Name);
+
+            foreach (var operation in Operations)
+            {
+                operation.WriteXml(writer);
+            }
+
+            writer.WriteEndElement();
         }
     }
 }

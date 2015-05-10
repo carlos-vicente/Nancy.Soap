@@ -8,11 +8,11 @@ namespace WSDL.Serialization
     /// <summary>
     /// Holds the description of a web service. Web Services Description Language (WSDL)
     /// </summary>
-    [XmlRoot(
-        "definitions",
-        Namespace = "http://schemas.xmlsoap.org/wsdl/")]
+    [XmlRoot("definitions", Namespace = WsdlNamespace)]
     public class Definition : IXmlSerializable
     {
+        public const string WsdlNamespace = "http://schemas.xmlsoap.org/wsdl/";
+
         /// <summary>
         /// The target namespace, where the service exists and is unique.
         /// </summary>
@@ -74,6 +74,8 @@ namespace WSDL.Serialization
             }
 
             AddTypesElement(writer);
+            AddMessagesElements(writer);
+            AddPortTypesElements(writer);
         }
 
         private void AddTypesElement(XmlWriter writer)
@@ -86,25 +88,21 @@ namespace WSDL.Serialization
             }
 
             writer.WriteEndElement();
+        }
 
+        private void AddMessagesElements(XmlWriter writer)
+        {
             foreach (var message in Messages)
             {
                 message.WriteXml(writer);
             }
+        }
 
+        private void AddPortTypesElements(XmlWriter writer)
+        {
             foreach (var portType in PortTypes)
             {
                 portType.WriteXml(writer);
-            }
-
-            foreach (var binding in Bindings)
-            {
-                binding.WriteXml(writer);
-            }
-
-            foreach (var service in Services)
-            {
-                service.WriteXml(writer);
             }
         }
     }

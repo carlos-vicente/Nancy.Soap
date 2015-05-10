@@ -23,7 +23,16 @@ namespace WSDL.Serialization
 
         public void WriteXml(XmlWriter writer)
         {
-            
+            writer.WriteStartElement("message");
+
+            writer.WriteAttributeString("name", Name);
+
+            foreach (var messagePart in Parts)
+            {
+                messagePart.WriteXml(writer);
+            }
+
+            writer.WriteEndElement();
         }
     }
 }

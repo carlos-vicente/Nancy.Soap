@@ -7,9 +7,9 @@
             
         }
 
-        public int DoSomethingElse(int value1, string value2)
+        public string DoSomethingElse(int value1, string value2)
         {
-            return 0;
+            return null;
         }
     }
 }
