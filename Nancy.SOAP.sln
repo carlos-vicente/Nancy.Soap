@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSDL", "src\WSDL\WSDL.cspro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSDL.Tests", "tests\WSDL.Tests\WSDL.Tests.csproj", "{1FAA81E6-7B0F-47E1-B952-36DCED166FAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSDL.Serialization", "WSDL.Serialization\WSDL.Serialization.csproj", "{DFFF56CD-6435-4F87-818F-99A9BC9CD3C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSDL.Serialization", "src\WSDL.Serialization\WSDL.Serialization.csproj", "{DFFF56CD-6435-4F87-818F-99A9BC9CD3C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

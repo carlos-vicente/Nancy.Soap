@@ -27,10 +27,13 @@ namespace WSDL.Tests
         public void GetWebServiceDefinition_ReturnsDefinition_WhenGettingSimpleTypeInterface()
         {
             // arrange
-            var primitiveTypesSchema = new Schema();
-            var intQName = new QName("int", "tns");
-            var stringQName = new QName("string", "tns");
+            const string defaultNamespace = "http://tempuri.org";
+            const string addressingNamespace = "http://www.w3.org/2006/05/addressing/wsdl";
 
+            var primitiveTypesSchema = new Schema();
+            var intQName = new QName("int", "http://www.w3.org/2001/XMLSchema");
+            var stringQName = new QName("string", "http://www.w3.org/2001/XMLSchema");
+            
             A.CallTo(() => _faker.Resolve<IPrimitiveTypeProvider>()
                 .GetPrimitiveTypesSchema())
                 .Returns(primitiveTypesSchema);
@@ -48,10 +51,6 @@ namespace WSDL.Tests
             var messageTypes = new Schema
             {
                 TargetNamespace = Generator.DefaultNamespace,
-                QualifiedNamespaces = new List<QNamespace>
-                {
-                    new QNamespace("xs", "http://www.w3.org/2001/XMLSchema")
-                },
                 Types = new List<SchemaType>
                 {
                     new ComplexType("OperationNoReturnNoParameters", new Sequence()),
@@ -82,22 +81,22 @@ namespace WSDL.Tests
                     new Element
                     {
                         Name = "OperationNoReturnNoParameters", 
-                        Type = new QName("OperationNoReturnNoParameters", "tns")
+                        Type = new QName("OperationNoReturnNoParameters", defaultNamespace)
                     },
                     new Element
                     {
                         Name = "OperationNoReturnNoParametersResponse", 
-                        Type = new QName("OperationNoReturnNoParametersResponse", "tns")
+                        Type = new QName("OperationNoReturnNoParametersResponse", defaultNamespace)
                     },
                     new Element
                     {
                         Name = "OperationWithReturnAndParameters", 
-                        Type = new QName("OperationWithReturnAndParameters", "tns")
+                        Type = new QName("OperationWithReturnAndParameters", defaultNamespace)
                     },
                     new Element
                     {
                         Name = "OperationWithReturnAndParametersResponse", 
-                        Type = new QName("OperationWithReturnAndParametersResponse", "tns")
+                        Type = new QName("OperationWithReturnAndParametersResponse", defaultNamespace)
                     }
                 }
             };
@@ -109,7 +108,9 @@ namespace WSDL.Tests
                     Name = "IContract_OperationNoReturnNoParameters_InputMessage",
                     Parts = new List<MessagePart>
                     {
-                        new ElementMessagePart("parameters", new QName("OperationNoReturnNoParameters", "tns"))
+                        new ElementMessagePart(
+                            "parameters", 
+                            new QName("OperationNoReturnNoParameters", defaultNamespace))
                     }
                 },
                 new Message
@@ -117,7 +118,9 @@ namespace WSDL.Tests
                     Name = "IContract_OperationNoReturnNoParameters_OutputMessage",
                     Parts = new List<MessagePart>
                     {
-                        new ElementMessagePart("parameters", new QName("OperationNoReturnNoParametersResponse", "tns"))
+                        new ElementMessagePart(
+                            "parameters", 
+                            new QName("OperationNoReturnNoParametersResponse", defaultNamespace))
                     }
                 },
                 new Message
@@ -125,7 +128,9 @@ namespace WSDL.Tests
                     Name = "IContract_OperationWithReturnAndParameters_InputMessage",
                     Parts = new List<MessagePart>
                     {
-                        new ElementMessagePart("parameters", new QName("OperationWithReturnAndParameters", "tns"))
+                        new ElementMessagePart(
+                            "parameters", 
+                            new QName("OperationWithReturnAndParameters", defaultNamespace))
                     }
                 },
                 new Message
@@ -133,7 +138,9 @@ namespace WSDL.Tests
                     Name = "IContract_OperationWithReturnAndParameters_OutputMessage",
                     Parts = new List<MessagePart>
                     {
-                        new ElementMessagePart("parameters", new QName("OperationWithReturnAndParametersResponse", "tns"))
+                        new ElementMessagePart(
+                            "parameters", 
+                            new QName("OperationWithReturnAndParametersResponse", defaultNamespace))
                     }
                 }
             };
@@ -149,12 +156,12 @@ namespace WSDL.Tests
                         Input = new OperationMessage
                         {
                             Action = "http://tempuri.org/IContract/OperationNoReturnNoParameters",
-                            Message = new QName("IContract_OperationNoReturnNoParameters_InputMessage", "tns")
+                            Message = new QName("IContract_OperationNoReturnNoParameters_InputMessage", defaultNamespace)
                         },
                         Output = new OperationMessage
                         {
                             Action = "http://tempuri.org/IContract/OperationNoReturnNoParametersResponse",
-                            Message = new QName("IContract_OperationNoReturnNoParameters_OutputMessage", "tns")
+                            Message = new QName("IContract_OperationNoReturnNoParameters_OutputMessage", defaultNamespace)
                         }
                     },
                     new RequestResponseOperation
@@ -163,12 +170,12 @@ namespace WSDL.Tests
                         Input = new OperationMessage
                         {
                             Action = "http://tempuri.org/IContract/OperationWithReturnAndParameters",
-                            Message = new QName("IContract_OperationWithReturnAndParameters_InputMessage", "tns")
+                            Message = new QName("IContract_OperationWithReturnAndParameters_InputMessage", defaultNamespace)
                         },
                         Output = new OperationMessage
                         {
                             Action = "http://tempuri.org/IContract/OperationWithReturnAndParametersResponse",
-                            Message = new QName("IContract_OperationWithReturnAndParameters_OutputMessage", "tns")
+                            Message = new QName("IContract_OperationWithReturnAndParameters_OutputMessage", defaultNamespace)
                         }
                     }
                 }
@@ -176,9 +183,11 @@ namespace WSDL.Tests
 
             var expectedDefinition = new Definition
             {
+                TargetNamespace = defaultNamespace,
                 QualifiedNamespaces = new List<QNamespace>
                 {
-                    
+                    new QNamespace("tns", defaultNamespace),
+                    new QNamespace("wsaw", addressingNamespace)
                 },
                 Types = new List<Schema>
                 {

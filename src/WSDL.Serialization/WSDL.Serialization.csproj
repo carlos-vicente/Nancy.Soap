@@ -83,7 +83,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\WSDL\WSDL.csproj">
+    <ProjectReference Include="..\WSDL\WSDL.csproj">
       <Project>{7dc8bd69-715e-4115-85d9-e521d83af482}</Project>
       <Name>WSDL</Name>
     </ProjectReference>

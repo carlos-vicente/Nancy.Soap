@@ -88,13 +88,13 @@
       <Project>{737ecec8-5e07-49c6-896d-6d63699d7b53}</Project>
       <Name>SOAP</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\WSDL.Serialization\WSDL.Serialization.csproj">
+      <Project>{dfff56cd-6435-4f87-818f-99a9bc9cd3c2}</Project>
+      <Name>WSDL.Serialization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\WSDL\WSDL.csproj">
       <Project>{7DC8BD69-715E-4115-85D9-E521D83AF482}</Project>
       <Name>WSDL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WSDL.Serialization\WSDL.Serialization.csproj">
-      <Project>{dfff56cd-6435-4f87-818f-99a9bc9cd3c2}</Project>
-      <Name>WSDL.Serialization</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
