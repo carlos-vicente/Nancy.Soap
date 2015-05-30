@@ -4,7 +4,7 @@ using WSDL.Models;
 
 namespace WSDL.TypeManagement
 {
-    public class StaticPrimiteTypeProvider : IPrimitiveTypeProvider
+    public class StaticPrimitiveTypeProvider : IPrimitiveTypeProvider
     {
         private const string XmlSchemaNamespace = "http://www.w3.org/2001/XMLSchema";
         private const string SerializationNamespace = "http://schemas.microsoft.com/2003/10/Serialization/";

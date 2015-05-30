@@ -75,7 +75,7 @@
     <Compile Include="Models\Union.cs" />
     <Compile Include="Models\WhiteSpaceConstraint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TypeManagement\StaticPrimiteTypeProvider.cs" />
+    <Compile Include="TypeManagement\StaticPrimitiveTypeProvider.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="TypeManagement\TypeContext.cs" />
     <Compile Include="TypeManagement\TypeContextFactory.cs" />

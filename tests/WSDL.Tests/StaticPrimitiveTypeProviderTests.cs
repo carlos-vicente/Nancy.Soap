@@ -2,7 +2,7 @@
 
 namespace WSDL.Tests
 {
-    public class StaticPrimiteTypeProviderTests
+    public class StaticPrimitiveTypeProviderTests
     {
         public void GetPrimitiveTypesSchema_ReturnsCorrectData_WhenInvoked()
         {

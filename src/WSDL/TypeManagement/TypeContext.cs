@@ -6,9 +6,11 @@ namespace WSDL.TypeManagement
 {
     public class TypeContext : ITypeContext
     {
-        public TypeContext()
+        public IPrimitiveTypeProvider PrimitiveTypeProvider { get; private set; }
+
+        public TypeContext(IPrimitiveTypeProvider primitiveTypeProvider)
         {
-            
+            PrimitiveTypeProvider = primitiveTypeProvider;
         }
 
         public MethodDescription GetDescriptionForMethod(MethodInfo methodInfo, string contractNamespace)

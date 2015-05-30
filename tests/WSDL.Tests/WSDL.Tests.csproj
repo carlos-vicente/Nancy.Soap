@@ -59,8 +59,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StaticPrimiteTypeProviderTests.cs" />
+    <Compile Include="StaticPrimitiveTypeProviderTests.cs" />
     <Compile Include="GeneratorTests.cs" />
+    <Compile Include="TypeContextFactoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\WSDL\WSDL.csproj">
