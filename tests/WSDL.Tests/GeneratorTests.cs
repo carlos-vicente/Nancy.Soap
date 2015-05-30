@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Autofac.Extras.FakeItEasy;
 using FakeItEasy;
 using FluentAssertions;
 using WSDL.Models;
+using WSDL.TypeManagement;
 
 namespace WSDL.Tests
 {
@@ -21,85 +23,73 @@ namespace WSDL.Tests
         public GeneratorTests()
         {
             _faker = new AutoFake();
-            _generator = new Generator(_faker.Resolve<IPrimitiveTypeProvider>());
+            _generator = new Generator(_faker.Resolve<ITypeContextFactory>());
         }
 
         public void GetWebServiceDefinition_ReturnsDefinition_WhenGettingSimpleTypeInterface()
         {
             // arrange
             const string defaultNamespace = "http://tempuri.org";
-            const string addressingNamespace = "http://www.w3.org/2006/05/addressing/wsdl";
 
             var primitiveTypesSchema = new Schema();
-            var intQName = new QName("int", "http://www.w3.org/2001/XMLSchema");
-            var stringQName = new QName("string", "http://www.w3.org/2001/XMLSchema");
+            //var intQName = new QName("int", "http://www.w3.org/2001/XMLSchema");
+            //var stringQName = new QName("string", "http://www.w3.org/2001/XMLSchema");
             
-            A.CallTo(() => _faker.Resolve<IPrimitiveTypeProvider>()
-                .GetPrimitiveTypesSchema())
-                .Returns(primitiveTypesSchema);
+            //A.CallTo(() => _faker.Resolve<IPrimitiveTypeProvider>()
+            //    .GetPrimitiveTypesSchema())
+            //    .Returns(primitiveTypesSchema);
 
-            A.CallTo(() => _faker.Resolve<IPrimitiveTypeProvider>()
-                .GetQNameForType(typeof (Int32)))
-                .Returns(intQName);
+            //A.CallTo(() => _faker.Resolve<IPrimitiveTypeProvider>()
+            //    .GetQNameForType(typeof (Int32)))
+            //    .Returns(intQName);
 
-            A.CallTo(() => _faker.Resolve<IPrimitiveTypeProvider>()
-                .GetQNameForType(typeof(String)))
-                .Returns(stringQName);
+            //A.CallTo(() => _faker.Resolve<IPrimitiveTypeProvider>()
+            //    .GetQNameForType(typeof(String)))
+            //    .Returns(stringQName);
 
             var interfaceType = typeof (IContract);
 
-            var messageTypes = new Schema
+            var method1 = interfaceType
+                .GetMethods()
+                .Single(m => m.Name.Equals("OperationNoReturnNoParameters"));
+
+            var methodDescription1 = new MethodDescription
             {
-                TargetNamespace = Generator.DefaultNamespace,
-                Types = new List<SchemaType>
-                {
-                    new ComplexType("OperationNoReturnNoParameters", new Sequence()),
-                    new ComplexType("OperationNoReturnNoParametersResponse", new Sequence()),
-                    new ComplexType("OperationWithReturnAndParameters", new Sequence
-                    {
-                        Elements = new List<Element>
-                        {
-                            new Element{ Name = "p1", Type = intQName},
-                            new Element{ Name = "p2", Nillable = true, Type = stringQName}
-                        }
-                    }),
-                    new ComplexType("OperationWithReturnAndParametersResponse", new Sequence
-                    {
-                        Elements = new List<Element>
-                        {
-                            new Element
-                            { 
-                                Name = "OperationWithReturnAndParametersResult",
-                                Nillable = true,
-                                Type = stringQName
-                            }
-                        }
-                    })
-                },
-                Elements = new List<Element>
-                {
-                    new Element
-                    {
-                        Name = "OperationNoReturnNoParameters", 
-                        Type = new QName("OperationNoReturnNoParameters", defaultNamespace)
-                    },
-                    new Element
-                    {
-                        Name = "OperationNoReturnNoParametersResponse", 
-                        Type = new QName("OperationNoReturnNoParametersResponse", defaultNamespace)
-                    },
-                    new Element
-                    {
-                        Name = "OperationWithReturnAndParameters", 
-                        Type = new QName("OperationWithReturnAndParameters", defaultNamespace)
-                    },
-                    new Element
-                    {
-                        Name = "OperationWithReturnAndParametersResponse", 
-                        Type = new QName("OperationWithReturnAndParametersResponse", defaultNamespace)
-                    }
-                }
+                Input = new ComplexType("input1", new Sequence()),
+                Output = new SimpleType("output1", new List())
             };
+
+            var method2 = interfaceType
+                .GetMethods()
+                .Single(m => m.Name.Equals("OperationWithReturnAndParameters"));
+
+            var methodDescription2 = new MethodDescription
+            {
+                Input = new ComplexType("input2", new Sequence()),
+                Output = new SimpleType("output2", new List())
+            };
+
+            A.CallTo(() => _faker.Resolve<ITypeContextFactory>()
+                .Create())
+                .Returns(_faker.Resolve<ITypeContext>());
+
+            A.CallTo(() => _faker.Resolve<ITypeContext>()
+                .GetDescriptionForMethod(method1, defaultNamespace))
+                .Returns(methodDescription1);
+
+            A.CallTo(() => _faker.Resolve<ITypeContext>()
+                .GetDescriptionForMethod(method2, defaultNamespace))
+                .Returns(methodDescription2);
+
+            var schemas = new List<Schema>
+            {
+                new Schema(),
+                new Schema()
+            };
+
+            A.CallTo(() => _faker.Resolve<ITypeContext>()
+                .GetSchemas())
+                .Returns(schemas);
 
             var messages = new List<Message>
             {
@@ -110,7 +100,7 @@ namespace WSDL.Tests
                     {
                         new ElementMessagePart(
                             "parameters", 
-                            new QName("OperationNoReturnNoParameters", defaultNamespace))
+                            new QName(methodDescription1.Input.Name, defaultNamespace))
                     }
                 },
                 new Message
@@ -120,7 +110,7 @@ namespace WSDL.Tests
                     {
                         new ElementMessagePart(
                             "parameters", 
-                            new QName("OperationNoReturnNoParametersResponse", defaultNamespace))
+                            new QName(methodDescription1.Output.Name, defaultNamespace))
                     }
                 },
                 new Message
@@ -130,7 +120,7 @@ namespace WSDL.Tests
                     {
                         new ElementMessagePart(
                             "parameters", 
-                            new QName("OperationWithReturnAndParameters", defaultNamespace))
+                            new QName(methodDescription2.Input.Name, defaultNamespace))
                     }
                 },
                 new Message
@@ -140,7 +130,7 @@ namespace WSDL.Tests
                     {
                         new ElementMessagePart(
                             "parameters", 
-                            new QName("OperationWithReturnAndParametersResponse", defaultNamespace))
+                            new QName(methodDescription2.Output.Name, defaultNamespace))
                     }
                 }
             };
@@ -186,14 +176,9 @@ namespace WSDL.Tests
                 TargetNamespace = defaultNamespace,
                 QualifiedNamespaces = new List<QNamespace>
                 {
-                    new QNamespace("tns", defaultNamespace),
-                    new QNamespace("wsaw", addressingNamespace)
+                    new QNamespace("tns", defaultNamespace)
                 },
-                Types = new List<Schema>
-                {
-                    primitiveTypesSchema,
-                    messageTypes
-                },
+                Types = schemas,
                 Messages = messages,
                 PortTypes = new List<PortType> { portType },
                 Bindings = new List<Binding>(),

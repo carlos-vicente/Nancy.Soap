@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using WSDL.Models;
 
-namespace WSDL
+namespace WSDL.TypeManagement
 {
     public class StaticPrimiteTypeProvider : IPrimitiveTypeProvider
     {

@@ -5,6 +5,7 @@ using Nancy.TinyIoc;
 using SOAP.Dispatching;
 using WSDL;
 using WSDL.Serialization.MappingProfiles;
+using WSDL.TypeManagement;
 
 namespace SoapExample
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using WSDL.Models;
 
-namespace WSDL
+namespace WSDL.TypeManagement
 {
     public interface IPrimitiveTypeProvider
     {

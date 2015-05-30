@@ -6,6 +6,6 @@
     /// </summary>
     public abstract class SchemaType
     {
-        
+        public string Name { get; protected set; }
     }
 }

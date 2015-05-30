@@ -15,8 +15,6 @@
     // </complexType>
     public class ComplexType : SchemaType
     {
-        public string Name { get; private set; }
-
         public bool Abstract { get; private set; }
 
         public SimpleContent SimpleContent { get; private set; }

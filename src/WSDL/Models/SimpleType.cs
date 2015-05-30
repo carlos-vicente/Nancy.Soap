@@ -9,11 +9,6 @@
     public class SimpleType : SchemaType
     {
         /// <summary>
-        /// The simple type name
-        /// </summary>
-        public string Name { get; private set; }
-
-        /// <summary>
         /// Used when defining a constraint on some other simple type
         /// When using Restriction, can't use List nor Union
         /// </summary>

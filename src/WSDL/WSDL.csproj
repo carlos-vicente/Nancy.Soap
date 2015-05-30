@@ -39,8 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IPrimitiveTypeProvider.cs" />
+    <Compile Include="TypeManagement\IPrimitiveTypeProvider.cs" />
     <Compile Include="IGenerator.cs" />
+    <Compile Include="TypeManagement\ITypeContext.cs" />
+    <Compile Include="TypeManagement\ITypeContextFactory.cs" />
+    <Compile Include="TypeManagement\MethodDescription.cs" />
     <Compile Include="Models\All.cs" />
     <Compile Include="Models\Binding.cs" />
     <Compile Include="Models\Choice.cs" />
@@ -72,8 +75,10 @@
     <Compile Include="Models\Union.cs" />
     <Compile Include="Models\WhiteSpaceConstraint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StaticPrimiteTypeProvider.cs" />
+    <Compile Include="TypeManagement\StaticPrimiteTypeProvider.cs" />
     <Compile Include="Generator.cs" />
+    <Compile Include="TypeManagement\TypeContext.cs" />
+    <Compile Include="TypeManagement\TypeContextFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
