@@ -62,6 +62,9 @@
     <Compile Include="StaticPrimitiveTypeProviderTests.cs" />
     <Compile Include="GeneratorTests.cs" />
     <Compile Include="TypeContextFactoryTests.cs" />
+    <Compile Include="TypeContextTests\SchemaTypeContextTests.cs" />
+    <Compile Include="TypeContextTests\SimpleContractTypeContextTests.cs" />
+    <Compile Include="TypeContextTests\TypeContextTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\WSDL\WSDL.csproj">

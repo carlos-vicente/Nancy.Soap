@@ -17,13 +17,13 @@ namespace WSDL.Tests
             string OperationWithReturnAndParameters(int p1, string p2);
         }
 
-        private readonly Generator _generator;
+        private readonly Generator _sut;
         private readonly AutoFake _faker;
 
         public GeneratorTests()
         {
             _faker = new AutoFake();
-            _generator = new Generator(_faker.Resolve<ITypeContextFactory>());
+            _sut = _faker.Resolve<Generator>();
         }
 
         public void GetWebServiceDefinition_ReturnsDefinition_WhenGettingSimpleTypeInterface()
@@ -31,7 +31,6 @@ namespace WSDL.Tests
             // arrange
             const string defaultNamespace = "http://tempuri.org";
 
-            var primitiveTypesSchema = new Schema();
             //var intQName = new QName("int", "http://www.w3.org/2001/XMLSchema");
             //var stringQName = new QName("string", "http://www.w3.org/2001/XMLSchema");
             
@@ -56,7 +55,7 @@ namespace WSDL.Tests
             var methodDescription1 = new MethodDescription
             {
                 Input = new ComplexType("input1", new Sequence()),
-                Output = new SimpleType("output1", new List())
+                Output = new ComplexType("output1", new Sequence())
             };
 
             var method2 = interfaceType
@@ -66,7 +65,7 @@ namespace WSDL.Tests
             var methodDescription2 = new MethodDescription
             {
                 Input = new ComplexType("input2", new Sequence()),
-                Output = new SimpleType("output2", new List())
+                Output = new ComplexType("output2", new Sequence())
             };
 
             A.CallTo(() => _faker.Resolve<ITypeContextFactory>()
@@ -186,7 +185,7 @@ namespace WSDL.Tests
             };
 
             // act
-            var definition = _generator
+            var definition = _sut
                 .GetWebServiceDefinition(interfaceType)
                 .Result;
 
@@ -198,7 +197,7 @@ namespace WSDL.Tests
         {
             // arrange
             // act
-            Action act = () => _generator.GetWebServiceDefinition(null).Wait();
+            Action act = () => _sut.GetWebServiceDefinition(null).Wait();
 
             // assert
             act
@@ -213,7 +212,7 @@ namespace WSDL.Tests
         {
             // arrange
             // act
-            Action act = () => _generator.GetWebServiceDefinition(typeof(Generator)).Wait();
+            Action act = () => _sut.GetWebServiceDefinition(typeof(Generator)).Wait();
 
             // assert
             act

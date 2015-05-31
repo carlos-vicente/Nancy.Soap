@@ -73,6 +73,12 @@ namespace WSDL.Serialization
                     qualifiedNamespace.Namespace);
             }
 
+            writer.WriteAttributeString(
+                    "xmlns",
+                    "wsaw",
+                    null,
+                    "http://www.w3.org/2006/05/addressing/wsdl");
+
             AddTypesElement(writer);
             AddMessagesElements(writer);
             AddPortTypesElements(writer);

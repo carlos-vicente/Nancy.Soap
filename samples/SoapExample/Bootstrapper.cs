@@ -18,6 +18,8 @@ namespace SoapExample
             Mapper.Configuration.AddProfile<DefinitionMappingProfile>();
             container.Register(Mapper.Engine);
 
+            container.Register<ITypeContextFactory, TypeContextFactory>();
+            container.Register<ITypeContext, TypeContext>();
             container.Register<IPrimitiveTypeProvider, StaticPrimitiveTypeProvider>();
             container.Register<IGenerator, Generator>();
 

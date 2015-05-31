@@ -13,9 +13,8 @@ namespace WSDL.TypeManagement
         public ComplexType Input { get; set; }
 
         /// <summary>
-        /// SchemaType for the output parameter, it can either be 
-        /// an SimpleType or a ComplexType
+        /// SchemaType for the output parameter
         /// </summary>
-        public SchemaType Output { get; set; }
+        public ComplexType Output { get; set; }
     }
 }
