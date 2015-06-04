@@ -6,7 +6,7 @@ namespace WSDL
 {
     public interface IGenerator
     {
-        Task<Definition> GetWebServiceDefinition(Type contract);
-        Task<Definition> GetWebServiceDefinition(Type contract, string contractNamespace);
+        Task<Definition> GetWebServiceDefinition(Type contract, string endpoint);
+        Task<Definition> GetWebServiceDefinition(Type contract, string endpoint, string contractNamespace);
     }
 }

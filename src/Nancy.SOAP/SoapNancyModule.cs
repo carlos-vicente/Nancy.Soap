@@ -35,7 +35,7 @@ namespace Nancy.SOAP
         protected async Task<dynamic> GetWsdl(dynamic parameters, CancellationToken token)
         {
             // invoke wsdl generator with contract
-            var definition = await _wsdlGenerator.GetWebServiceDefinition(typeof (T));
+            var definition = await _wsdlGenerator.GetWebServiceDefinition(typeof (T), "TODO");
 
             var serializable = _engine
                 .Map<WSDL.Models.Definition, WSDL.Serialization.Definition>(definition);

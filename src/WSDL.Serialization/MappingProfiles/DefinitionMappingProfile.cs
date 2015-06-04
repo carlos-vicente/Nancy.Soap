@@ -15,27 +15,27 @@ namespace WSDL.Serialization.MappingProfiles
                 WSDL.Serialization.QNamespace>();
 
             CreateMap<
-                WSDL.Models.Schema,
+                Models.Schema.Schema,
                 WSDL.Serialization.Schema>();
 
             CreateMap<
-                WSDL.Models.Message,
+                Models.Message.Message,
                 WSDL.Serialization.Message>();
 
             CreateMap<
-                WSDL.Models.PortType,
+                Models.PortType.PortType,
                 WSDL.Serialization.PortType>();
 
             CreateMap<
-                WSDL.Models.Binding,
+                Models.Binding.Binding,
                 WSDL.Serialization.Binding>();
 
             CreateMap<
-                WSDL.Models.Service,
+                Models.Service.Service,
                 WSDL.Serialization.Service>();
 
             CreateMap<
-                WSDL.Models.Element,
+                Models.Schema.Element,
                 WSDL.Serialization.Element>();
 
             CreateMap<
@@ -43,118 +43,118 @@ namespace WSDL.Serialization.MappingProfiles
                 WSDL.Serialization.QName>();
 
             CreateMap<
-                WSDL.Models.SchemaType,
+                Models.Schema.SchemaType,
                 WSDL.Serialization.SchemaType>()
                 .Include<
-                    WSDL.Models.ComplexType,
+                    Models.Schema.ComplexType,
                     WSDL.Serialization.ComplexType>()
                 .Include<
-                    WSDL.Models.SimpleType,
+                    Models.Schema.SimpleType,
                     WSDL.Serialization.SimpleType>();
 
             CreateMap<
-                WSDL.Models.ComplexType,
+                Models.Schema.ComplexType,
                 WSDL.Serialization.ComplexType>();
 
             CreateMap<
-                WSDL.Models.SimpleContent,
+                Models.Schema.SimpleContent,
                 WSDL.Serialization.SimpleContent>();
 
             CreateMap<
-                WSDL.Models.ComplexContent,
+                Models.Schema.ComplexContent,
                 WSDL.Serialization.ComplexContent>();
 
             CreateMap<
-                WSDL.Models.ElementGrouping,
+                Models.Schema.ElementGrouping,
                 WSDL.Serialization.ElementGrouping>()
                 .Include<
-                    WSDL.Models.All,
+                    Models.Schema.All,
                     WSDL.Serialization.All>()
                 .Include<
-                    WSDL.Models.Choice,
+                    Models.Schema.Choice,
                     WSDL.Serialization.Choice>()
                 .Include<
-                    WSDL.Models.Group,
+                    Models.Schema.Group,
                     WSDL.Serialization.Group>()
                 .Include<
-                    WSDL.Models.Sequence,
+                    Models.Schema.Sequence,
                     WSDL.Serialization.Sequence>();
 
             CreateMap<
-                WSDL.Models.All,
+                Models.Schema.All,
                 WSDL.Serialization.All>();
 
             CreateMap<
-                WSDL.Models.Choice,
+                Models.Schema.Choice,
                 WSDL.Serialization.Choice>();
 
             CreateMap<
-                WSDL.Models.Group,
+                Models.Schema.Group,
                 WSDL.Serialization.Group>();
 
             CreateMap<
-                WSDL.Models.Sequence,
+                Models.Schema.Sequence,
                 WSDL.Serialization.Sequence>();
 
             CreateMap<
-                WSDL.Models.SimpleType,
+                Models.Schema.SimpleType,
                 WSDL.Serialization.SimpleType>();
 
             CreateMap<
-                WSDL.Models.Restriction,
+                Models.Schema.Restriction,
                 WSDL.Serialization.Restriction>();
 
             CreateMap<
-                WSDL.Models.List,
+                Models.Schema.List,
                 WSDL.Serialization.List>();
 
             CreateMap<
-                WSDL.Models.Union,
+                Models.Schema.Union,
                 WSDL.Serialization.Union>();
 
             CreateMap<
-                WSDL.Models.WhiteSpaceConstraint,
+                Models.Schema.WhiteSpaceConstraint,
                 WSDL.Serialization.WhiteSpaceConstraint>();
 
             CreateMap<
-                WSDL.Models.MessagePart,
+                Models.Message.MessagePart,
                 WSDL.Serialization.MessagePart>()
                 .Include<
-                    WSDL.Models.TypeMessagePart,
+                    Models.Message.TypeMessagePart,
                     WSDL.Serialization.TypeMessagePart>()
                 .Include<
-                    WSDL.Models.ElementMessagePart,
+                    Models.Message.ElementMessagePart,
                     WSDL.Serialization.ElementMessagePart>();
 
             CreateMap<
-                WSDL.Models.TypeMessagePart,
+                Models.Message.TypeMessagePart,
                 WSDL.Serialization.TypeMessagePart>();
 
             CreateMap<
-                WSDL.Models.ElementMessagePart,
+                Models.Message.ElementMessagePart,
                 WSDL.Serialization.ElementMessagePart>();
 
             CreateMap<
-                WSDL.Models.Operation,
+                Models.PortType.Operation,
                 WSDL.Serialization.Operation>()
                 .Include<
-                    WSDL.Models.RequestResponseOperation,
+                    Models.PortType.RequestResponseOperation,
                     WSDL.Serialization.RequestResponseOperation>();
 
             CreateMap<
-                WSDL.Models.RequestResponseOperation,
+                Models.PortType.RequestResponseOperation,
                 WSDL.Serialization.RequestResponseOperation>();
 
             CreateMap<
-                WSDL.Models.OperationMessage,
+                Models.PortType.OperationMessage,
                 WSDL.Serialization.OperationMessage>();
 
             CreateMap<
-                WSDL.Models.Binding,
+                Models.Binding.Binding,
                 WSDL.Serialization.Binding>();
 
             CreateMap<
-                WSDL.Models.Service,
+                Models.Service.Service,
                 WSDL.Serialization.Service>();
         }
     }

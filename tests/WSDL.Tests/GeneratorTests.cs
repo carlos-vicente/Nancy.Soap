@@ -5,7 +5,15 @@ using Autofac.Extras.FakeItEasy;
 using FakeItEasy;
 using FluentAssertions;
 using WSDL.Models;
+using WSDL.Models.Binding;
+using WSDL.Models.Binding.SoapExtensions;
+using WSDL.Models.Message;
+using WSDL.Models.PortType;
+using WSDL.Models.Schema;
+using WSDL.Models.Service;
+using WSDL.Models.Service.SoapExtensions;
 using WSDL.TypeManagement;
+using Binding = WSDL.Models.Binding.Binding;
 
 namespace WSDL.Tests
 {
@@ -30,21 +38,7 @@ namespace WSDL.Tests
         {
             // arrange
             const string defaultNamespace = "http://tempuri.org";
-
-            //var intQName = new QName("int", "http://www.w3.org/2001/XMLSchema");
-            //var stringQName = new QName("string", "http://www.w3.org/2001/XMLSchema");
-            
-            //A.CallTo(() => _faker.Resolve<IPrimitiveTypeProvider>()
-            //    .GetPrimitiveTypesSchema())
-            //    .Returns(primitiveTypesSchema);
-
-            //A.CallTo(() => _faker.Resolve<IPrimitiveTypeProvider>()
-            //    .GetQNameForType(typeof (Int32)))
-            //    .Returns(intQName);
-
-            //A.CallTo(() => _faker.Resolve<IPrimitiveTypeProvider>()
-            //    .GetQNameForType(typeof(String)))
-            //    .Returns(stringQName);
+            const string serviceEndpoint = "http://host/service";
 
             var interfaceType = typeof (IContract);
 
@@ -137,34 +131,110 @@ namespace WSDL.Tests
             var portType = new PortType
             {
                 Name = "IContract",
-                Operations = new List<Operation>
+                Operations = new List<Models.PortType.Operation>
                 {
-                    new RequestResponseOperation
+                    new Models.PortType.RequestResponseOperation
                     {
                         Name = "OperationNoReturnNoParameters",
-                        Input = new OperationMessage
+                        Input = new Models.PortType.OperationMessage
                         {
                             Action = "http://tempuri.org/IContract/OperationNoReturnNoParameters",
                             Message = new QName("IContract_OperationNoReturnNoParameters_InputMessage", defaultNamespace)
                         },
-                        Output = new OperationMessage
+                        Output = new Models.PortType.OperationMessage
                         {
                             Action = "http://tempuri.org/IContract/OperationNoReturnNoParametersResponse",
                             Message = new QName("IContract_OperationNoReturnNoParameters_OutputMessage", defaultNamespace)
                         }
                     },
-                    new RequestResponseOperation
+                    new Models.PortType.RequestResponseOperation
                     {
                         Name = "OperationWithReturnAndParameters",
-                        Input = new OperationMessage
+                        Input = new Models.PortType.OperationMessage
                         {
                             Action = "http://tempuri.org/IContract/OperationWithReturnAndParameters",
                             Message = new QName("IContract_OperationWithReturnAndParameters_InputMessage", defaultNamespace)
                         },
-                        Output = new OperationMessage
+                        Output = new Models.PortType.OperationMessage
                         {
                             Action = "http://tempuri.org/IContract/OperationWithReturnAndParametersResponse",
                             Message = new QName("IContract_OperationWithReturnAndParameters_OutputMessage", defaultNamespace)
+                        }
+                    }
+                }
+            };
+
+            var binding = new Binding
+            {
+                Name = "BasicHttpBinding_IContract",
+                Type = new QName("IContract", defaultNamespace),
+                SoapBinding = new Models.Binding.SoapExtensions.Binding
+                {
+                    Transport = Transport.Http,
+                    Style = Style.Document
+                },
+                Operations = new List<Models.Binding.Operation>
+                {
+                    new Models.Binding.RequestResponseOperation
+                    {
+                        Name = "OperationNoReturnNoParameters",
+                        SoapOperation = new Models.Binding.SoapExtensions.Operation
+                        {
+                            SoapAction = "http://tempuri.org/IContract/OperationNoReturnNoParameters"
+                        },
+                        Input = new Models.Binding.OperationMessage
+                        {
+                            Body = new Body
+                            {
+                                Use = OperationMessageUse.Literal
+                            }
+                        },
+                        Output = new Models.Binding.OperationMessage
+                        {
+                            Body = new Body
+                            {
+                                Use = OperationMessageUse.Literal
+                            }
+                        }
+                    },
+                    
+                    new Models.Binding.RequestResponseOperation
+                    {
+                        Name = "OperationWithReturnAndParameters",
+                        SoapOperation = new Models.Binding.SoapExtensions.Operation
+                        {
+                            SoapAction = "http://tempuri.org/IContract/OperationWithReturnAndParameters"
+                        },
+                        Input = new Models.Binding.OperationMessage
+                        {
+                            Body = new Body
+                            {
+                                Use = OperationMessageUse.Literal
+                            }
+                        },
+                        Output = new Models.Binding.OperationMessage
+                        {
+                            Body = new Body
+                            {
+                                Use = OperationMessageUse.Literal
+                            }
+                        }
+                    }
+                }
+            };
+
+            var service = new Service
+            {
+                Name = "ContractService",
+                Ports = new List<Port>
+                {
+                    new Port
+                    {
+                        Name = binding.Name,
+                        Binding = new QName(binding.Name, defaultNamespace),
+                        Address = new Address
+                        {
+                            Location = serviceEndpoint
                         }
                     }
                 }
@@ -180,24 +250,84 @@ namespace WSDL.Tests
                 Types = schemas,
                 Messages = messages,
                 PortTypes = new List<PortType> { portType },
-                Bindings = new List<Binding>(),
-                Services = new List<Service>()
+                Bindings = new List<Binding> { binding },
+                Services = new List<Service> { service }
             };
 
             // act
             var definition = _sut
-                .GetWebServiceDefinition(interfaceType)
+                .GetWebServiceDefinition(interfaceType, serviceEndpoint)
                 .Result;
 
             // assert
             definition.ShouldBeEquivalentTo(expectedDefinition);
         }
 
+        //TODO: correct this test
+        private void GetWebServiceDefinition_ReturnsDefinitionWithCorrectNamespace_WhenGettingSimpleTypeInterfaceForDifferentNamespace()
+        {
+            // arrange
+            const string ns = "http://something.different.org/new";
+            const string serviceEndpoint = "http://host/service";
+
+            var interfaceType = typeof(IContract);
+
+            var method1 = interfaceType
+                .GetMethods()
+                .Single(m => m.Name.Equals("OperationNoReturnNoParameters"));
+
+            var methodDescription1 = new MethodDescription
+            {
+                Input = new ComplexType("input1", new Sequence()),
+                Output = new ComplexType("output1", new Sequence())
+            };
+
+            var method2 = interfaceType
+                .GetMethods()
+                .Single(m => m.Name.Equals("OperationWithReturnAndParameters"));
+
+            var methodDescription2 = new MethodDescription
+            {
+                Input = new ComplexType("input2", new Sequence()),
+                Output = new ComplexType("output2", new Sequence())
+            };
+
+            A.CallTo(() => _faker.Resolve<ITypeContextFactory>()
+                .Create())
+                .Returns(_faker.Resolve<ITypeContext>());
+
+            A.CallTo(() => _faker.Resolve<ITypeContext>()
+                .GetDescriptionForMethod(method1, ns))
+                .Returns(methodDescription1);
+
+            A.CallTo(() => _faker.Resolve<ITypeContext>()
+                .GetDescriptionForMethod(method2, ns))
+                .Returns(methodDescription2);
+
+            var schemas = new List<Schema>
+            {
+                new Schema(),
+                new Schema()
+            };
+
+            A.CallTo(() => _faker.Resolve<ITypeContext>()
+                .GetSchemas())
+                .Returns(schemas);
+            
+            // act
+            var definition = _sut
+                .GetWebServiceDefinition(interfaceType, serviceEndpoint, ns)
+                .Result;
+
+            // assert
+            definition.TargetNamespace.ShouldBeEquivalentTo(ns);
+        }
+
         public void GetWebServiceDefinition_ThrowArgumentNullException_WhenContractIsNull()
         {
             // arrange
             // act
-            Action act = () => _sut.GetWebServiceDefinition(null).Wait();
+            Action act = () => _sut.GetWebServiceDefinition(null, "endpoint").Wait();
 
             // assert
             act
@@ -212,7 +342,7 @@ namespace WSDL.Tests
         {
             // arrange
             // act
-            Action act = () => _sut.GetWebServiceDefinition(typeof(Generator)).Wait();
+            Action act = () => _sut.GetWebServiceDefinition(typeof(Generator), "endpoint").Wait();
 
             // assert
             act

@@ -1,5 +1,6 @@
 ﻿using System;
 using WSDL.Models;
+using WSDL.Models.Schema;
 
 namespace WSDL.TypeManagement
 {

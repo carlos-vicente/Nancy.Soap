@@ -60,7 +60,7 @@ namespace Nancy.SOAP.Tests
             var mappedDefinition = new global::WSDL.Serialization.Definition();
 
             A.CallTo(() => _faker.Resolve<IGenerator>()
-                .GetWebServiceDefinition(typeof (IContract)))
+                .GetWebServiceDefinition(typeof (IContract), "TODO"))
                 .Returns(Task.FromResult(definitionToMap));
 
             A.CallTo(() => _faker.Resolve<IMappingEngine>()

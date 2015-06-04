@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FakeItEasy;
 using FluentAssertions;
 using WSDL.Models;
+using WSDL.Models.Schema;
 using WSDL.TypeManagement;
 
 namespace WSDL.Tests.TypeContextTests

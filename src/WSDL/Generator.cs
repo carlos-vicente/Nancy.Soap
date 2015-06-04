@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WSDL.Models;
+using WSDL.Models.Binding;
+using WSDL.Models.Message;
+using WSDL.Models.PortType;
+using WSDL.Models.Schema;
+using WSDL.Models.Service;
+using WSDL.Models.Service.SoapExtensions;
 using WSDL.TypeManagement;
 
 namespace WSDL
@@ -17,13 +23,14 @@ namespace WSDL
             _typeContextFactory = typeContextFactory;
         }
 
-        public async Task<Definition> GetWebServiceDefinition(Type contract)
+        public async Task<Definition> GetWebServiceDefinition(Type contract, string endpoint)
         {
-            return await GetWebServiceDefinition(contract, DefaultNamespace);
+            return await GetWebServiceDefinition(contract, endpoint, DefaultNamespace);
         }
 
         public async Task<Definition> GetWebServiceDefinition(
             Type contract,
+            string endpoint,
             string contractNamespace)
         {
             if (contract == null)
@@ -37,7 +44,8 @@ namespace WSDL
             IEnumerable<Schema> schemas;
 
             var messages = new List<Message>();
-            var operations = new List<Operation>();
+            var portTypeOperations = new List<Models.PortType.Operation>();
+            var bindingOperations = new List<Models.Binding.Operation>();
 
             using (var typeContext = _typeContextFactory.Create())
             {
@@ -46,6 +54,7 @@ namespace WSDL
                     var methodDescription = typeContext
                         .GetDescriptionForMethod(method, contractNamespace);
 
+                    // input
                     // getting element to reference input complex type
                     var inputElement = new Element
                     {
@@ -64,7 +73,6 @@ namespace WSDL
                     };
 
                     // output
-
                     // getting element to reference output complex type
                     var outputElement = new Element
                     {
@@ -83,10 +91,10 @@ namespace WSDL
                     };
 
                     // getting operation for port type
-                    operations.Add(new RequestResponseOperation
+                    var portTypeOperation = new Models.PortType.RequestResponseOperation
                     {
                         Name = method.Name,
-                        Input = new OperationMessage
+                        Input = new Models.PortType.OperationMessage
                         {
                             DirectionType = "Input",
                             Action = string.Format(
@@ -96,7 +104,7 @@ namespace WSDL
                                 method.Name),
                             Message = new QName(inputMessage.Name, contractNamespace)
                         },
-                        Output = new OperationMessage
+                        Output = new Models.PortType.OperationMessage
                         {
                             DirectionType = "Output",
                             Action = string.Format(
@@ -106,7 +114,33 @@ namespace WSDL
                                 method.Name),
                             Message = new QName(outputMessage.Name, contractNamespace)
                         }
-                    });
+                    };
+
+                    var bindingOperation = new Models.Binding.RequestResponseOperation
+                    {
+                        Name = method.Name,
+                        SoapOperation = new Models.Binding.SoapExtensions.Operation
+                        {
+                            SoapAction = portTypeOperation.Input.Action
+                        },
+                        Input = new Models.Binding.OperationMessage
+                        {
+                            Body = new Models.Binding.SoapExtensions.Body
+                            {
+                                Use = Models.Binding.SoapExtensions.OperationMessageUse.Literal
+                            }
+                        },
+                        Output = new Models.Binding.OperationMessage
+                        {
+                            Body = new Models.Binding.SoapExtensions.Body
+                            {
+                                Use = Models.Binding.SoapExtensions.OperationMessageUse.Literal
+                            }
+                        }
+                    };
+                    
+                    portTypeOperations.Add(portTypeOperation);
+                    bindingOperations.Add(bindingOperation);
 
                     messages.Add(inputMessage);
                     messages.Add(outputMessage);
@@ -117,7 +151,37 @@ namespace WSDL
             var portType = new PortType
             {
                 Name = contract.Name,
-                Operations = operations
+                Operations = portTypeOperations
+            };
+
+            // Currently only support basic HTTP binding
+            var binding = new Binding
+            {
+                Name = string.Format("BasicHttpBinding_{0}", contract.Name),
+                SoapBinding = new Models.Binding.SoapExtensions.Binding
+                {
+                    Style = Style.Document,
+                    Transport = Transport.Http
+                },
+                Type = new QName(portType.Name, contractNamespace),
+                Operations = bindingOperations
+            };
+
+            var service = new Service
+            {
+                Name = GetContractServiceName(contract.Name),
+                Ports = new List<Port>
+                {
+                    new Port
+                    {
+                        Name = binding.Name,
+                        Binding = new QName(binding.Name, contractNamespace),
+                        Address = new Address
+                        {
+                            Location = endpoint
+                        }
+                    }
+                }
             };
 
             var definition = new Definition
@@ -129,12 +193,22 @@ namespace WSDL
                 },
                 Types = schemas,
                 Messages = messages,
-                PortTypes = new List<PortType> {portType},
-                Bindings = new List<Binding>(),
-                Services = new List<Service>()
+                PortTypes = new List<PortType> { portType },
+                Bindings = new List<Binding> { binding },
+                Services = new List<Service> { service }
             };
 
             return definition;
+        }
+
+        private string GetContractServiceName(string contractName)
+        {
+            var serviceName = contractName;
+
+            if (serviceName.StartsWith("I", StringComparison.InvariantCultureIgnoreCase))
+                serviceName = serviceName.Remove(0, 1);
+
+            return string.Format("{0}Service", serviceName);
         }
     }
 }

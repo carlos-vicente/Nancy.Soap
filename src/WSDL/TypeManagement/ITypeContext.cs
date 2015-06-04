@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using WSDL.Models;
+using WSDL.Models.Schema;
 
 namespace WSDL.TypeManagement
 {
