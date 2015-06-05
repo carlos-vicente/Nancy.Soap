@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using WSDL.Serialization.Message;
+using WSDL.Serialization.PortType;
+using WSDL.Serialization.Schema;
 
 namespace WSDL.Serialization.MappingProfiles
 {
@@ -7,155 +10,216 @@ namespace WSDL.Serialization.MappingProfiles
         protected override void Configure()
         {
             CreateMap<
-                WSDL.Models.Definition, 
-                WSDL.Serialization.Definition>();
+                Models.Definition, 
+                Definition>();
 
             CreateMap<
-                WSDL.Models.QNamespace, 
-                WSDL.Serialization.QNamespace>();
+                Models.QNamespace, 
+                QNamespace>();
 
             CreateMap<
                 Models.Schema.Schema,
-                WSDL.Serialization.Schema>();
+                Schema.Schema>();
 
             CreateMap<
                 Models.Message.Message,
-                WSDL.Serialization.Message>();
+                Message.Message>();
 
             CreateMap<
                 Models.PortType.PortType,
-                WSDL.Serialization.PortType>();
-
-            CreateMap<
-                Models.Binding.Binding,
-                WSDL.Serialization.Binding>();
-
-            CreateMap<
-                Models.Service.Service,
-                WSDL.Serialization.Service>();
+                PortType.PortType>();
 
             CreateMap<
                 Models.Schema.Element,
-                WSDL.Serialization.Element>();
+                Element>();
 
             CreateMap<
-                WSDL.Models.QName,
-                WSDL.Serialization.QName>();
+                Models.QName,
+                QName>();
 
             CreateMap<
                 Models.Schema.SchemaType,
-                WSDL.Serialization.SchemaType>()
+                SchemaType>()
                 .Include<
                     Models.Schema.ComplexType,
-                    WSDL.Serialization.ComplexType>()
+                    ComplexType>()
                 .Include<
                     Models.Schema.SimpleType,
-                    WSDL.Serialization.SimpleType>();
+                    SimpleType>();
 
             CreateMap<
                 Models.Schema.ComplexType,
-                WSDL.Serialization.ComplexType>();
+                ComplexType>();
 
             CreateMap<
                 Models.Schema.SimpleContent,
-                WSDL.Serialization.SimpleContent>();
+                SimpleContent>();
 
             CreateMap<
                 Models.Schema.ComplexContent,
-                WSDL.Serialization.ComplexContent>();
+                ComplexContent>();
 
             CreateMap<
                 Models.Schema.ElementGrouping,
-                WSDL.Serialization.ElementGrouping>()
+                ElementGrouping>()
                 .Include<
                     Models.Schema.All,
-                    WSDL.Serialization.All>()
+                    All>()
                 .Include<
                     Models.Schema.Choice,
-                    WSDL.Serialization.Choice>()
+                    Choice>()
                 .Include<
                     Models.Schema.Group,
-                    WSDL.Serialization.Group>()
+                    Group>()
                 .Include<
                     Models.Schema.Sequence,
-                    WSDL.Serialization.Sequence>();
+                    Sequence>();
 
             CreateMap<
                 Models.Schema.All,
-                WSDL.Serialization.All>();
+                All>();
 
             CreateMap<
                 Models.Schema.Choice,
-                WSDL.Serialization.Choice>();
+                Choice>();
 
             CreateMap<
                 Models.Schema.Group,
-                WSDL.Serialization.Group>();
+                Group>();
 
             CreateMap<
                 Models.Schema.Sequence,
-                WSDL.Serialization.Sequence>();
+                Sequence>();
 
             CreateMap<
                 Models.Schema.SimpleType,
-                WSDL.Serialization.SimpleType>();
+                SimpleType>();
 
             CreateMap<
                 Models.Schema.Restriction,
-                WSDL.Serialization.Restriction>();
+                Restriction>();
 
             CreateMap<
                 Models.Schema.List,
-                WSDL.Serialization.List>();
+                List>();
 
             CreateMap<
                 Models.Schema.Union,
-                WSDL.Serialization.Union>();
+                Union>();
 
             CreateMap<
                 Models.Schema.WhiteSpaceConstraint,
-                WSDL.Serialization.WhiteSpaceConstraint>();
+                WhiteSpaceConstraint>();
 
             CreateMap<
                 Models.Message.MessagePart,
-                WSDL.Serialization.MessagePart>()
+                MessagePart>()
                 .Include<
                     Models.Message.TypeMessagePart,
-                    WSDL.Serialization.TypeMessagePart>()
+                    TypeMessagePart>()
                 .Include<
                     Models.Message.ElementMessagePart,
-                    WSDL.Serialization.ElementMessagePart>();
+                    ElementMessagePart>();
 
             CreateMap<
                 Models.Message.TypeMessagePart,
-                WSDL.Serialization.TypeMessagePart>();
+                TypeMessagePart>();
 
             CreateMap<
                 Models.Message.ElementMessagePart,
-                WSDL.Serialization.ElementMessagePart>();
+                ElementMessagePart>();
 
             CreateMap<
                 Models.PortType.Operation,
-                WSDL.Serialization.Operation>()
+                Operation>()
                 .Include<
                     Models.PortType.RequestResponseOperation,
-                    WSDL.Serialization.RequestResponseOperation>();
+                    RequestResponseOperation>();
 
             CreateMap<
                 Models.PortType.RequestResponseOperation,
-                WSDL.Serialization.RequestResponseOperation>();
+                RequestResponseOperation>()
+                .AfterMap((mrro, rro) =>
+                {
+                    rro.Input.ElementName = "Input";
+                    rro.Output.ElementName = "Output";
+                });
 
             CreateMap<
                 Models.PortType.OperationMessage,
-                WSDL.Serialization.OperationMessage>();
+                OperationMessage>();
 
             CreateMap<
                 Models.Binding.Binding,
-                WSDL.Serialization.Binding>();
+                Binding.Binding>();
+
+            CreateMap<
+                Models.Binding.Operation,
+                Binding.Operation>()
+                .Include<
+                    Models.Binding.RequestResponseOperation,
+                    Binding.RequestResponseOperation>();
+
+            CreateMap<
+                Models.Binding.RequestResponseOperation,
+                Binding.RequestResponseOperation>()
+                .AfterMap((mrro, rro) =>
+                {
+                    rro.Input.ElementName = "Input";
+                    rro.Output.ElementName = "Output";
+                });
+
+            CreateMap<
+                Models.Binding.OperationMessage,
+                Binding.OperationMessage>();
+
+            CreateMap<
+                Models.Binding.OperationFaultMessage,
+                Binding.OperationFaultMessage>();
+
+            CreateMap<
+                Models.Binding.Style,
+                Binding.Style>();
+
+            CreateMap<
+                Models.Binding.Transport,
+                Binding.Transport>();
+
+            CreateMap<
+                Models.Binding.SoapExtensions.Binding,
+                Binding.SoapExtensions.Binding>();
+
+            CreateMap<
+                Models.Binding.SoapExtensions.Operation,
+                Binding.SoapExtensions.Operation>();
+
+            CreateMap<
+                Models.Binding.SoapExtensions.Body,
+                Binding.SoapExtensions.Body>();
+
+            CreateMap<
+                Models.Binding.SoapExtensions.Fault,
+                Binding.SoapExtensions.Fault>();
+
+            CreateMap<
+                Models.Binding.SoapExtensions.Header,
+                Binding.SoapExtensions.Header>();
+
+            CreateMap<
+                Models.Binding.SoapExtensions.OperationMessageUse,
+                Binding.SoapExtensions.OperationMessageUse>();
 
             CreateMap<
                 Models.Service.Service,
-                WSDL.Serialization.Service>();
+                Service.Service>();
+
+            CreateMap<
+                Models.Service.Port,
+                Service.Port>();
+
+            CreateMap<
+                Models.Service.SoapExtensions.Address,
+                Service.SoapExtensions.Address>();
         }
     }
 }

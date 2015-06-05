@@ -96,7 +96,6 @@ namespace WSDL
                         Name = method.Name,
                         Input = new Models.PortType.OperationMessage
                         {
-                            DirectionType = "Input",
                             Action = string.Format(
                                 "{0}/{1}/{2}",
                                 contractNamespace,
@@ -106,7 +105,6 @@ namespace WSDL
                         },
                         Output = new Models.PortType.OperationMessage
                         {
-                            DirectionType = "Output",
                             Action = string.Format(
                                 "{0}/{1}/{2}Response",
                                 contractNamespace,

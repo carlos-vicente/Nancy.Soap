@@ -8,11 +8,9 @@ namespace WSDL.Serialization
     /// <summary>
     /// Holds the description of a web service. Web Services Description Language (WSDL)
     /// </summary>
-    [XmlRoot("definitions", Namespace = WsdlNamespace)]
+    [XmlRoot("definitions", Namespace = Namespaces.WsdlNamespace)]
     public class Definition : IXmlSerializable
     {
-        public const string WsdlNamespace = "http://schemas.xmlsoap.org/wsdl/";
-
         /// <summary>
         /// The target namespace, where the service exists and is unique.
         /// </summary>
@@ -27,28 +25,28 @@ namespace WSDL.Serialization
         /// The types that can be found in the messages used by this web service.
         /// Defined as xml schemas.
         /// </summary>
-        public IEnumerable<Schema> Types { get; set; }
+        public IEnumerable<Schema.Schema> Types { get; set; }
 
         /// <summary>
         /// The input and output messages used by the web service to transport the data.
         /// </summary>
-        public IEnumerable<Message> Messages { get; set; }
+        public IEnumerable<Message.Message> Messages { get; set; }
 
         /// <summary>
         /// The interface description, basically the contracts that defines which operations exist
         /// and its input and output messages.
         /// </summary>
-        public IEnumerable<PortType> PortTypes { get; set; }
+        public IEnumerable<PortType.PortType> PortTypes { get; set; }
 
         /// <summary>
         /// The binding between a PortType and the message format and protocol used for message exchanging.
         /// </summary>
-        public IEnumerable<Binding> Bindings { get; set; }
+        public IEnumerable<Binding.Binding> Bindings { get; set; }
 
         /// <summary>
         /// The service endpoints to call in order to invoke the web service here described.
         /// </summary>
-        public IEnumerable<Service> Services { get; set; }
+        public IEnumerable<Service.Service> Services { get; set; }
 
         public XmlSchema GetSchema()
         {
@@ -77,11 +75,19 @@ namespace WSDL.Serialization
                     "xmlns",
                     "wsaw",
                     null,
-                    "http://www.w3.org/2006/05/addressing/wsdl");
+                    Namespaces.AddressingNamespace);
+
+            writer.WriteAttributeString(
+                    "xmlns",
+                    "soap",
+                    null,
+                    Namespaces.SoapNamespace);
 
             AddTypesElement(writer);
             AddMessagesElements(writer);
             AddPortTypesElements(writer);
+            AddBindingElements(writer);
+            AddServiceElements(writer);
         }
 
         private void AddTypesElement(XmlWriter writer)
@@ -109,6 +115,22 @@ namespace WSDL.Serialization
             foreach (var portType in PortTypes)
             {
                 portType.WriteXml(writer);
+            }
+        }
+
+        private void AddBindingElements(XmlWriter writer)
+        {
+            foreach (var binding in Bindings)
+            {
+                binding.WriteXml(writer);
+            }
+        }
+
+        private void AddServiceElements(XmlWriter writer)
+        {
+            foreach (var service in Services)
+            {
+                service.WriteXml(writer);
             }
         }
     }

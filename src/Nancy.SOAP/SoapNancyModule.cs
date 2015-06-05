@@ -1,7 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Nancy.ModelBinding;
 using Nancy.Responses.Negotiation;
+using Nancy.Routing;
 using SOAP.Dispatching;
 using WSDL;
 
@@ -32,22 +34,36 @@ namespace Nancy.SOAP
             Post["/", true] = InvokeOperation;
         }
 
-        protected async Task<dynamic> GetWsdl(dynamic parameters, CancellationToken token)
+        protected async Task<dynamic> GetWsdl(
+            dynamic parameters, 
+            CancellationToken token)
         {
-            // invoke wsdl generator with contract
-            var definition = await _wsdlGenerator.GetWebServiceDefinition(typeof (T), "TODO");
+            var serviceEndpoint = string.Format(
+                "{0}/{1}",
+                this.Context.Request.Url.SiteBase,
+                this.ModulePath);
 
+            // invoke wsdl generator with contract
+            var definition = await _wsdlGenerator.GetWebServiceDefinition(
+                typeof (T),
+                serviceEndpoint);
+
+            // map wsdl defition to xml serializable definition
             var serializable = _engine
                 .Map<WSDL.Models.Definition, WSDL.Serialization.Definition>(definition);
 
+            // negoticate with client an xml response
             return Negotiate
                 .WithAllowedMediaRange(new MediaRange("application/xml"))
                 .WithModel(serializable);
         }
 
-        protected async Task<dynamic> InvokeOperation(dynamic parameters, CancellationToken token)
+        protected async Task<dynamic> InvokeOperation(
+            dynamic parameters, 
+            CancellationToken token)
         {
             // get soap envelop from body
+            
 
             // get soap body into specific operation
 
