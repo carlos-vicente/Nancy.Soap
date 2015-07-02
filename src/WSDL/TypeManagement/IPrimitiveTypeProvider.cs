@@ -8,5 +8,6 @@ namespace WSDL.TypeManagement
     {
         Schema GetPrimitiveTypesSchema();
         QName GetQNameForType(Type type);
+        bool IsPrimitive(Type type);
     }
 }

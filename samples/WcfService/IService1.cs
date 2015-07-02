@@ -46,12 +46,12 @@ namespace WcfService
     //}
 
     [ServiceContract]
-    public interface IContract
+    public interface ISimpleContract
     {
         [OperationContract]
         void OperationNoReturnNoParameters();
 
         [OperationContract]
-        string OperationWithReturnAndParameters(int p1, string p2);
+        string OperationWithReturnAndParameters(int p1, string p2, Guid guid);
     }
 }

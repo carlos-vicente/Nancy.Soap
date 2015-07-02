@@ -223,8 +223,19 @@ namespace WSDL.TypeManagement
         {
             {typeof(Int16), Short.Type},
             {typeof(Int32), Int.Type},
-            {typeof(String), String.Type}
-            // TODO: add all other mappings
+            {typeof(String), String.Type},
+            {typeof(Char), Char.Type},
+            {typeof(Guid), Guid.Type},
+            {typeof(Boolean), Boolean.Type},
+            {typeof(Byte), Byte.Type},
+            {typeof(DateTime), DateTime.Type},
+            {typeof(Decimal), Decimal.Type},
+            {typeof(Double), Double.Type},
+            {typeof(float), Float.Type},
+            {typeof(long), Long.Type},
+            {typeof(UInt32), UnsignedInt.Type},
+            {typeof(UInt16), UnsignedShort.Type},
+            {typeof(UInt64), UnsignedLong.Type}
         };
 
         public Schema GetPrimitiveTypesSchema()
@@ -237,6 +248,11 @@ namespace WSDL.TypeManagement
             return TypeMappings.ContainsKey(type) 
                 ? TypeMappings[type] 
                 : null;
+        }
+
+        public bool IsPrimitive(Type type)
+        {
+            return TypeMappings.ContainsKey(type);
         }
     }
 }

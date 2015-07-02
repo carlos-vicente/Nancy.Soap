@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -33,12 +34,12 @@ namespace WSDL.TypeManagement
 
         public IEnumerable<Schema> GetSchemas()
         {
-            var schemas = new ConcurrentBag<Schema>
+            var schemas = new List<Schema>
             {
                 PrimitiveTypeProvider.GetPrimitiveTypesSchema()
             };
-            
-            foreach (var targetNamespace in _types.Keys.AsParallel())
+
+            foreach (var targetNamespace in _types.Keys)
             {
                 schemas.Add(new Schema
                 {
@@ -48,7 +49,7 @@ namespace WSDL.TypeManagement
                     {
                         Name = t.Name,
                         Type = new QName(t.Name, targetNamespace)
-                    })
+                    }).ToList()
                 });
             }
 
@@ -71,8 +72,7 @@ namespace WSDL.TypeManagement
             var inputSequence = new Sequence
             {
                 Elements = (from parameter in methodInfo.GetParameters()
-                            let typeName = PrimitiveTypeProvider
-                                .GetQNameForType(parameter.ParameterType)
+                            let typeName = GetType(parameter.ParameterType)
                             where typeName != null
                             select new Element
                             {
@@ -90,6 +90,13 @@ namespace WSDL.TypeManagement
             Add(contractNamespace, inputType);
 
             return inputType;
+        }
+
+        private QName GetType(Type type)
+        {
+            return PrimitiveTypeProvider.IsPrimitive(type)
+                ? PrimitiveTypeProvider.GetQNameForType(type)
+                : null; // to be completed when complex types are handled (even enums are complex types)
         }
 
         private ComplexType GetOutputTypeFor(MethodInfo methodInfo, string contractNamespace)

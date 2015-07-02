@@ -1,36 +1,27 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
-using Nancy.ModelBinding;
 using Nancy.Responses.Negotiation;
 using Nancy.Routing;
-using SOAP.Dispatching;
-using WSDL;
+using System.Linq;
 
 namespace Nancy.SOAP
 {
     public abstract class SoapNancyModule<T> 
         : NancyModule where T : class
     {
-        private readonly T _service;
-        private readonly IMappingEngine _engine;
-        private readonly IGenerator _wsdlGenerator;
-        private readonly IDispatcher<T> _dispatcher;
+        private readonly ISoapService<T> _soapService;
 
         protected SoapNancyModule(
-            string path,
-            T service,
-            IMappingEngine engine,
-            IGenerator wsdlGenerator,
-            IDispatcher<T> dispatcher)
+            string path, 
+            ISoapService<T> soapService)
             : base(path)
         {
-            _service = service;
-            _engine = engine;
-            _wsdlGenerator = wsdlGenerator;
-            _dispatcher = dispatcher;
+            _soapService = soapService;
 
+            //TODO: which one?
             Get["/wsdl", true] = GetWsdl;
+            //Get["/", true] = GetWsdl;
+
             Post["/", true] = InvokeOperation;
         }
 
@@ -43,14 +34,7 @@ namespace Nancy.SOAP
                 this.Context.Request.Url.SiteBase,
                 this.ModulePath);
 
-            // invoke wsdl generator with contract
-            var definition = await _wsdlGenerator.GetWebServiceDefinition(
-                typeof (T),
-                serviceEndpoint);
-
-            // map wsdl defition to xml serializable definition
-            var serializable = _engine
-                .Map<WSDL.Models.Definition, WSDL.Serialization.Definition>(definition);
+            var serializable = await _soapService.GetContractDefinition(serviceEndpoint);
 
             // negoticate with client an xml response
             return Negotiate

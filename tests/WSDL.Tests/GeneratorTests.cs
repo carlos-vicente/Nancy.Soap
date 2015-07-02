@@ -263,8 +263,7 @@ namespace WSDL.Tests
             definition.ShouldBeEquivalentTo(expectedDefinition);
         }
 
-        //TODO: correct this test
-        private void GetWebServiceDefinition_ReturnsDefinitionWithCorrectNamespace_WhenGettingSimpleTypeInterfaceForDifferentNamespace()
+        public void GetWebServiceDefinition_ReturnsDefinitionWithCorrectNamespace_WhenGettingSimpleTypeInterfaceForDifferentNamespace()
         {
             // arrange
             const string ns = "http://something.different.org/new";

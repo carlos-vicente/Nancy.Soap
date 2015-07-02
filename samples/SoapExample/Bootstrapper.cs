@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Nancy;
 using Nancy.Bootstrapper;
+using Nancy.SOAP;
 using Nancy.TinyIoc;
 using SOAP.Dispatching;
 using WSDL;
@@ -21,6 +22,7 @@ namespace SoapExample
             container.Register<ITypeContextFactory, TypeContextFactory>();
             container.Register<ITypeContext, TypeContext>();
             container.Register<IPrimitiveTypeProvider, StaticPrimitiveTypeProvider>();
+            container.Register<ISoapService<IService>, SoapService<IService>>();
             container.Register<IGenerator, Generator>();
 
             container.Register<IDispatcher<IService>, Dispatcher<IService>>();

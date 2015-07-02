@@ -31,8 +31,16 @@ namespace WSDL.Tests.TypeContextTests
                 .Returns(intName);
 
             A.CallTo(() => Faker.Resolve<IPrimitiveTypeProvider>()
+                .IsPrimitive(typeof(int)))
+                .Returns(true);
+
+            A.CallTo(() => Faker.Resolve<IPrimitiveTypeProvider>()
                 .GetQNameForType(typeof(Guid)))
                 .Returns(guidName);
+
+            A.CallTo(() => Faker.Resolve<IPrimitiveTypeProvider>()
+                .IsPrimitive(typeof(Guid)))
+                .Returns(true);
 
             const string @namespace = "namespace";
 

@@ -104,7 +104,15 @@ namespace WSDL.Tests.TypeContextTests
             var guidName = new QName("b");
 
             A.CallTo(() => Faker.Resolve<IPrimitiveTypeProvider>()
-                .GetQNameForType(typeof(int)))
+                .IsPrimitive(typeof (Int32)))
+                .Returns(true);
+
+            A.CallTo(() => Faker.Resolve<IPrimitiveTypeProvider>()
+                .IsPrimitive(typeof(Guid)))
+                .Returns(true);
+
+            A.CallTo(() => Faker.Resolve<IPrimitiveTypeProvider>()
+                .GetQNameForType(typeof(Int32)))
                 .Returns(intName);
 
             A.CallTo(() => Faker.Resolve<IPrimitiveTypeProvider>()
@@ -162,6 +170,22 @@ namespace WSDL.Tests.TypeContextTests
             var stringName = new QName("b");
             var boolName = new QName("c");
             var dateTimeName = new QName("d");
+
+            A.CallTo(() => Faker.Resolve<IPrimitiveTypeProvider>()
+                .IsPrimitive(typeof(byte)))
+                .Returns(true);
+
+            A.CallTo(() => Faker.Resolve<IPrimitiveTypeProvider>()
+                .IsPrimitive(typeof(string)))
+                .Returns(true);
+
+            A.CallTo(() => Faker.Resolve<IPrimitiveTypeProvider>()
+                .IsPrimitive(typeof(bool)))
+                .Returns(true);
+
+            A.CallTo(() => Faker.Resolve<IPrimitiveTypeProvider>()
+                .IsPrimitive(typeof(DateTime)))
+                .Returns(true);
 
             A.CallTo(() => Faker.Resolve<IPrimitiveTypeProvider>()
                 .GetQNameForType(typeof(byte)))

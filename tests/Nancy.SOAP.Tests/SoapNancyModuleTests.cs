@@ -1,12 +1,9 @@
-﻿using System.Threading.Tasks;
-using Autofac.Extras.FakeItEasy;
-using AutoMapper;
+﻿using Autofac.Extras.FakeItEasy;
 using FakeItEasy;
 using FluentAssertions;
 using Nancy.Responses.Negotiation;
 using Nancy.Testing;
-using SOAP.Dispatching;
-using WSDL;
+using WSDL.Serialization;
 
 namespace Nancy.SOAP.Tests
 {
@@ -19,12 +16,8 @@ namespace Nancy.SOAP.Tests
 
         public class TestingModule : SoapNancyModule<IContract>
         {
-            public TestingModule(
-                IContract service, 
-                IMappingEngine engine, 
-                IGenerator wsdlGenerator, 
-                IDispatcher<IContract> dispatcher) 
-                : base("/", service, engine, wsdlGenerator, dispatcher)
+            public TestingModule(ISoapService<IContract> service) 
+                : base("/", service)
             {
             }
         }
@@ -40,15 +33,9 @@ namespace Nancy.SOAP.Tests
             {
                 config.Module<TestingModule>();
                 
-                var service = _faker.Resolve<IContract>();
-                var mappingEngine = _faker.Resolve<IMappingEngine>();
-                var generator = _faker.Resolve<IGenerator>();
-                var dispatcher = _faker.Resolve<IDispatcher<IContract>>();
+                var service = _faker.Resolve<ISoapService<IContract>>();
                 
                 config.Dependency(service);
-                config.Dependency(mappingEngine);
-                config.Dependency(generator);
-                config.Dependency(dispatcher);
             });
         }
 
@@ -56,16 +43,11 @@ namespace Nancy.SOAP.Tests
         {
             // arrange
             const string xmlContentType = "application/xml";
-            var definitionToMap = new WSDL.Models.Definition();
-            var mappedDefinition = new global::WSDL.Serialization.Definition();
+            var definition = new Definition();
 
-            A.CallTo(() => _faker.Resolve<IGenerator>()
-                .GetWebServiceDefinition(typeof (IContract), "TODO"))
-                .Returns(Task.FromResult(definitionToMap));
-
-            A.CallTo(() => _faker.Resolve<IMappingEngine>()
-                .Map<WSDL.Models.Definition, global::WSDL.Serialization.Definition>(definitionToMap))
-                .Returns(mappedDefinition);
+            A.CallTo(() => _faker.Resolve<ISoapService<IContract>>()
+                .GetContractDefinition(A<string>._))
+                .Returns(definition);
 
             // act
             var response = _browser.Get("/wsdl", with =>

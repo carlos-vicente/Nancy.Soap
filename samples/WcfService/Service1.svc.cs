@@ -2,7 +2,7 @@
 
 namespace WcfService
 {
-    public class Service : IContract
+    public class SimpleService : ISimpleContract
     {
         //public string GetData(int value)
         //{
@@ -27,7 +27,7 @@ namespace WcfService
             throw new NotImplementedException();
         }
 
-        public string OperationWithReturnAndParameters(int p1, string p2)
+        public string OperationWithReturnAndParameters(int p1, string p2, Guid guid)
         {
             throw new NotImplementedException();
         }

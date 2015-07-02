@@ -1,0 +1,19 @@
+{
+    "name": "Nancy.SOAP.Visualization",
+    "version": "1.0.0",
+    "description": "A web app to show web service descriptions, using the materialize css framework",
+    "bugs": {
+        "email": "carlosvicente200@gmail.com"
+    },
+    "devDependencies": {
+        "bower": "^1.4.1",
+        "gulp": "^3.9.0",
+        "require-dir": "^0.3.0"
+    },
+    "author": "Carlos Vicente",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/carlos-vicente/materializecss-template.git"
+    }
+}
