@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using WSDL.Models;
 using WSDL.Models.Binding;
@@ -9,6 +10,7 @@ using WSDL.Models.Schema;
 using WSDL.Models.Service;
 using WSDL.Models.Service.SoapExtensions;
 using WSDL.TypeManagement;
+using RequestResponseOperation = WSDL.Models.PortType.RequestResponseOperation;
 
 namespace WSDL
 {
@@ -54,88 +56,37 @@ namespace WSDL
                     var methodDescription = typeContext
                         .GetDescriptionForMethod(method, contractNamespace);
 
-                    // input
-                    // getting element to reference input complex type
-                    var inputElement = new Element
-                    {
-                        Name = methodDescription.Input.Name,
-                        Type = new QName(methodDescription.Input.Name, contractNamespace)
-                    };
-
-                    // getting input message to relate to input element
+                    // getting input message
                     var inputMessage = new Message
                     {
                         Name = string.Format("{0}_{1}_InputMessage", contract.Name, method.Name),
                         Parts = new List<MessagePart>
                         {
-                            new ElementMessagePart("parameters", new QName(inputElement.Name, contractNamespace))
+                            new ElementMessagePart("parameters", new QName(methodDescription.Input.Name, contractNamespace))
                         }
                     };
 
-                    // output
-                    // getting element to reference output complex type
-                    var outputElement = new Element
-                    {
-                        Name = methodDescription.Output.Name,
-                        Type = new QName(methodDescription.Output.Name, contractNamespace)
-                    };
-
-                    // getting output message to relate to output element
+                    // getting output message
                     var outputMessage = new Message
                     {
                         Name = string.Format("{0}_{1}_OutputMessage", contract.Name, method.Name),
                         Parts = new List<MessagePart>
                         {
-                            new ElementMessagePart("parameters", new QName(outputElement.Name, contractNamespace))
+                            new ElementMessagePart("parameters", new QName(methodDescription.Output.Name, contractNamespace))
                         }
                     };
 
                     // getting operation for port type
-                    var portTypeOperation = new Models.PortType.RequestResponseOperation
-                    {
-                        Name = method.Name,
-                        Input = new Models.PortType.OperationMessage
-                        {
-                            Action = string.Format(
-                                "{0}/{1}/{2}",
-                                contractNamespace,
-                                contract.Name,
-                                method.Name),
-                            Message = new QName(inputMessage.Name, contractNamespace)
-                        },
-                        Output = new Models.PortType.OperationMessage
-                        {
-                            Action = string.Format(
-                                "{0}/{1}/{2}Response",
-                                contractNamespace,
-                                contract.Name,
-                                method.Name),
-                            Message = new QName(outputMessage.Name, contractNamespace)
-                        }
-                    };
+                    var portTypeOperation = BuildOperationForPortType(
+                        contract, 
+                        contractNamespace, 
+                        method.Name, 
+                        inputMessage.Name, 
+                        outputMessage.Name);
 
-                    var bindingOperation = new Models.Binding.RequestResponseOperation
-                    {
-                        Name = method.Name,
-                        SoapOperation = new Models.Binding.SoapExtensions.Operation
-                        {
-                            SoapAction = portTypeOperation.Input.Action
-                        },
-                        Input = new Models.Binding.OperationMessage
-                        {
-                            Body = new Models.Binding.SoapExtensions.Body
-                            {
-                                Use = Models.Binding.SoapExtensions.OperationMessageUse.Literal
-                            }
-                        },
-                        Output = new Models.Binding.OperationMessage
-                        {
-                            Body = new Models.Binding.SoapExtensions.Body
-                            {
-                                Use = Models.Binding.SoapExtensions.OperationMessageUse.Literal
-                            }
-                        }
-                    };
+                    var bindingOperation = BuildOperationForBinding(
+                        method, 
+                        portTypeOperation);
                     
                     portTypeOperations.Add(portTypeOperation);
                     bindingOperations.Add(bindingOperation);
@@ -197,6 +148,67 @@ namespace WSDL
             };
 
             return definition;
+        }
+
+        private static Models.Binding.RequestResponseOperation BuildOperationForBinding(
+            MethodInfo method,
+            RequestResponseOperation portTypeOperation)
+        {
+            var bindingOperation = new Models.Binding.RequestResponseOperation
+            {
+                Name = method.Name,
+                SoapOperation = new Models.Binding.SoapExtensions.Operation
+                {
+                    SoapAction = portTypeOperation.Input.Action
+                },
+                Input = new Models.Binding.OperationMessage
+                {
+                    Body = new Models.Binding.SoapExtensions.Body
+                    {
+                        Use = Models.Binding.SoapExtensions.OperationMessageUse.Literal
+                    }
+                },
+                Output = new Models.Binding.OperationMessage
+                {
+                    Body = new Models.Binding.SoapExtensions.Body
+                    {
+                        Use = Models.Binding.SoapExtensions.OperationMessageUse.Literal
+                    }
+                }
+            };
+            return bindingOperation;
+        }
+
+        private static RequestResponseOperation BuildOperationForPortType(
+            Type contract, 
+            string contractNamespace,
+            string methodName, 
+            string inputMessageName, 
+            string outputMessageName)
+        {
+            var portTypeOperation = new RequestResponseOperation
+            {
+                Name = methodName,
+                Input = new Models.PortType.OperationMessage
+                {
+                    Action = string.Format(
+                        "{0}/{1}/{2}",
+                        contractNamespace,
+                        contract.Name,
+                        methodName),
+                    Message = new QName(inputMessageName, contractNamespace)
+                },
+                Output = new Models.PortType.OperationMessage
+                {
+                    Action = string.Format(
+                        "{0}/{1}/{2}Response",
+                        contractNamespace,
+                        contract.Name,
+                        methodName),
+                    Message = new QName(outputMessageName, contractNamespace)
+                }
+            };
+            return portTypeOperation;
         }
 
         private string GetContractServiceName(string contractName)
