@@ -182,10 +182,10 @@ namespace WSDL.TypeManagement
 
         private static readonly Schema PrimitiveTypesSchema = new Schema
         {
-            TargetNamespace = "http://schemas.microsoft.com/2003/10/Serialization/",
+            TargetNamespace = SerializationNamespace,
             QualifiedNamespaces = new List<QNamespace>
             {
-                new QNamespace("tns", "http://schemas.microsoft.com/2003/10/Serialization/")
+                new QNamespace("tns", SerializationNamespace)
             },
             Types = new List<SchemaType>
             {

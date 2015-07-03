@@ -5,6 +5,7 @@ using WSDL.Tests.Fixie;
 using WSDL.TypeManagement;
 using FluentAssertions;
 using WSDL.Models;
+using WSDL.Models.Schema;
 
 namespace WSDL.Tests
 {
@@ -105,6 +106,21 @@ namespace WSDL.Tests
 
             // assert
             actual.ShouldBeEquivalentTo(ExpectedQNames[primitiveType]);
+        }
+
+        public void GetPrimitiveTypesSchema_ReturnsTheStaticSchema()
+        {
+            // arrange
+            var expected = new Schema
+            {
+
+            };
+
+            // act
+            var actual = this._sut.GetPrimitiveTypesSchema();
+
+            // assert
+            actual.ShouldBeEquivalentTo(expected);
         }
     }
 }
