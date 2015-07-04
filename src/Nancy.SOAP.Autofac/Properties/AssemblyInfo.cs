@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SoapWebService")]
+[assembly: AssemblyTitle("Nancy.SOAP.Autofac")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SoapWebService")]
+[assembly: AssemblyProduct("Nancy.SOAP.Autofac")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c66bdee7-3670-4891-92e5-8c8f22ef8ebd")]
+[assembly: Guid("f51224da-6e5d-47ef-9341-2d344a3a00e1")]
 
 // Version information for an assembly consists of the following four values:
 //

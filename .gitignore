@@ -3,3 +3,9 @@
 *.suo
 *.user
 packages
+bower_components
+node_modules
+
+jquery
+materialize
+.vs/

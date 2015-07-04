@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7DC8BD69-715E-4115-85D9-E521D83AF482}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WSDL</RootNamespace>
+    <AssemblyName>WSDL</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Binding\Operation.cs" />
+    <Compile Include="Models\Binding\OperationFaultMessage.cs" />
+    <Compile Include="Models\Binding\OperationMessage.cs" />
+    <Compile Include="Models\Binding\RequestResponseOperation.cs" />
+    <Compile Include="Models\Binding\SoapExtensions\Body.cs" />
+    <Compile Include="Models\Binding\SoapExtensions\Fault.cs" />
+    <Compile Include="Models\Binding\SoapExtensions\Header.cs" />
+    <Compile Include="Models\Binding\SoapExtensions\Operation.cs" />
+    <Compile Include="Models\Binding\SoapExtensions\Binding.cs" />
+    <Compile Include="Models\Binding\SoapExtensions\OperationMessageUse.cs" />
+    <Compile Include="Models\Binding\Style.cs" />
+    <Compile Include="Models\Binding\Transport.cs" />
+    <Compile Include="Models\Service\Port.cs" />
+    <Compile Include="Models\Service\SoapExtensions\Address.cs" />
+    <Compile Include="TypeManagement\IPrimitiveTypeProvider.cs" />
+    <Compile Include="IGenerator.cs" />
+    <Compile Include="TypeManagement\ITypeContext.cs" />
+    <Compile Include="TypeManagement\ITypeContextFactory.cs" />
+    <Compile Include="TypeManagement\MethodDescription.cs" />
+    <Compile Include="Models\Schema\All.cs" />
+    <Compile Include="Models\Binding\Binding.cs" />
+    <Compile Include="Models\Schema\Choice.cs" />
+    <Compile Include="Models\Schema\ComplexContent.cs" />
+    <Compile Include="Models\Schema\ComplexType.cs" />
+    <Compile Include="Models\Definition.cs" />
+    <Compile Include="Models\Schema\Element.cs" />
+    <Compile Include="Models\Schema\ElementGrouping.cs" />
+    <Compile Include="Models\Message\ElementMessagePart.cs" />
+    <Compile Include="Models\Schema\Extension.cs" />
+    <Compile Include="Models\Schema\Group.cs" />
+    <Compile Include="Models\Schema\List.cs" />
+    <Compile Include="Models\Message\Message.cs" />
+    <Compile Include="Models\Message\MessagePart.cs" />
+    <Compile Include="Models\PortType\Operation.cs" />
+    <Compile Include="Models\PortType\OperationMessage.cs" />
+    <Compile Include="Models\PortType\PortType.cs" />
+    <Compile Include="Models\QName.cs" />
+    <Compile Include="Models\QNamespace.cs" />
+    <Compile Include="Models\PortType\RequestResponseOperation.cs" />
+    <Compile Include="Models\Schema\Restriction.cs" />
+    <Compile Include="Models\Schema\Schema.cs" />
+    <Compile Include="Models\Schema\SchemaType.cs" />
+    <Compile Include="Models\Schema\Sequence.cs" />
+    <Compile Include="Models\Service\Service.cs" />
+    <Compile Include="Models\Schema\SimpleContent.cs" />
+    <Compile Include="Models\Schema\SimpleType.cs" />
+    <Compile Include="Models\Message\TypeMessagePart.cs" />
+    <Compile Include="Models\Schema\Union.cs" />
+    <Compile Include="Models\Schema\WhiteSpaceConstraint.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeManagement\StaticPrimitiveTypeProvider.cs" />
+    <Compile Include="Generator.cs" />
+    <Compile Include="TypeManagement\TypeContext.cs" />
+    <Compile Include="TypeManagement\TypeContextFactory.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
