@@ -27,7 +27,8 @@ namespace WSDL
 
         public async Task<Definition> GetWebServiceDefinition(Type contract, string endpoint)
         {
-            return await GetWebServiceDefinition(contract, endpoint, DefaultNamespace);
+            return await GetWebServiceDefinition(contract, endpoint, DefaultNamespace)
+                .ConfigureAwait(false);
         }
 
         public async Task<Definition> GetWebServiceDefinition(
@@ -43,115 +44,118 @@ namespace WSDL
                     "An interface must be provided to generate a WSDL",
                     "contract");
 
-            IEnumerable<Schema> schemas;
-
-            var messages = new List<Message>();
-            var portTypeOperations = new List<Models.PortType.Operation>();
-            var bindingOperations = new List<Models.Binding.Operation>();
-
-            using (var typeContext = _typeContextFactory.Create())
+            return await Task.Run(() =>
             {
-                foreach (var method in contract.GetMethods())
+                IEnumerable<Schema> schemas;
+
+                var messages = new List<Message>();
+                var portTypeOperations = new List<Models.PortType.Operation>();
+                var bindingOperations = new List<Models.Binding.Operation>();
+
+                using (var typeContext = _typeContextFactory.Create())
                 {
-                    var methodDescription = typeContext
-                        .GetDescriptionForMethod(method, contractNamespace);
-
-                    // getting input message
-                    var inputMessage = new Message
+                    foreach (var method in contract.GetMethods())
                     {
-                        Name = string.Format("{0}_{1}_InputMessage", contract.Name, method.Name),
-                        Parts = new List<MessagePart>
+                        var methodDescription = typeContext
+                            .GetDescriptionForMethod(method, contractNamespace);
+
+                        // getting input message
+                        var inputMessage = new Message
                         {
-                            new ElementMessagePart(
-                                "parameters", 
-                                new QName(methodDescription.Input.Name, contractNamespace))
-                        }
-                    };
+                            Name = string.Format("{0}_{1}_InputMessage", contract.Name, method.Name),
+                            Parts = new List<MessagePart>
+                            {
+                                new ElementMessagePart(
+                                    "parameters",
+                                    new QName(methodDescription.Input.Name, contractNamespace))
+                            }
+                        };
 
-                    // getting output message
-                    var outputMessage = new Message
-                    {
-                        Name = string.Format("{0}_{1}_OutputMessage", contract.Name, method.Name),
-                        Parts = new List<MessagePart>
+                        // getting output message
+                        var outputMessage = new Message
                         {
-                            new ElementMessagePart(
-                                "parameters", 
-                                new QName(methodDescription.Output.Name, contractNamespace))
-                        }
-                    };
+                            Name = string.Format("{0}_{1}_OutputMessage", contract.Name, method.Name),
+                            Parts = new List<MessagePart>
+                            {
+                                new ElementMessagePart(
+                                    "parameters",
+                                    new QName(methodDescription.Output.Name, contractNamespace))
+                            }
+                        };
 
-                    // getting operation for port type
-                    var portTypeOperation = BuildOperationForPortType(
-                        contract, 
-                        contractNamespace, 
-                        method.Name, 
-                        inputMessage.Name, 
-                        outputMessage.Name);
+                        // getting operation for port type
+                        var portTypeOperation = BuildOperationForPortType(
+                            contract,
+                            contractNamespace,
+                            method.Name,
+                            inputMessage.Name,
+                            outputMessage.Name);
 
-                    var bindingOperation = BuildOperationForBinding(
-                        method, 
-                        portTypeOperation);
-                    
-                    portTypeOperations.Add(portTypeOperation);
-                    bindingOperations.Add(bindingOperation);
+                        var bindingOperation = BuildOperationForBinding(
+                            method,
+                            portTypeOperation);
 
-                    messages.Add(inputMessage);
-                    messages.Add(outputMessage);
+                        portTypeOperations.Add(portTypeOperation);
+                        bindingOperations.Add(bindingOperation);
+
+                        messages.Add(inputMessage);
+                        messages.Add(outputMessage);
+                    }
+                    schemas = typeContext.GetSchemas();
                 }
-                schemas = typeContext.GetSchemas();
-            }
 
-            var portType = new PortType
-            {
-                Name = contract.Name,
-                Operations = portTypeOperations
-            };
-
-            // Currently only support basic HTTP binding
-            var binding = new Binding
-            {
-                Name = string.Format("BasicHttpBinding_{0}", contract.Name),
-                SoapBinding = new Models.Binding.SoapExtensions.Binding
+                var portType = new PortType
                 {
-                    Style = Style.Document,
-                    Transport = Transport.Http
-                },
-                Type = new QName(portType.Name, contractNamespace),
-                Operations = bindingOperations
-            };
+                    Name = contract.Name,
+                    Operations = portTypeOperations
+                };
 
-            var service = new Service
-            {
-                Name = GetContractServiceName(contract.Name),
-                Ports = new List<Port>
+                // Currently only support basic HTTP binding
+                var binding = new Binding
                 {
-                    new Port
+                    Name = string.Format("BasicHttpBinding_{0}", contract.Name),
+                    SoapBinding = new Models.Binding.SoapExtensions.Binding
                     {
-                        Name = binding.Name,
-                        Binding = new QName(binding.Name, contractNamespace),
-                        Address = new Address
+                        Style = Style.Document,
+                        Transport = Transport.Http
+                    },
+                    Type = new QName(portType.Name, contractNamespace),
+                    Operations = bindingOperations
+                };
+
+                var service = new Service
+                {
+                    Name = GetContractServiceName(contract.Name),
+                    Ports = new List<Port>
+                    {
+                        new Port
                         {
-                            Location = endpoint
+                            Name = binding.Name,
+                            Binding = new QName(binding.Name, contractNamespace),
+                            Address = new Address
+                            {
+                                Location = endpoint
+                            }
                         }
                     }
-                }
-            };
+                };
 
-            var definition = new Definition
-            {
-                TargetNamespace = contractNamespace,
-                QualifiedNamespaces = new List<QNamespace>
+                var definition = new Definition
                 {
-                    new QNamespace("tns", contractNamespace)
-                },
-                Types = schemas,
-                Messages = messages,
-                PortTypes = new List<PortType> { portType },
-                Bindings = new List<Binding> { binding },
-                Services = new List<Service> { service }
-            };
+                    TargetNamespace = contractNamespace,
+                    QualifiedNamespaces = new List<QNamespace>
+                    {
+                        new QNamespace("tns", contractNamespace)
+                    },
+                    Types = schemas,
+                    Messages = messages,
+                    PortTypes = new List<PortType> {portType},
+                    Bindings = new List<Binding> {binding},
+                    Services = new List<Service> {service}
+                };
 
-            return definition;
+                return definition;
+            });
         }
 
         private static Models.Binding.RequestResponseOperation BuildOperationForBinding(

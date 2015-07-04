@@ -34,7 +34,9 @@ namespace Nancy.SOAP
                 this.Context.Request.Url.SiteBase,
                 this.ModulePath);
 
-            var serializable = await _soapService.GetContractDefinition(serviceEndpoint);
+            var serializable = await _soapService
+                .GetContractDefinition(serviceEndpoint)
+                .ConfigureAwait(false);
 
             // negoticate with client an xml response
             return Negotiate
@@ -47,7 +49,8 @@ namespace Nancy.SOAP
             CancellationToken token)
         {
             // get soap envelop from body
-            
+
+            await Task.Run(() => { }, token);
 
             // get soap body into specific operation
 

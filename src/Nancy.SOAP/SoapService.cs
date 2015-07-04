@@ -20,9 +20,11 @@ namespace Nancy.SOAP
         public async Task<Definition> GetContractDefinition(string endpoint)
         {
             // invoke wsdl generator with contract
-            var definition = await _wsdlGenerator.GetWebServiceDefinition(
-                typeof(T),
-                endpoint);
+            var definition = await _wsdlGenerator
+                .GetWebServiceDefinition(
+                    typeof (T),
+                    endpoint)
+                .ConfigureAwait(false);
 
             // map wsdl defition to xml serializable definition
             return _engine

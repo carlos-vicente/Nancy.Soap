@@ -13,8 +13,12 @@ Foreach($test in $testAssemblies)
     
     $testResult = & $cmd $arg
 	
-	Write-Host "Execution result:"; 
-	Write-Host $testResult -foregroundcolor red;
+	$split = $testResult -split '[\r\n]'
+	
+	Write-Host "Execution result:";
+	Foreach($str in $split){
+		Write-Host $str -foregroundcolor red;
+	}
 	
 	#Add-AppveyorCompilationMessage -Message $testResult -Category Information
 }
