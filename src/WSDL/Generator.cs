@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -62,7 +62,9 @@ namespace WSDL
                         Name = string.Format("{0}_{1}_InputMessage", contract.Name, method.Name),
                         Parts = new List<MessagePart>
                         {
-                            new ElementMessagePart("parameters", new QName(methodDescription.Input.Name, contractNamespace))
+                            new ElementMessagePart(
+                                "parameters", 
+                                new QName(methodDescription.Input.Name, contractNamespace))
                         }
                     };
 
@@ -72,7 +74,9 @@ namespace WSDL
                         Name = string.Format("{0}_{1}_OutputMessage", contract.Name, method.Name),
                         Parts = new List<MessagePart>
                         {
-                            new ElementMessagePart("parameters", new QName(methodDescription.Output.Name, contractNamespace))
+                            new ElementMessagePart(
+                                "parameters", 
+                                new QName(methodDescription.Output.Name, contractNamespace))
                         }
                     };
 
