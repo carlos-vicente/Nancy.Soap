@@ -32,7 +32,7 @@ namespace Nancy.SOAP.Tests
             _browser = new Browser(config =>
             {
                 config.Module<TestingModule>();
-                
+
                 var service = _faker.Resolve<ISoapService<IContract>>();
                 
                 config.Dependency(service);

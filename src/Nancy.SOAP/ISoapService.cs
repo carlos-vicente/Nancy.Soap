@@ -3,9 +3,9 @@ using WSDL.Serialization;
 
 namespace Nancy.SOAP
 {
-    public interface ISoapService<T> where T : class
+    public interface ISoapService<T>
     {
         Task<Definition> GetContractDefinition(string endpoint);
-        Task InvokeContractMethod(); //Soap response for soap request
+        //Task<global::SOAP.Serialization.Response> InvokeContractMethod(global::SOAP.Serialization.Request request);
     }
 }

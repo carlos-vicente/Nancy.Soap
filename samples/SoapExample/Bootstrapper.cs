@@ -25,7 +25,7 @@ namespace SoapExample
             container.Register<ISoapService<IService>, SoapService<IService>>();
             container.Register<IGenerator, Generator>();
 
-            container.Register<IDispatcher<IService>, Dispatcher<IService>>();
+            container.Register<IDispatcher, Dispatcher<IService>>();
             container.Register<IService, Service>();
         }
     }

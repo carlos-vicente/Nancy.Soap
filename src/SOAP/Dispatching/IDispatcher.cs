@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Threading.Tasks;
+using SOAP.Models;
 
 namespace SOAP.Dispatching
 {
-    public interface IDispatcher<in T> where T : class
+    public interface IDispatcher
     {
-        void InvokeMethod(
-            T instance, 
-            MethodInfo methodInfo,
-            IDictionary<string, object> parameters);
+        Task<Response> InvokeMethod(Request request);
     }
 }

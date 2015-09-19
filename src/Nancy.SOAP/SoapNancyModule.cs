@@ -1,28 +1,28 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Nancy.ModelBinding;
 using Nancy.Responses.Negotiation;
-using Nancy.Routing;
-using System.Linq;
+using SOAP.Serialization;
 
 namespace Nancy.SOAP
 {
     public abstract class SoapNancyModule<T> 
-        : NancyModule where T : class
+        : NancyModule
+        where T : class
     {
+        private const string RootRoute = "/";
+
         private readonly ISoapService<T> _soapService;
 
         protected SoapNancyModule(
-            string path, 
+            string path,
             ISoapService<T> soapService)
             : base(path)
         {
             _soapService = soapService;
 
-            //TODO: which one?
-            Get["/wsdl", true] = GetWsdl;
-            //Get["/", true] = GetWsdl;
-
-            Post["/", true] = InvokeOperation;
+            Get[RootRoute, true] = GetWsdl;
+            Post[RootRoute, true] = InvokeOperation;
         }
 
         protected async Task<dynamic> GetWsdl(
@@ -48,9 +48,16 @@ namespace Nancy.SOAP
             dynamic parameters, 
             CancellationToken token)
         {
-            // get soap envelop from body
+            var headers = this.Request.Headers;
 
-            await Task.Run(() => { }, token);
+            var soapAction = headers[""];
+
+            // get soap envelop from body
+            var envelop = this.Bind<Envelope>(new BindingConfig
+            {
+                BodyOnly = true
+            });
+            
 
             // get soap body into specific operation
 

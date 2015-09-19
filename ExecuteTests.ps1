@@ -8,17 +8,10 @@ Foreach($test in $testAssemblies)
 {
     $cmd = $fixieConsole.FullName
     $arg = $test.FullName
+	$xml = $test.FullName + ".xml"
 	
 	Write-Host "Going to execute test assembly " -nonewline; Write-Host $arg -foregroundcolor red
-    
-    $testResult = & $cmd $arg
+	Write-Host $xml
 	
-	$split = $testResult -split '[\r\n]'
-	
-	Write-Host "Execution result:";
-	Foreach($str in $split){
-		Write-Host $str -foregroundcolor red;
-	}
-	
-	#Add-AppveyorCompilationMessage -Message $testResult -Category Information
+	& ($cmd) ($arg) --NUnitXml ($xml)
 }

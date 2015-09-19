@@ -58,6 +58,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SOAP.Serialization\SOAP.Serialization.csproj">
+      <Project>{CBE9FBA9-BFF5-44EA-B51B-F4058B3C64C9}</Project>
+      <Name>SOAP.Serialization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SOAP\SOAP.csproj">
       <Project>{737ecec8-5e07-49c6-896d-6d63699d7b53}</Project>
       <Name>SOAP</Name>
