@@ -4,8 +4,8 @@ namespace SOAP.Models
 {
     public class Request
     {
-        public string Name { get; set; }
+        public string MethodName { get; set; }
 
-        public IDictionary<string, object> Parameters { get; set; }
+        public IDictionary<string, string> Parameters { get; set; }
     }
 }

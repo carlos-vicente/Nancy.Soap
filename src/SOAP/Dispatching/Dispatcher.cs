@@ -15,7 +15,7 @@ namespace SOAP.Dispatching
             _instance = instance;
         }
 
-        public async Task<Response> InvokeMethod(Request request)
+        public Task<Response> InvokeMethod(Request request)
         {
             // DON?T DO TASK.RUN (MAINLY IN A LIBRARY)
 

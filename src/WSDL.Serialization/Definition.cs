@@ -25,7 +25,7 @@ namespace WSDL.Serialization
         /// The types that can be found in the messages used by this web service.
         /// Defined as xml schemas.
         /// </summary>
-        public IEnumerable<Schema.Schema> Types { get; set; }
+        public IEnumerable<Schema.Schema> Schemas { get; set; }
 
         /// <summary>
         /// The input and output messages used by the web service to transport the data.
@@ -94,7 +94,7 @@ namespace WSDL.Serialization
         {
             writer.WriteStartElement("types");
 
-            foreach (var schema in Types)
+            foreach (var schema in Schemas)
             {
                 schema.WriteXml(writer);
             }

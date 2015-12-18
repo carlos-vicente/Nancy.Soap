@@ -247,7 +247,7 @@ namespace WSDL.Tests
                 {
                     new QNamespace("tns", defaultNamespace)
                 },
-                Types = schemas,
+                Schemas = schemas,
                 Messages = messages,
                 PortTypes = new List<PortType> { portType },
                 Bindings = new List<Binding> { binding },

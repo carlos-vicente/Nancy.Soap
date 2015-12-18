@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CBE9FBA9-BFF5-44EA-B51B-F4058B3C64C9}</ProjectGuid>
+    <ProjectGuid>{A62947AD-060A-478C-8CD9-C1475762A54B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SOAP.Serialization</RootNamespace>
-    <AssemblyName>SOAP.Serialization</AssemblyName>
+    <RootNamespace>SOAP.Service</RootNamespace>
+    <AssemblyName>SOAP.Service</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,24 +40,34 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Body.cs" />
-    <Compile Include="ElementNames.cs" />
-    <Compile Include="Envelope.cs" />
-    <Compile Include="Header.cs" />
-    <Compile Include="MappingProfiles\RequestMappingProfile.cs" />
-    <Compile Include="Namespaces.cs" />
+    <Compile Include="ISoapService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SoapService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SOAP.Serialization\SOAP.Serialization.csproj">
+      <Project>{cbe9fba9-bff5-44ea-b51b-f4058b3c64c9}</Project>
+      <Name>SOAP.Serialization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SOAP\SOAP.csproj">
       <Project>{737ecec8-5e07-49c6-896d-6d63699d7b53}</Project>
       <Name>SOAP</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WSDL.Serialization\WSDL.Serialization.csproj">
+      <Project>{dfff56cd-6435-4f87-818f-99a9bc9cd3c2}</Project>
+      <Name>WSDL.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WSDL\WSDL.csproj">
+      <Project>{7dc8bd69-715e-4115-85d9-e521d83af482}</Project>
+      <Name>WSDL</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -147,7 +147,7 @@ namespace WSDL
                     {
                         new QNamespace("tns", contractNamespace)
                     },
-                    Types = schemas,
+                    Schemas = schemas,
                     Messages = messages,
                     PortTypes = new List<PortType> {portType},
                     Bindings = new List<Binding> {binding},

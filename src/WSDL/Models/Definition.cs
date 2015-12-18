@@ -25,7 +25,7 @@ namespace WSDL.Models
         /// The types that can be found in the messages used by this web service.
         /// Defined as xml schemas.
         /// </summary>
-        public IEnumerable<Schema.Schema> Types { get; set; }
+        public IEnumerable<Schema.Schema> Schemas { get; set; }
 
         /// <summary>
         /// The input and output messages used by the web service to transport the data.
@@ -53,7 +53,7 @@ namespace WSDL.Models
         /// </summary>
         public Definition()
         {
-            Types = new List<Schema.Schema>();
+            Schemas = new List<Schema.Schema>();
             Messages = new List<Message.Message>();
             PortTypes = new List<PortType.PortType>();
             Bindings = new List<Binding.Binding>();

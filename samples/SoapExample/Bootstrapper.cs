@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using Nancy;
 using Nancy.Bootstrapper;
-using Nancy.SOAP;
 using Nancy.TinyIoc;
 using SOAP.Dispatching;
+using SOAP.Serialization.MappingProfiles;
+using SOAP.Service;
 using WSDL;
 using WSDL.Serialization.MappingProfiles;
 using WSDL.TypeManagement;
@@ -17,6 +18,8 @@ namespace SoapExample
             IPipelines pipelines)
         {
             Mapper.Configuration.AddProfile<DefinitionMappingProfile>();
+            Mapper.Configuration.AddProfile<RequestMappingProfile>();
+
             container.Register(Mapper.Engine);
 
             container.Register<ITypeContextFactory, TypeContextFactory>();

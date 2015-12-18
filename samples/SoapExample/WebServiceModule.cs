@@ -1,4 +1,5 @@
 ﻿using Nancy.SOAP;
+using SOAP.Service;
 
 namespace SoapExample
 {

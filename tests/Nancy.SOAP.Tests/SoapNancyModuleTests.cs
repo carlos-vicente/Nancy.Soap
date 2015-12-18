@@ -3,6 +3,7 @@ using FakeItEasy;
 using FluentAssertions;
 using Nancy.Responses.Negotiation;
 using Nancy.Testing;
+using SOAP.Service;
 using WSDL.Serialization;
 
 namespace Nancy.SOAP.Tests

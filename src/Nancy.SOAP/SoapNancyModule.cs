@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Nancy.ModelBinding;
 using Nancy.Responses.Negotiation;
 using SOAP.Serialization;
+using SOAP.Service;
+using System.Linq;
 
 namespace Nancy.SOAP
 {
@@ -11,6 +13,7 @@ namespace Nancy.SOAP
         where T : class
     {
         private const string RootRoute = "/";
+        private readonly MediaRange XmlMedia = new MediaRange("application/xml");
 
         private readonly ISoapService<T> _soapService;
 
@@ -34,14 +37,15 @@ namespace Nancy.SOAP
                 this.Context.Request.Url.SiteBase,
                 this.ModulePath);
 
-            var serializable = await _soapService
+            var serviceDefinition = await _soapService
                 .GetContractDefinition(serviceEndpoint)
                 .ConfigureAwait(false);
 
             // negoticate with client an xml response
             return Negotiate
-                .WithAllowedMediaRange(new MediaRange("application/xml"))
-                .WithModel(serializable);
+                .WithStatusCode(HttpStatusCode.OK)
+                .WithAllowedMediaRange(XmlMedia)
+                .WithModel(serviceDefinition);
         }
 
         protected async Task<dynamic> InvokeOperation(
@@ -50,22 +54,39 @@ namespace Nancy.SOAP
         {
             var headers = this.Request.Headers;
 
-            var soapAction = headers[""];
+            // the SOAPAction header is optional (there is possibility of doing method routing by request)
+            // Consider using an implicit rule: first try to use SOAPAction, if it is empty, try to use request
+            var soapAction = headers["SOAPAction"].SingleOrDefault();
 
             // get soap envelop from body
-            var envelop = this.Bind<Envelope>(new BindingConfig
+            var request = this.Bind<Envelope>(new BindingConfig // TODO: BindAndValidate -> does it use FluentValidations???
             {
                 BodyOnly = true
             });
-            
 
-            // get soap body into specific operation
+            Envelope response;
 
-            // use dispatcher to invoke operation on service
-
+            try
+            {
+                response = await _soapService
+                    .InvokeContractMethod(soapAction, request)
+                    .ConfigureAwait(false);
+            }
+            catch
+            {
+                return this.Negotiate
+                    .WithStatusCode(HttpStatusCode.OK)
+                    .WithAllowedMediaRange(XmlMedia)
+                    //.WithModel(response) // create an response envelope with fault body
+                    ;
+            }
+                        
             // return soap envelop with response and OK message
             //      if something goes wrong with the invocation then throw error back to the client
-            return this.Negotiate.WithStatusCode(HttpStatusCode.OK);
+            return this.Negotiate
+                .WithStatusCode(HttpStatusCode.OK)
+                .WithAllowedMediaRange(XmlMedia)
+                .WithModel(response);
         }
     }
 }

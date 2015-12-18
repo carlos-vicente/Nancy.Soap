@@ -8,7 +8,6 @@ namespace SOAP.Serialization
 {
     public class Body : IXmlSerializable
     {
-        // content: request or response
         public string MethodName { get; private set; }
 
         public IDictionary<string, string> Parameters { get; private set; }

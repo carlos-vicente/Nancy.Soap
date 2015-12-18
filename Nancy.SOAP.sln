@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C9E5DEE3-58A1-4308-8DAC-727908DD4F5E}"
 EndProject
@@ -40,6 +40,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Visualization", "Visualization", "{1D9F9ABA-C8A0-4475-89BD-523D10A9F902}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOAP.Visualization", "src\SOAP.Visualization\SOAP.Visualization.csproj", "{B4F9C525-5C56-440E-B4C2-972A33D7C8CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOAP.Service", "src\SOAP.Service\SOAP.Service.csproj", "{A62947AD-060A-478C-8CD9-C1475762A54B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +101,10 @@ Global
 		{B4F9C525-5C56-440E-B4C2-972A33D7C8CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4F9C525-5C56-440E-B4C2-972A33D7C8CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4F9C525-5C56-440E-B4C2-972A33D7C8CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A62947AD-060A-478C-8CD9-C1475762A54B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A62947AD-060A-478C-8CD9-C1475762A54B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A62947AD-060A-478C-8CD9-C1475762A54B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A62947AD-060A-478C-8CD9-C1475762A54B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,5 +126,6 @@ Global
 		{69A8AFE5-5205-483B-BEDA-7BD228D6ECFA} = {05BF2BBF-D2D6-497E-8CF4-4EDC49A7E6B2}
 		{1D9F9ABA-C8A0-4475-89BD-523D10A9F902} = {C9E5DEE3-58A1-4308-8DAC-727908DD4F5E}
 		{B4F9C525-5C56-440E-B4C2-972A33D7C8CD} = {1D9F9ABA-C8A0-4475-89BD-523D10A9F902}
+		{A62947AD-060A-478C-8CD9-C1475762A54B} = {70C4F01F-F993-47DD-9488-2B2381E8A57A}
 	EndGlobalSection
 EndGlobal
