@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using WSDL.Serialization.MappingProfiles.Converters;
 using WSDL.Serialization.Message;
 using WSDL.Serialization.PortType;
 using WSDL.Serialization.Schema;
@@ -26,7 +27,7 @@ namespace WSDL.Serialization.MappingProfiles
             CreateMap<Models.Schema.SchemaType, SchemaType>()
                 //.Include<Models.Schema.ComplexType, ComplexType>()
                 //.Include<Models.Schema.SimpleType, SimpleType>();
-                .ConvertUsi
+                .ConvertUsing<SchemaTypeConverter>();
 
             CreateMap<Models.Schema.ComplexType, ComplexType>();
             CreateMap<Models.Schema.SimpleType, SimpleType>();
