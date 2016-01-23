@@ -20,6 +20,8 @@ namespace SoapExample
             Mapper.Configuration.AddProfile<DefinitionMappingProfile>();
             Mapper.Configuration.AddProfile<RequestMappingProfile>();
 
+            Mapper.Configuration.Seal(); // this is REQUIRED in AutoMapper 4.0 to make inheritance work
+
             container.Register(Mapper.Engine);
 
             container.Register<ITypeContextFactory, TypeContextFactory>();
@@ -31,5 +33,18 @@ namespace SoapExample
             container.Register<IDispatcher, Dispatcher<IService>>();
             container.Register<IService, Service>();
         }
+
+        //protected override NancyInternalConfiguration InternalConfiguration
+        //{
+        //    get
+        //    {
+        //        return NancyInternalConfiguration
+        //            .WithOverrides(
+        //                cfg =>
+        //                {
+                            
+        //                });
+        //    }
+        //}
     }
 }

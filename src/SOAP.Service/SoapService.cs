@@ -46,7 +46,9 @@ namespace SOAP.Service
             var modelRequest = _engine.Map<Envelope, Request>(request);
 
             // invoke dispatcher
-            var modelResponse = await _dispatcher.InvokeMethod(modelRequest);
+            var modelResponse = await _dispatcher
+                .InvokeMethod(modelRequest)
+                .ConfigureAwait(false);
 
             // map models to serialization
             return _engine.Map<Response, Envelope>(modelResponse);

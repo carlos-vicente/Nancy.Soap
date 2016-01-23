@@ -12,6 +12,8 @@ namespace SOAP.Serialization
 
         public IDictionary<string, string> Parameters { get; private set; }
 
+        public object Response { get; set; }
+
         public Body()
         {
             MethodName = string.Empty;
@@ -25,7 +27,9 @@ namespace SOAP.Serialization
 
         public void ReadXml(XmlReader reader)
         {
-            reader.ReadStartElement(ElementNames.Body, Namespaces.SoapEnvelopeNamespace);
+            reader.ReadStartElement(
+                ElementNames.Body,
+                Namespaces.SoapEnvelopeNamespace);
 
             MethodName = reader.LocalName;
 

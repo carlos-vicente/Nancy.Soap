@@ -9,7 +9,7 @@
 
         public string DoSomethingElse(int value1, string value2)
         {
-            return null;
+            return string.Format("Something else with {0} and {1}", value1, value2);
         }
     }
 }

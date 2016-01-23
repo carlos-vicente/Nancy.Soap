@@ -51,7 +51,7 @@ namespace Nancy.SOAP.Tests
                 .Returns(definition);
 
             // act
-            var response = _browser.Get("/wsdl", with =>
+            var response = _browser.Get("/", with =>
             {
                 with.HttpRequest();
                 with.Accept(new MediaRange(xmlContentType));
@@ -62,6 +62,15 @@ namespace Nancy.SOAP.Tests
                 .ContentType
                 .Should()
                 .Be(xmlContentType);
+
+            A.CallTo(() => _faker.Resolve<ISoapService<IContract>>()
+                .GetContractDefinition(A<string>._))
+                .MustHaveHappened(Repeated.Exactly.Once);
+        }
+
+        public void InvokeOperation_InvokesSoapServiceWithEnvelopeAndSOAPAction()
+        {
+            
         }
     }
 }

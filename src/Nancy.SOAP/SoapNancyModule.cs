@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Nancy.ModelBinding;
 using Nancy.Responses.Negotiation;
@@ -13,7 +14,7 @@ namespace Nancy.SOAP
         where T : class
     {
         private const string RootRoute = "/";
-        private readonly MediaRange XmlMedia = new MediaRange("application/xml");
+        private static readonly MediaRange XmlMedia = new MediaRange("text/xml");
 
         private readonly ISoapService<T> _soapService;
 
@@ -34,8 +35,8 @@ namespace Nancy.SOAP
         {
             var serviceEndpoint = string.Format(
                 "{0}/{1}",
-                this.Context.Request.Url.SiteBase,
-                this.ModulePath);
+                Context.Request.Url.SiteBase,
+                ModulePath);
 
             var serviceDefinition = await _soapService
                 .GetContractDefinition(serviceEndpoint)
@@ -44,8 +45,8 @@ namespace Nancy.SOAP
             // negoticate with client an xml response
             return Negotiate
                 .WithStatusCode(HttpStatusCode.OK)
-                .WithAllowedMediaRange(XmlMedia)
-                .WithModel(serviceDefinition);
+                .WithModel(serviceDefinition)
+                .WithAllowedMediaRange(XmlMedia);
         }
 
         protected async Task<dynamic> InvokeOperation(
@@ -54,15 +55,17 @@ namespace Nancy.SOAP
         {
             var headers = this.Request.Headers;
 
-            // the SOAPAction header is optional (there is possibility of doing method routing by request)
+            // the SOAPAction header is optional (there is a possibility of doing method routing by request)
             // Consider using an implicit rule: first try to use SOAPAction, if it is empty, try to use request
-            var soapAction = headers["SOAPAction"].SingleOrDefault();
+            var soapAction = headers["SOAPAction"]
+                .SingleOrDefault();
 
             // get soap envelop from body
-            var request = this.Bind<Envelope>(new BindingConfig // TODO: BindAndValidate -> does it use FluentValidations???
-            {
-                BodyOnly = true
-            });
+            var request = this.Bind<Envelope>(
+                new BindingConfig // TODO: BindAndValidate -> does it use FluentValidations???
+                {
+                    BodyOnly = true
+                });
 
             Envelope response;
 
@@ -72,7 +75,7 @@ namespace Nancy.SOAP
                     .InvokeContractMethod(soapAction, request)
                     .ConfigureAwait(false);
             }
-            catch
+            catch (Exception ex)
             {
                 return this.Negotiate
                     .WithStatusCode(HttpStatusCode.OK)
@@ -85,8 +88,8 @@ namespace Nancy.SOAP
             //      if something goes wrong with the invocation then throw error back to the client
             return this.Negotiate
                 .WithStatusCode(HttpStatusCode.OK)
-                .WithAllowedMediaRange(XmlMedia)
-                .WithModel(response);
+                .WithModel(response)
+                .WithAllowedMediaRange(XmlMedia);
         }
     }
 }

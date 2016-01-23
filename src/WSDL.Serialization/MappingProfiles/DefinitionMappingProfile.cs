@@ -1,8 +1,13 @@
-﻿using AutoMapper;
-using WSDL.Serialization.MappingProfiles.Converters;
+﻿using System;
+using System.ComponentModel;
+using AutoMapper;
+using WSDL.Serialization.Binding;
+using WSDL.Serialization.MappingProfiles.TypeConverters;
 using WSDL.Serialization.Message;
-using WSDL.Serialization.PortType;
 using WSDL.Serialization.Schema;
+using Operation = WSDL.Serialization.PortType.Operation;
+using OperationMessage = WSDL.Serialization.PortType.OperationMessage;
+using RequestResponseOperation = WSDL.Serialization.PortType.RequestResponseOperation;
 
 namespace WSDL.Serialization.MappingProfiles
 {
@@ -25,9 +30,8 @@ namespace WSDL.Serialization.MappingProfiles
             CreateMap<Models.QName, QName>();
 
             CreateMap<Models.Schema.SchemaType, SchemaType>()
-                //.Include<Models.Schema.ComplexType, ComplexType>()
-                //.Include<Models.Schema.SimpleType, SimpleType>();
-                .ConvertUsing<SchemaTypeConverter>();
+                .Include<Models.Schema.ComplexType, ComplexType>()
+                .Include<Models.Schema.SimpleType, SimpleType>();
 
             CreateMap<Models.Schema.ComplexType, ComplexType>();
             CreateMap<Models.Schema.SimpleType, SimpleType>();
@@ -49,7 +53,7 @@ namespace WSDL.Serialization.MappingProfiles
             CreateMap<Models.Schema.List, List>();
             CreateMap<Models.Schema.Union, Union>();
 
-            CreateMap<Models.Schema.WhiteSpaceConstraint, WhiteSpaceConstraint>();
+            //CreateMap<Models.Schema.WhiteSpaceConstraint, WhiteSpaceConstraint>();
 
             CreateMap<Models.Message.MessagePart, MessagePart>()
                 .Include<Models.Message.TypeMessagePart, TypeMessagePart>()
@@ -87,9 +91,10 @@ namespace WSDL.Serialization.MappingProfiles
 
             CreateMap<Models.Binding.OperationFaultMessage, Binding.OperationFaultMessage>();
 
-            CreateMap<Models.Binding.Style, Binding.Style>();
+            CreateMap<Models.Binding.Style?, Binding.Style?>()
+                .ConvertUsing(new StyleTypeConverter());
 
-            CreateMap<Models.Binding.Transport, Binding.Transport>();
+            //CreateMap<Models.Binding.Transport, Binding.Transport>();
 
             CreateMap<Models.Binding.SoapExtensions.Binding, Binding.SoapExtensions.Binding>();
 
@@ -101,7 +106,7 @@ namespace WSDL.Serialization.MappingProfiles
 
             CreateMap<Models.Binding.SoapExtensions.Header, Binding.SoapExtensions.Header>();
 
-            CreateMap<Models.Binding.SoapExtensions.OperationMessageUse, Binding.SoapExtensions.OperationMessageUse>();
+            //CreateMap<Models.Binding.SoapExtensions.OperationMessageUse, Binding.SoapExtensions.OperationMessageUse>();
 
             CreateMap<Models.Service.Service, Service.Service>();
 
