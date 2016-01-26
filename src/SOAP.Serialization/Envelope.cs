@@ -1,21 +1,24 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace SOAP.Serialization
 {
-    [XmlRoot("Envelope", Namespace = Namespaces.SoapEnvelopeNamespace)]
+    [XmlRoot("Envelope", Namespace = Serialization.Namespaces.SoapEnvelopeNamespace)]
     public class Envelope : IXmlSerializable
     {
         public Header Header { get; private set; }
 
         public Body Body { get; private set; }
 
+        public IDictionary<string, string> Namespaces { get; private set; }
+
         public Envelope()
         {
             Header = new Header();
             Body = new Body();
+            Namespaces = new Dictionary<string, string>();
         }
 
         public XmlSchema GetSchema()
@@ -26,8 +29,8 @@ namespace SOAP.Serialization
         public void ReadXml(XmlReader reader)
         {
             reader.ReadStartElement(
-                ElementNames.Envelope, 
-                Namespaces.SoapEnvelopeNamespace);
+                ElementNames.Envelope,
+                Serialization.Namespaces.SoapEnvelopeNamespace);
 
             Header.ReadXml(reader);
             Body.ReadXml(reader);
@@ -37,7 +40,14 @@ namespace SOAP.Serialization
 
         public void WriteXml(XmlWriter writer)
         {
-            throw new NotImplementedException();
+            writer.WriteStartElement(
+                ElementNames.Envelope,
+                Serialization.Namespaces.SoapEnvelopeNamespace);
+
+            Header.WriteXml(writer);
+            Body.WriteXml(writer);
+
+            writer.WriteEndElement();
         }
     }
 }

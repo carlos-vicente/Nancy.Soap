@@ -1,7 +1,6 @@
 ﻿using Autofac.Extras.FakeItEasy;
 using FakeItEasy;
 using FluentAssertions;
-using Nancy.Responses.Negotiation;
 using Nancy.Testing;
 using SOAP.Service;
 using WSDL.Serialization;
@@ -54,7 +53,6 @@ namespace Nancy.SOAP.Tests
             var response = _browser.Get("/", with =>
             {
                 with.HttpRequest();
-                with.Accept(new MediaRange(xmlContentType));
             });
 
             // assert

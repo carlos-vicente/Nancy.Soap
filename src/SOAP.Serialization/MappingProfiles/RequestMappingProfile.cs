@@ -14,9 +14,9 @@ namespace SOAP.Serialization.MappingProfiles
             CreateMap<Response, Envelope>()
                 .ForMember(env => env.Body, opt => opt.MapFrom(res => res));
 
-            //CreateMap<Response, Body>()
-            //    .ForMember(b => b.MethodName, opt => opt.MapFrom(res => res.Name))
-            //    .ForMember(b => b.Parameters, opt => opt.MapFrom(res => res.Content));
+            CreateMap<Response, Body>()
+                .ForMember(b => b.MethodName, opt => opt.MapFrom(res => res.Name))
+                .ForMember(b => b.Response, opt => opt.MapFrom(res => res.Content));
         }
     }
 }

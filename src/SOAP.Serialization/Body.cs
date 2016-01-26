@@ -25,6 +25,11 @@ namespace SOAP.Serialization
             return null;
         }
 
+        /// <summary>
+        /// Reads the XML content into the Parameters dictionary in order to be accessed and converted into the
+        /// required types to invoke the target method
+        /// </summary>
+        /// <param name="reader">The input stream reader</param>
         public void ReadXml(XmlReader reader)
         {
             reader.ReadStartElement(
@@ -52,16 +57,24 @@ namespace SOAP.Serialization
             reader.ReadEndElement();
         }
 
-        public void WriteXml(XmlWriter writer)
-        {
-            throw new NotImplementedException();
-        }
-
         private void RetrieveParameter(XmlReader reader)
         {
             Parameters.Add(
                 reader.LocalName,
                 reader.ReadInnerXml());
+        }
+
+        /// <summary>
+        /// Writes the Response property onto the output stream as XML to be processed by the client
+        /// </summary>
+        /// <param name="writer">The output stream writer</param>
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteStartElement(
+                ElementNames.Body,
+                Namespaces.SoapEnvelopeNamespace);
+
+            writer.WriteEndElement();
         }
     }
 }

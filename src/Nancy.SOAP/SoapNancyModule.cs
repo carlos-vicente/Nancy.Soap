@@ -14,7 +14,7 @@ namespace Nancy.SOAP
         where T : class
     {
         private const string RootRoute = "/";
-        private static readonly MediaRange XmlMedia = new MediaRange("text/xml");
+        private static readonly MediaRange XmlMedia = new MediaRange("application/xml");
 
         private readonly ISoapService<T> _soapService;
 
